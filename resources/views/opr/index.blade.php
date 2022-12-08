@@ -3,28 +3,22 @@
 @section('content')
 
 <div class="container">
-    <h2>Guidance List</h2>
+    <h2>Operating List</h2>
     <div class="table-responsive">
       <table class="table">
         <thead class="thead-dark">
           <tr>
-            <th>Work Activity</th>
-            <th>Condition</th>
-            <th>Aspect</th>
-            <th>Impact</th>
+            <th>Operating Unit</th>
           </tr>
         </thead>
         <tbody>
     
-              @if (count($lists)>0)
+              @if (count($opr)>0)
 
-                  @foreach ($lists as $list)
+                  @foreach ($opr as $oprs)
                       
                       <tr>
-                          <td>{{$list->Work}}</td>
-                          <td>{{$list->Con}}</td>
-                          {{-- <td>{{$list->aspects->Aspect}}</td>
-                          <td>{{$list->aspects->Impact}}</td> --}}
+                          <td>{{$oprs['opr_unit_name']}}</td>
                       </tr>
                   @endforeach
               @else
@@ -36,7 +30,7 @@
         </tbody>
       </table>
       <i class="fas fa-plus"></i>
-      <a href="{{ route('list.create') }}" class="btn btn-primary"> Add</a>
+      <a href="{{ route('opr.create') }}" class="btn btn-primary"> Add</a>
     </div>
 </div>
 @endsection

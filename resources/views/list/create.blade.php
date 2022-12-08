@@ -21,6 +21,18 @@
                         @csrf
 
                         <div class="form-group">
+                            <label for="fkey">Location Name</label>
+                            <select class="form-control" id="fkey" name="fkey">
+                                <option value="0"> Select Location</option>
+                                
+                                @foreach($options as $option)
+                                    <option value="{{$option->id}}">{{$option->location_name}}</option>
+                                @endforeach
+
+                            </select>
+                        </div><br>
+
+                        <div class="form-group">
                           <label for="work_name">Name of work activity</label>
                           <input type="text" class="form-control " id="work_name" placeholder="Enter work name" name="work_name" value="{{ old('work_name') }}" required>
                           @error('work_name')
@@ -31,78 +43,25 @@
                         </div>
                         <br>
                         
-                        <div class="form-group">
+                        <div class="form-check">
                             <label for="con">Condition</label><br>
                             <div class="form-check-inline">
-                                <label class="form-check-label" for="Air_Pollution">
-                                <input type="checkbox" class="form-check-input" name="con[]" value="Normal Condition"> Normal Condition
-                                </label>
+                                <input type="radio" class="form-check-input" name="con" value="Normal Condition">Normal Condition 
+                                <label class="form-check-label" for="Air_Pollution"></label>
                             </div>
                             <div class="form-check-inline">
-                                <label class="form-check-label" for="Water_Pollution">
-                                <input type="checkbox" class="form-check-input" name="con[]" value="Abnormal Condition"> Abnormal Condition
-                                </label>
+                                <input type="radio" class="form-check-input" name="con" value="Abnormal Condition">Abnormal Condition 
+                                <label class="form-check-label" for="Water_Pollution"></label>
                             </div>
                             <div class="form-check-inline">
-                                <label class="form-check-label" for="Soil/Land pollution">
-                                <input type="checkbox" class="form-check-input" name="con[]" value="Emergency"> Emergency
-                                </label>
+                                <input type="radio" class="form-check-input" name="con" value="Emergency">Emergency 
+                                <label class="form-check-label" for="Soil/Land pollution"></label>
                             </div>
                         </div>
                         <br>
 
-                        <div class="form-group">
-                          <label for="aspect">Aspect</label>
-                          <input type="text" class="form-control" id="aspect" placeholder="Enter aspect" name="aspect" required>
-                          @error('aspect')
-                            <div class="form-error">
-                                {{$message}}
-                            </div>
-                            @enderror
-                        </div>
-                        <br>
-
-                        <div class="form-group">
-                            <label for="impact">Impact</label><br>
-                            <div class="form-check-inline">
-                                <label class="form-check-label" for="Air_Pollution">
-                                <input type="checkbox" class="form-check-input" name="impact[]" value="Air Pollution"> Air Pollution
-                                </label>
-                            </div>
-                            <div class="form-check-inline">
-                                <label class="form-check-label" for="Water_Pollution">
-                                <input type="checkbox" class="form-check-input" name="impact[]" value="Water Pollution"> Water Pollution
-                                </label>
-                            </div>
-                            <div class="form-check-inline">
-                                <label class="form-check-label" for="Soil/Land pollution">
-                                <input type="checkbox" class="form-check-input" name="impact[]" value="Soil / Land pollution"> Soil / Land pollution
-                                </label>
-                            </div>
-                            <div class="form-check-inline">
-                                <label class="form-check-label" for="Depletion_of_natural_resources">
-                                <input type="checkbox" class="form-check-input" name="impact[]" value="Depletion of natural resources"> Depletion of natural resources
-                                </label>
-                            </div>
-                            <div class="form-check-inline">
-                                <label class="form-check-label" for="Shortage_of_landfill">
-                                <input type="checkbox" class="form-check-input" name="impact[]" value="Shortage of landfill"> Shortage of landfill
-                                </label>
-                            </div>
-                            <div class="form-check-inline">
-                                <label class="form-check-label" for="Nuisance">
-                                <input type="checkbox" class="form-check-input" name="impact[]" value="Nuisance"> Nuisance
-                                </label>
-                            </div>
-                            <div class="form-check-inline">
-                                <label class="form-check-label" for="Beneficial">
-                                <input type="checkbox" class="form-check-input" name="impact[]" value="Beneficial"> Beneficial
-                                </label>
-                            </div>
-                        </div>
-                        <br>
-                        <button type="submit" class="float-right btn btn-dark btn-primary">Submit</button>
-                        <button type="button" class="btn float-right">Cancel</button>
+                        <button type="submit" class="float-right btn btn-dark btn-primary">Next</button>
+                        <a href="{{ route('list.index') }}" class="btn float-right"> Back</a>
                     </form>
                 </div>
                 <div class="card-footer">

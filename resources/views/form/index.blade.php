@@ -3,26 +3,27 @@
 @section('content')
 
 <div class="container">
-    <h2>EAI Operating Unit List</h2>
+    <h2>EAI Form List</h2>
     <div class="table-responsive">
     <table class="table">
       <thead class="thead-dark">
         <tr>
           <th>Operating unit</th>
-          {{-- <th>Location</th>
-          <th>Date</th> --}}
+          <th>Location</th>
+          <th>Date</th>
         </tr>
       </thead>
       <tbody>
-   
-            @if (count($form)>0)
+        
+            @if (count($forms)>0)
 
-                @foreach ($form as $forms)
+            {{-- show all information --}}
+                @foreach ($forms as $form)
                     
                     <tr>
-                        <td>{{$forms['opr_unit_name']}}</td>
-                        {{-- <td>{{$forms['location_name']}}</td>
-                        <td>{{$forms['date']}}</td> --}}
+                      <td>{{$form->opr->opr_unit_name}}</td>
+                      <td>{{$form->location_name}}</td>
+                      <td>{{$form->date}}</td>
                     </tr>
                 @endforeach
             @else
@@ -33,6 +34,8 @@
 
       </tbody>
     </table>
+    <i class="fas fa-plus"></i>
+      <a href="{{ route('form.create') }}" class="btn btn-primary"> Add</a>
     </div>
 </div>
 @endsection

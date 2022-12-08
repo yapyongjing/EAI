@@ -15,8 +15,11 @@ return new class extends Migration
     {
         Schema::create('main__works', function (Blueprint $table) {
             $table->id();
-            $table->string('opr_unit_name');
             $table->string('location_name');
+            $table->foreignId('opr_id')
+            ->constrained('operating__units')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
             $table->date('date');
             $table->timestamps();
         });

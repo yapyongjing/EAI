@@ -42,20 +42,23 @@
                                 Guidance
                                 </a>
                     
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <div class="dropdown-menu dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('list.index') }}">List</a>
                                     <a class="dropdown-item" href="{{ route('list.create') }}">New Work Activity</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{{ route('opr.index') }}">Operating Unit</a>
+                                    <a class="dropdown-item" href="{{ route('opr.create') }}">New Operating Unit</a>
                                 </div>
                             </li>
+                            
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 Form
                                 </a>
                     
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('form.index') }}">Operating Unit List</a>
+                                <div class="dropdown-menu dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('form.index') }}">List</a>
                                     <a class="dropdown-item" href="{{ route('form.create') }}">New Form</a>
-                                    <a class="dropdown-item" href="{{ route('create_ou') }}">New Operating Unit</a>
                                 </div>
                             </li>
                         @endguest

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EaiListFormRequest extends FormRequest
+class AspectImpactFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,9 @@ class EaiListFormRequest extends FormRequest
     public function rules()
     {
         return [
-        
-            'work_name' => 'required',
-            'con' => 'required',
+            'aspect' => 'required',
+            'impact' => 'required',
             'fkey' => 'required'
-            
         ];
     }
 
@@ -36,7 +34,8 @@ class EaiListFormRequest extends FormRequest
     {
         $this->merge(
             [
-                'work_name' => strip_tags($this['work_name']),
+                'aspect' => strip_tags($this['aspect']),
+                'fkey'=> strip_tags($this['fkey'])
                 
                 
             ]);

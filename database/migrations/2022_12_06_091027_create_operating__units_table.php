@@ -13,14 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('works', function (Blueprint $table) {
+        Schema::create('operating__units', function (Blueprint $table) {
             $table->id();
-            $table->string('Work');
-            $table->string('Con');
-            $table->foreignId('mainWork_id')
-            ->constrained('main__works')
-            ->onUpdate('cascade')
-            ->onDelete('cascade');
+            $table->string('opr_unit_name');
             $table->timestamps();
         });
     }
@@ -32,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('works');
+        Schema::dropIfExists('operating__units');
     }
 };

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\ListFormRequest;
 use App\Models\Main_Work;
+use App\Models\Operating_Unit;
 
 class FormController extends Controller
 {
@@ -15,10 +16,9 @@ class FormController extends Controller
      */
     public function index()
     {
-        return view('form.index', [
-            'form' => Main_Work::all()
-            
-        ]);
+        $forms = Main_Work::with('opr')->get();
+
+        return view('form.index', compact(var_name: 'forms'));
     }
 
     /**
@@ -28,8 +28,9 @@ class FormController extends Controller
      */
     public function create()
     {
-        $form = Main_Work::all();
-        return view('form.create',compact(var_name: 'form'));
+        $opr = Operating_Unit::all();
+        
+        return view('form.create',compact(var_name: 'opr'));
     }
 
 
@@ -44,13 +45,16 @@ class FormController extends Controller
         $data = $request-> validated();
 
         //
-        $aspect = new Main_Work();
+        $info = new Main_Work();
 
-        $aspect->opr_unit_name = $data['name'];//get input from create.php
-        $aspect->location_name =  $data['location'];
-        $aspect->date =  $data['date'];
+        // return $this->hasMany('App\Models\Main_Work', 'foreign_key');
 
-        $aspect->save();
+
+        $info->location_name =  $data['location'];//get input from create.php
+        $info->opr_id = $data['name'];
+        $info->date =  $data['date'];
+
+        $info->save();
 
         return redirect()->route('form.index');
     }

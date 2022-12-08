@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\EaiListFormRequest;
-use App\Models\Work;
-use App\Models\Main_Work;
+use App\Http\Requests\OprRequest;
+use App\Models\Operating_Unit;
 
-class EaiListController extends Controller
+class OprUnitController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +15,11 @@ class EaiListController extends Controller
      */
     public function index()
     {
-        $lists = Work::with('aspects')->get();
-
-        return view('list.index', compact(var_name: 'lists'));
+        //
+        return view('opr.index', [
+            'opr' => Operating_Unit::all()
+            
+        ]);
     }
 
     /**
@@ -28,9 +29,8 @@ class EaiListController extends Controller
      */
     public function create()
     {
-        $options = Main_Work::all();
-
-        return view('list.create',compact(var_name:'options'));
+        //
+        return view('opr.create');
     }
 
     /**
@@ -39,21 +39,20 @@ class EaiListController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(EaiListFormRequest $request)
+    public function store(OprRequest $request)
     {
+        //
         $data = $request-> validated();
 
         //
-        $info = new Work();
+        $info = new Operating_Unit();
 
-        $info->Work = $data['work_name'];//get input from create.php
-        $info->Con = $data['con'];
-        $info->mainWork_id = $data['fkey'];
-    
+
+        $info->opr_unit_name = $data['opr_name'];//get input from create.php
+
         $info->save();
 
-        return redirect()->route('aspect_impact.create');
-        
+        return redirect()->route('opr.index');
     }
 
     /**
@@ -62,11 +61,9 @@ class EaiListController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Work $work)
+    public function show($id)
     {
-        return view('list.show',[
-            'list' => $work
-        ]);
+        //
     }
 
     /**

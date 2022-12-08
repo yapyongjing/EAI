@@ -20,23 +20,13 @@
                         
                         @csrf
 
-                        {{-- <div class="form-group">
-                          <label for="name">Name</label>
-                          <input type="text" class="form-control " id="name" placeholder="Enter operating unit name" name="name" value="{{ old('name') }}" required>
-                          @error('name')
-                            <div class="form-error">
-                                {{$message}}
-                            </div>
-                            @enderror
-                        </div><br> --}}
-
                         <div class="form-group">
                             <label for="name">Operating Unit Name</label>
                             <select class="form-control" name="name">
                                 <option value="0"> Select Operating Unit</option>
                                 
-                                @foreach($form as $forms)
-                                    <option value="{{ $forms->opr_unit_name}}">{{ $forms->opr_unit_name }}</option></option>
+                                @foreach($opr as $oprs)
+                                    <option value="{{ $oprs->id}}">{{ $oprs->opr_unit_name }}</option>
                                 @endforeach
 
                             </select>
@@ -63,7 +53,7 @@
                         </div>
                         <br>
                         <button type="submit" class="float-right btn btn-dark btn-primary">Next</button>
-                        <button type="button" class="btn float-right">Cancel</button>
+                        <a href="{{ route('form.index') }}" class="btn float-right"> Back</a>
                     </form>
                 </div>
                 <div class="card-footer">

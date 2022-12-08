@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\EaiListFormRequest;
+use App\Http\Requests\AspectImpactFormRequest;
 use App\Models\Work;
-use App\Models\Main_Work;
+use App\Models\Aspect_Impact;
 
-class EaiListController extends Controller
+class AspectImpactController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,7 @@ class EaiListController extends Controller
      */
     public function index()
     {
-        $lists = Work::with('aspects')->get();
-
-        return view('list.index', compact(var_name: 'lists'));
+        //
     }
 
     /**
@@ -28,9 +26,9 @@ class EaiListController extends Controller
      */
     public function create()
     {
-        $options = Main_Work::all();
-
-        return view('list.create',compact(var_name:'options'));
+        //
+        $aspects = Work::all();
+        return view('aspect_impact.create',compact(var_name: 'aspects'));
     }
 
     /**
@@ -39,21 +37,23 @@ class EaiListController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(EaiListFormRequest $request)
+    public function store(AspectImpactFormRequest $request)
     {
         $data = $request-> validated();
 
         //
-        $info = new Work();
+        $info = new Aspect_Impact();
 
-        $info->Work = $data['work_name'];//get input from create.php
-        $info->Con = $data['con'];
-        $info->mainWork_id = $data['fkey'];
-    
+        $impact = implode(',', $data['impact']);
+
+        //get input from create.php
+        $info->Aspect =  $data['aspect'];
+        $info->Impact =  $impact;
+        $info->work_id = $data['fkey'];
+
         $info->save();
 
-        return redirect()->route('aspect_impact.create');
-        
+        return redirect()->route('list.index');
     }
 
     /**
@@ -62,11 +62,9 @@ class EaiListController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Work $work)
+    public function show($id)
     {
-        return view('list.show',[
-            'list' => $work
-        ]);
+        //
     }
 
     /**
