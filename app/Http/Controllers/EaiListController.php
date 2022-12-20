@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests\EaiListFormRequest;
 use App\Models\Work;
 use App\Models\Main_Work;
+use App\Models\Aspect_Impact;
 
+//work
 class EaiListController extends Controller
 {
     /**
@@ -16,7 +18,7 @@ class EaiListController extends Controller
      */
     public function index()
     {
-        $lists = Work::with('aspects')->get();
+        $lists = Aspect_Impact::with('works_aspect')->get();
 
         return view('list.index', compact(var_name: 'lists'));
     }

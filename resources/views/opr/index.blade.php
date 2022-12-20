@@ -2,13 +2,22 @@
 
 @section('content')
 
+@if($message = Session::get('flash_message'))
+
+<div  class="container alert alert-success">
+  {{$message}}
+</div>
+
+@endif
+
 <div class="container">
-    <h2>Operating List</h2>
+    <h2>Guidance List</h2>
     <div class="table-responsive">
       <table class="table">
         <thead class="thead-dark">
           <tr>
             <th>Operating Unit</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -18,7 +27,15 @@
                   @foreach ($opr as $oprs)
                       
                       <tr>
-                          <td>{{$oprs['opr_unit_name']}}</td>
+                          <td>{{$oprs->opr_unit_name}}</td>
+                          <td>
+                            <a href="{{ route('opr.edit', $oprs->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                            <form method="post" action="{{ route('opr.destroy', $oprs->id) }}" style="display:inline">
+                              @csrf
+                              @method('DELETE')
+                              <input type="submit" class="btn btn-danger btn-sm" value="Delete" />
+                            </form>
+                          </td>
                       </tr>
                   @endforeach
               @else

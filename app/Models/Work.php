@@ -13,11 +13,11 @@ class Work extends Model
 
     public function main_Works()
     {
-        return $this->belongsTo('App\Models\Main_Work');
+        return $this->belongsTo(Main_Work::class);
     }
 
     public function aspects()
     {
-        return $this->hasMany('App\Models\Aspect_Impact');
+        return $this->hasMany(Aspect_Impact::class);
     }
 }

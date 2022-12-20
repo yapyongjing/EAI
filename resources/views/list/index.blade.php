@@ -2,6 +2,14 @@
 
 @section('content')
 
+@if($message = Session::get('flash_message'))
+
+<div  class="container alert alert-success">
+  {{$message}}
+</div>
+
+@endif
+
 <div class="container">
     <h2>Guidance List</h2>
     <div class="table-responsive">
@@ -21,10 +29,12 @@
                   @foreach ($lists as $list)
                       
                       <tr>
-                          <td>{{$list->Work}}</td>
-                          <td>{{$list->Con}}</td>
-                          {{-- <td>{{$list->aspects->Aspect}}</td>
-                          <td>{{$list->aspects->Impact}}</td> --}}
+                        <td></td>
+                        <td></td>
+                          {{-- <td>{{$list->works_aspect->Work}}</td>
+                          <td>{{$list->works_aspect->Con}}</td> --}}
+                          <td>{{$list->Aspect}}</td>
+                          <td>{{$list->Impact}}</td>
                       </tr>
                   @endforeach
               @else

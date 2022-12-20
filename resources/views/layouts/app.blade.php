@@ -37,20 +37,21 @@
                             
                             @endif
                         @else
+                        {{-- guidance --}}
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 Guidance
                                 </a>
                     
                                 <div class="dropdown-menu dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('list.index') }}">List</a>
-                                    <a class="dropdown-item" href="{{ route('list.create') }}">New Work Activity</a>
-                                    <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('opr.index') }}">Operating Unit</a>
                                     <a class="dropdown-item" href="{{ route('opr.create') }}">New Operating Unit</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{{ route('list.index') }}">Work Activity</a>
+                                    <a class="dropdown-item" href="{{ route('list.create') }}">New Work Activity</a>
                                 </div>
                             </li>
-                            
+                        {{-- form --}}
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 Form

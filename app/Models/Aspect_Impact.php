@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Aspect_Impact extends Model
 {
     use HasFactory;
+    protected $fillable = ['aspect','impact','fkey'];
 
     public function works_aspect()
     {
-        return $this->belongsTo('App\Models\Work');
+        return $this->belongsTo(Work::class);
     }
 }

@@ -19,7 +19,6 @@
 
             {{-- show all information --}}
                 @foreach ($forms as $form)
-                    
                     <tr>
                       <td>{{$form->opr->opr_unit_name}}</td>
                       <td>{{$form->location_name}}</td>

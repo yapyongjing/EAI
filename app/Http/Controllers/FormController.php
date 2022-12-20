@@ -7,6 +7,7 @@ use App\Http\Requests\ListFormRequest;
 use App\Models\Main_Work;
 use App\Models\Operating_Unit;
 
+//main work/location
 class FormController extends Controller
 {
     /**
@@ -16,7 +17,7 @@ class FormController extends Controller
      */
     public function index()
     {
-        $forms = Main_Work::with('opr')->get();
+        $forms = Main_Work::with('opr')->orderBy('opr_id','asc')->get();
 
         return view('form.index', compact(var_name: 'forms'));
     }

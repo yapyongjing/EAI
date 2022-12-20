@@ -43,7 +43,7 @@
                         </div>
                         <br>
                         
-                        <div class="form-check">
+                        <div class="form-group">
                             <label for="con">Condition</label><br>
                             <div class="form-check-inline">
                                 <input type="radio" class="form-check-input" name="con" value="Normal Condition">Normal Condition 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\OprRequest;
 use App\Models\Operating_Unit;
 
+//operating unit
 class OprUnitController extends Controller
 {
     /**
@@ -52,7 +53,7 @@ class OprUnitController extends Controller
 
         $info->save();
 
-        return redirect()->route('opr.index');
+        return redirect()->route('opr.index')-> with('flash_message','Operating Unit Added');
     }
 
     /**
@@ -72,9 +73,9 @@ class OprUnitController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Operating_Unit $opr)
     {
-        //
+        return view('opr.edit', compact('opr'));
     }
 
     /**
@@ -84,9 +85,15 @@ class OprUnitController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(OprRequest $request, $id)
     {
-        //
+        $opr = Operating_Unit::find($id);
+        $input = $request->validated();
+
+        $opr->opr_unit_name = $input['opr_name'];
+        $opr->update();
+
+        return redirect()->route('opr.index')-> with('flash_message','Operating Unit edited');
     }
 
     /**
@@ -97,6 +104,8 @@ class OprUnitController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Operating_Unit::destroy($id);
+
+        return redirect('opr')->with('flash_message', 'Operating Unit deleted!');
     }
 }
