@@ -13,11 +13,11 @@ class Main_Work extends Model
 
     public function opr()
     {
-        return $this->belongsTo('App\Models\Operating_Unit');
+        return $this->belongsTo(Operating_Unit::class,'opr_id');
     }
 
     public function works()
     {
-        return $this->hasMany('App\Models\Work');
+        return $this->hasMany(Work::class);
     }
 }

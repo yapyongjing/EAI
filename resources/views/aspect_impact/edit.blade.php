@@ -16,25 +16,29 @@
                 </div>
                 <div class="card-body">
 
-                    <form method="POST" action="{{route('aspect_impact.store')}}">
+                    <form method="POST" action="{{ url('aspect_impact/' .$aspects->id) }}">
                         
                         @csrf
+                        @method('PUT')
 
+                        {{--work activity dropdown--}}
                         <div class="form-group">
                             <label for="fkey">Work Activity Name</label>
                             <select class="form-control" id="fkey" name="fkey">
-                                <option value="0"> Select Work Activity</option>
                                 
                                 @foreach($works as $work)
-                                    <option value="{{$work->id}}">{{$work->Work}}</option>
+                                    <option value="{{$work->id}}" {{  $work->id== $aspects->work_id ? ' selected="selected"' : '' }}>
+                                        {{$work->Work}}</option>
                                 @endforeach
 
                             </select>
                         </div><br>
 
+                        {{-- aspect textfield --}}
                         <div class="form-group">
                           <label for="aspect">Aspect</label>
-                          <input type="text" class="form-control" id="aspect" placeholder="Enter aspect" name="aspect" required>
+                          <input type="text" class="form-control" id="aspect" placeholder="Enter aspect" name="aspect" 
+                          value="{{ $aspects->Aspect }}" required>
                           @error('aspect')
                             <div class="form-error">
                                 {{$message}}
@@ -43,41 +47,49 @@
                         </div>
                         <br>
 
+                        {{-- impact checkbox --}}
                         <div class="form-group">
                             <label for="impact">Impact</label><br>
                             <div class="form-check-inline">
                                 <label class="form-check-label" for="Air_Pollution">
-                                <input type="checkbox" class="form-check-input" name="impact[]" value="Air Pollution"> Air Pollution
+                                <input type="checkbox" class="form-check-input" name="impact[]" value="Air Pollution" {{ in_array('Air Pollution', $impacts) ? 'checked' : '' }}> 
+                                Air Pollution
                                 </label>
                             </div>
                             <div class="form-check-inline">
                                 <label class="form-check-label" for="Water_Pollution">
-                                <input type="checkbox" class="form-check-input" name="impact[]" value="Water Pollution"> Water Pollution
+                                <input type="checkbox" class="form-check-input" name="impact[]" value="Water Pollution" {{ in_array('Water Pollution', $impacts) ? 'checked' : '' }}> 
+                                Water Pollution
                                 </label>
                             </div>
                             <div class="form-check-inline">
                                 <label class="form-check-label" for="Soil/Land pollution">
-                                <input type="checkbox" class="form-check-input" name="impact[]" value="Soil / Land pollution"> Soil / Land pollution
+                                <input type="checkbox" class="form-check-input" name="impact[]" value="Soil / Land pollution" {{ in_array('Soil / Land pollution', $impacts) ? 'checked' : '' }}> 
+                                Soil / Land pollution
                                 </label>
                             </div>
                             <div class="form-check-inline">
                                 <label class="form-check-label" for="Depletion_of_natural_resources">
-                                <input type="checkbox" class="form-check-input" name="impact[]" value="Depletion of natural resources"> Depletion of natural resources
+                                <input type="checkbox" class="form-check-input" name="impact[]" value="Depletion of natural resources" {{ in_array('Depletion of natural resources', $impacts) ? 'checked' : '' }}> 
+                                Depletion of natural resources
                                 </label>
                             </div>
                             <div class="form-check-inline">
                                 <label class="form-check-label" for="Shortage_of_landfill">
-                                <input type="checkbox" class="form-check-input" name="impact[]" value="Shortage of landfill"> Shortage of landfill
+                                <input type="checkbox" class="form-check-input" name="impact[]" value="Shortage of landfill" {{ in_array('Shortage of landfill', $impacts) ? 'checked' : '' }}> 
+                                Shortage of landfill
                                 </label>
                             </div>
                             <div class="form-check-inline">
                                 <label class="form-check-label" for="Nuisance">
-                                <input type="checkbox" class="form-check-input" name="impact[]" value="Nuisance"> Nuisance
+                                <input type="checkbox" class="form-check-input" name="impact[]" value="Nuisance" {{ in_array('Nuisance', $impacts) ? 'checked' : '' }}> 
+                                Nuisance
                                 </label>
                             </div>
                             <div class="form-check-inline">
                                 <label class="form-check-label" for="Beneficial">
-                                <input type="checkbox" class="form-check-input" name="impact[]" value="Beneficial"> Beneficial
+                                <input type="checkbox" class="form-check-input" name="impact[]" value="Beneficial" {{ in_array('Beneficial', $impacts) ? 'checked' : '' }}> 
+                                Beneficial
                                 </label>
                             </div>
                         </div>

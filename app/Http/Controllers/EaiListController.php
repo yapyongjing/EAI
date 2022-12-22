@@ -8,7 +8,7 @@ use App\Models\Work;
 use App\Models\Main_Work;
 use App\Models\Aspect_Impact;
 
-//work
+//known as work 
 class EaiListController extends Controller
 {
     /**
@@ -18,7 +18,7 @@ class EaiListController extends Controller
      */
     public function index()
     {
-        $lists = Aspect_Impact::with('works_aspect')->get();
+        $lists = Aspect_Impact::with('workAspect')->get();
 
         return view('list.index', compact(var_name: 'lists'));
     }
@@ -54,7 +54,7 @@ class EaiListController extends Controller
     
         $info->save();
 
-        return redirect()->route('aspect_impact.create');
+        return redirect()->route('aspect_impact.create');//go to aspect_impact create page
         
     }
 
@@ -79,7 +79,9 @@ class EaiListController extends Controller
      */
     public function edit($id)
     {
-        //
+        $work = Work::find($id);
+        $options = Main_Work::all();
+        return view('list.edit',compact('work','options'));
     }
 
     /**
@@ -89,9 +91,18 @@ class EaiListController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EaiListFormRequest $request, $id)
     {
-        //
+
+        $work = Work::find($id);
+        $input = $request->validated();
+
+        $work->Work = $input['work_name'];
+        $work->Con = $input['con'];
+        $work->mainWork_id = $input['fkey'];
+        $work->update();
+
+        return redirect()->route('aspect_impact.edit',$id);//go to aspect_impact edit page
     }
 
     /**
@@ -102,6 +113,8 @@ class EaiListController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Work::destroy($id);
+
+        return redirect('list')->with('flash_message', 'Work deleted!');
     }
 }

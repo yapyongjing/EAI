@@ -13,6 +13,6 @@ class Operating_Unit extends Model
 
     public function mainWorks()
     {
-        return $this->hasMany('App\Models\Main_Work');
+        return $this->hasMany(Main_Work::class);
     }
 }

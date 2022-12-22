@@ -20,6 +20,7 @@
             <th>Condition</th>
             <th>Aspect</th>
             <th>Impact</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -29,12 +30,18 @@
                   @foreach ($lists as $list)
                       
                       <tr>
-                        <td></td>
-                        <td></td>
-                          {{-- <td>{{$list->works_aspect->Work}}</td>
-                          <td>{{$list->works_aspect->Con}}</td> --}}
+                          <td>{{$list->workAspect->Work}}</td>
+                          <td>{{$list->workAspect->Con}}</td>
                           <td>{{$list->Aspect}}</td>
                           <td>{{$list->Impact}}</td>
+                          <td>
+                            <a href="{{ route('list.edit', $list->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                            <form method="post" action="{{ route('list.destroy', $list->id) }}" style="display:inline">
+                              @csrf
+                              @method('DELETE')
+                              <input type="submit" class="btn btn-danger btn-sm" value="Delete" />
+                            </form>
+                          </td>
                       </tr>
                   @endforeach
               @else

@@ -28,8 +28,8 @@ class AspectImpactController extends Controller
     public function create()
     {
         //
-        $aspects = Work::all();
-        return view('aspect_impact.create',compact(var_name: 'aspects'));
+        $works = Work::all();
+        return view('aspect_impact.create',compact(var_name: 'works'));
     }
 
     /**
@@ -54,7 +54,7 @@ class AspectImpactController extends Controller
 
         $info->save();
 
-        return redirect()->route('list.index');
+        return redirect()->route('list.index'); //then return back to list view
     }
 
     /**
@@ -76,7 +76,15 @@ class AspectImpactController extends Controller
      */
     public function edit($id)
     {
-        //
+        $aspects = Aspect_Impact::find($id);
+        $works = Work::all();
+        
+        return view('aspect_impact.edit',[
+            'works' => $works,
+            'aspects' => $aspects,
+            'impacts' => explode(',',$aspects->Impact)
+        ]);
+        // compact('works', 'aspects'));
     }
 
     /**
@@ -86,9 +94,20 @@ class AspectImpactController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AspectImpactFormRequest $request, $id)
     {
-        //
+        $aspect = Aspect_Impact::find($id);
+        $input = $request->validated();
+
+        $impact = implode(',', $input['impact']);
+
+        $aspect->Aspect =  $input['aspect'];
+        $aspect->Impact =  $impact;
+        $aspect->work_id = $input['fkey'];
+        $aspect->update();
+
+        return redirect()->route('list.index')->with('flash_message', 'Successfully Updated!');
+
     }
 
     /**

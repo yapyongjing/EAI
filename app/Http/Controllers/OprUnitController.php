@@ -18,7 +18,7 @@ class OprUnitController extends Controller
     {
         //
         return view('opr.index', [
-            'opr' => Operating_Unit::all()
+            'oprs' => Operating_Unit::all()
             
         ]);
     }

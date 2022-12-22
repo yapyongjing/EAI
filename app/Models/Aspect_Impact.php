@@ -10,8 +10,8 @@ class Aspect_Impact extends Model
     use HasFactory;
     protected $fillable = ['aspect','impact','fkey'];
 
-    public function works_aspect()
+    public function workAspect()
     {
-        return $this->belongsTo(Work::class);
+        return $this->belongsTo(Work::class,'work_id');
     }
 }

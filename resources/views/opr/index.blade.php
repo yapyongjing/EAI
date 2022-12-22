@@ -22,15 +22,15 @@
         </thead>
         <tbody>
     
-              @if (count($opr)>0)
+              @if (count($oprs)>0)
 
-                  @foreach ($opr as $oprs)
+                  @foreach ($oprs as $opr)
                       
                       <tr>
-                          <td>{{$oprs->opr_unit_name}}</td>
+                          <td>{{$opr->opr_unit_name}}</td>
                           <td>
-                            <a href="{{ route('opr.edit', $oprs->id) }}" class="btn btn-primary btn-sm">Edit</a>
-                            <form method="post" action="{{ route('opr.destroy', $oprs->id) }}" style="display:inline">
+                            <a href="{{ route('opr.edit', $opr->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                            <form method="post" action="{{ route('opr.destroy', $opr->id) }}" style="display:inline">
                               @csrf
                               @method('DELETE')
                               <input type="submit" class="btn btn-danger btn-sm" value="Delete" />

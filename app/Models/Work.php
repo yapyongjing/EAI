@@ -11,9 +11,9 @@ class Work extends Model
 
     protected $fillable = ['fkey','work_name','con'];
 
-    public function main_Works()
+    public function mainWork()
     {
-        return $this->belongsTo(Main_Work::class);
+        return $this->belongsTo(Main_Work::class,'mainWork_id');
     }
 
     public function aspects()
