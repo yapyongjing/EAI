@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('aspect__impacts', function (Blueprint $table) {
             $table->id();
-            $table->string('Aspect');
-            $table->string('Impact');
+            $table->string('aspect_name');
+            $table->string('impact_name');
+            $table->string('requirement_name');
             $table->foreignId('work_id')
             ->constrained('works')
             ->onUpdate('cascade')

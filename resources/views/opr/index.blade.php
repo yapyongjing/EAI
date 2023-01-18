@@ -11,7 +11,7 @@
 @endif
 
 <div class="container">
-    <h2>Guidance List</h2>
+    <h2>Operating Unit List</h2>
     <div class="table-responsive">
       <table class="table">
         <thead class="thead-dark">
@@ -33,7 +33,7 @@
                             <form method="post" action="{{ route('opr.destroy', $opr->id) }}" style="display:inline">
                               @csrf
                               @method('DELETE')
-                              <input type="submit" class="btn btn-danger btn-sm" value="Delete" />
+                              <input type="submit" class="btn btn-danger btn-sm" value="Delete" onclick="return confirm(&quot;Confirm delete?&quot;)"/>
                             </form>
                           </td>
                       </tr>

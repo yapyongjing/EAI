@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\ListFormRequest;
-use App\Models\Main_Work;
-use App\Models\Operating_Unit;
+use App\Models\OperatingUnit;
+use App\Models\MainWork;
+use App\Models\Work;
+use App\Models\AspectImpact;
+use App\Models\Form;
 
 //main work/location
 class FormController extends Controller
@@ -17,7 +20,7 @@ class FormController extends Controller
      */
     public function index()
     {
-        $forms = Main_Work::with('opr')->orderBy('opr_id','asc')->get();
+        $forms = Form::all();
 
         return view('form.index', compact(var_name: 'forms'));
     }
@@ -29,9 +32,12 @@ class FormController extends Controller
      */
     public function create()
     {
-        $opr = Operating_Unit::all();
+        $oprs = OperatingUnit::all();
+        $locations = MainWork::all();
+        $works = Work::all();
+        $aspects = AspectImpact::all();
         
-        return view('form.create',compact(var_name: 'opr'));
+        return view('form.create',compact('oprs','locations','works','aspects'));
     }
 
 
@@ -46,18 +52,21 @@ class FormController extends Controller
         $data = $request-> validated();
 
         //
-        $info = new Main_Work();
+        $info = new Form();
 
-        // return $this->hasMany('App\Models\Main_Work', 'foreign_key');
-
-
-        $info->location_name =  $data['location'];//get input from create.php
-        $info->opr_id = $data['name'];
+        // return $this->hasMany('App\Models\MainWork', 'foreign_key');
+        $info->operating_name =  $data['opr_name'];
+        $info->location_name =  $data['location_name'];//get input from create.php
         $info->date =  $data['date'];
+        $info->work_name = $data['work_name'];
+        $info->condition =  $data['con'];
+        $info->aspect_name =  $data['aspect'];
+        $info->impact_name =  implode(',', $data['impact']);
+        $info->requirement_name =  $data['rqm'];
 
         $info->save();
 
-        return redirect()->route('form.index');
+        return redirect()->route('form.index')->with('flash_message', 'Form Added!');
     }
 
     /**
@@ -66,7 +75,7 @@ class FormController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Main_Work $data)
+    public function show(Form $data)
     {
         //
         return view('form.show',[
@@ -82,7 +91,19 @@ class FormController extends Controller
      */
     public function edit($id)
     {
-        //
+        $forms = Form::find($id);
+        $oprs = OperatingUnit::all();
+        $locations = MainWork::all();
+        $works = Work::all();
+        $aspects = AspectImpact::all();
+        return view('form.edit',[
+            'forms' => $forms,
+            'oprs' => $oprs,
+            'locations' => $locations,
+            'works'=> $works,
+            'aspects' => $aspects,
+            'impacts' => explode(',',$forms->impact_name)
+        ])->with('flash_message', 'Successfully Updated!');
     }
 
     /**
@@ -92,20 +113,24 @@ class FormController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ListFormRequest $request)
+    public function update(ListFormRequest $request,$id)
     {
+        $info = Form::find($id);
         $data = $request-> validated();
 
         //
-        $aspect = new Main_Work();
-
-        $aspect->opr_unit_name = $data['name'];
-        $aspect->location_name =  $data['location'];
-        $aspect->date =  $data['date'];
-
-        $aspect->save();
-
         
+        $info->operating_name =  $data['opr_name'];
+        $info->location_name =  $data['location_name'];//get input from create.php
+        $info->date =  $data['date'];
+        $info->work_name = $data['work_name'];
+        $info->condition =  $data['con'];
+        $info->aspect_name =  $data['aspect'];
+        $info->impact_name =  implode(',', $data['impact']);
+        $info->requirement_name =  $data['rqm'];
+        $info->update();
+
+        return redirect()->route('form.index')->with('flash_message', 'Form Edited!');
     }
 
     /**
@@ -116,6 +141,8 @@ class FormController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Form::destroy($id);
+
+        return redirect('form')->with('flash_message', 'Form deleted!');
     }
 }

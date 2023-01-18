@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\AspectImpactFormRequest;
 use App\Models\Work;
-use App\Models\Aspect_Impact;
+use App\Models\AspectImpact;
 
 //aspect impact
 class AspectImpactController extends Controller
@@ -43,18 +43,19 @@ class AspectImpactController extends Controller
         $data = $request-> validated();
 
         //
-        $info = new Aspect_Impact();
+        $info = new AspectImpact();
 
         $impact = implode(',', $data['impact']);
 
         //get input from create.php
-        $info->Aspect =  $data['aspect'];
-        $info->Impact =  $impact;
+        $info->aspect_name =  $data['aspect'];
+        $info->impact_name =  $impact;
+        $info->requirement_name = $data['rqm'];
         $info->work_id = $data['fkey'];
 
         $info->save();
 
-        return redirect()->route('list.index'); //then return back to list view
+        return redirect()->route('list.index')->with('flash_message', 'Work Activity Added!'); //then return back to list view
     }
 
     /**
@@ -76,15 +77,15 @@ class AspectImpactController extends Controller
      */
     public function edit($id)
     {
-        $aspects = Aspect_Impact::find($id);
+        $aspects = AspectImpact::find($id);
         $works = Work::all();
         
         return view('aspect_impact.edit',[
             'works' => $works,
             'aspects' => $aspects,
-            'impacts' => explode(',',$aspects->Impact)
+            'impacts' => explode(',',$aspects->impact_name)
         ]);
-        // compact('works', 'aspects'));
+        
     }
 
     /**
@@ -96,13 +97,14 @@ class AspectImpactController extends Controller
      */
     public function update(AspectImpactFormRequest $request, $id)
     {
-        $aspect = Aspect_Impact::find($id);
+        $aspect = AspectImpact::find($id);
         $input = $request->validated();
 
         $impact = implode(',', $input['impact']);
 
-        $aspect->Aspect =  $input['aspect'];
-        $aspect->Impact =  $impact;
+        $aspect->aspect_name =  $input['aspect'];
+        $aspect->impact_name =  $impact;
+        $aspect->requirement_name = $input['rqm'];
         $aspect->work_id = $input['fkey'];
         $aspect->update();
 

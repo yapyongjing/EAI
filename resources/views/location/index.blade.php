@@ -11,34 +11,31 @@
 @endif
 
 <div class="container">
-    <h2>EAI Form List</h2>
+    <h2>EAI Location List</h2>
     <div class="table-responsive">
     <table class="table">
       <thead class="thead-dark">
         <tr>
           <th>Operating unit</th>
           <th>Location</th>
-          <th>Date</th>
           <th>Action</th>
         </tr>
       </thead>
       <tbody>
         
-            @if (count($forms)>0)
+            @if (count($locations)>0)
 
             {{-- show all information --}}
-                @foreach ($forms as $form)
+                @foreach ($locations as $location)
                     <tr>
-                      <td>{{$form->operating_name}}</td>
-                      <td>{{$form->location_name}}</td>
-                      <td>{{$form->date}}</td>
+                      <td>{{$location->opr->opr_unit_name}}</td>
+                      <td>{{$location->location_name}}</td>
                       <td>
-                        {{-- <a href="{{ route('form.show', $form->id) }}" class="btn btn-primary btn-sm">View</a> --}}
-                        <a href="{{ route('form.edit', $form->id) }}" class="btn btn-primary btn-sm">View</a>
-                        <form method="post" action="{{ route('form.destroy', $form->id) }}" style="display:inline">
+                        <a href="{{ route('location.edit', $location->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                        <form method="post" action="{{ route('location.destroy', $location->id) }}" style="display:inline">
                           @csrf
                           @method('DELETE')
-                          <input type="submit" class="btn btn-danger btn-sm" value="Delete" onclick="return confirm(&quot;Confirm delete?&quot;)">
+                          <input type="submit" class="btn btn-danger btn-sm" value="Delete" onclick="return confirm(&quot;Confirm delete?&quot;)"/>
                         </form>
                       </td>
                     </tr>
@@ -52,7 +49,7 @@
       </tbody>
     </table>
     <i class="fas fa-plus"></i>
-      <a href="{{ route('form.create') }}" class="btn btn-primary"> Add</a>
+      <a href="{{ route('location.create') }}" class="btn btn-primary"> Add</a>
     </div>
 </div>
 @endsection

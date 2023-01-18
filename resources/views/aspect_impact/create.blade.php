@@ -26,7 +26,7 @@
                                 <option value="0"> Select Work Activity</option>
                                 
                                 @foreach($works as $work)
-                                    <option value="{{$work->id}}">{{$work->Work}}</option>
+                                    <option value="{{$work->id}}">{{$work->work_name}}</option>
                                 @endforeach
 
                             </select>
@@ -82,6 +82,18 @@
                             </div>
                         </div>
                         <br>
+
+                        <div class="form-group">
+                            <label for="rqm">Applicable Env. Legal/Reg/COP or other requirement</label>
+                            <input type="text" class="form-control" id="rqm" placeholder="Enter requirement" name="rqm" required>
+                            @error('rqm')
+                              <div class="form-error">
+                                  {{$message}}
+                              </div>
+                              @enderror
+                        </div>
+                        <br>
+
                         <button type="submit" class="float-right btn btn-dark btn-primary">Submit</button>
                         <a href="{{ route('list.create') }}" class="btn float-right"> Back</a>
                     </form>

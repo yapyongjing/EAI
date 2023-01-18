@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\EaiListFormRequest;
+use App\Http\Requests\WorkFormRequest;
 use App\Models\Work;
-use App\Models\Main_Work;
-use App\Models\Aspect_Impact;
+use App\Models\MainWork;
+use App\Models\AspectImpact;
 
 //known as work 
-class EaiListController extends Controller
+class WorkController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,7 @@ class EaiListController extends Controller
      */
     public function index()
     {
-        $lists = Aspect_Impact::with('workAspect')->get();
+        $lists = AspectImpact::with('workAspect')->orderBy('id','asc')->get();
 
         return view('list.index', compact(var_name: 'lists'));
     }
@@ -30,7 +30,7 @@ class EaiListController extends Controller
      */
     public function create()
     {
-        $options = Main_Work::all();
+        $options = MainWork::all();
 
         return view('list.create',compact(var_name:'options'));
     }
@@ -41,15 +41,15 @@ class EaiListController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(EaiListFormRequest $request)
+    public function store(WorkFormRequest $request)
     {
         $data = $request-> validated();
 
         //
         $info = new Work();
 
-        $info->Work = $data['work_name'];//get input from create.php
-        $info->Con = $data['con'];
+        $info->work_name = $data['work_name'];//get input from create.php
+        $info->condition = $data['con'];
         $info->mainWork_id = $data['fkey'];
     
         $info->save();
@@ -80,7 +80,7 @@ class EaiListController extends Controller
     public function edit($id)
     {
         $work = Work::find($id);
-        $options = Main_Work::all();
+        $options = MainWork::all();
         return view('list.edit',compact('work','options'));
     }
 
@@ -91,14 +91,14 @@ class EaiListController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(EaiListFormRequest $request, $id)
+    public function update(WorkFormRequest $request, $id)
     {
 
         $work = Work::find($id);
         $input = $request->validated();
 
-        $work->Work = $input['work_name'];
-        $work->Con = $input['con'];
+        $work->work_name = $input['work_name'];
+        $work->condition = $input['con'];
         $work->mainWork_id = $input['fkey'];
         $work->update();
 
@@ -115,6 +115,6 @@ class EaiListController extends Controller
     {
         Work::destroy($id);
 
-        return redirect('list')->with('flash_message', 'Work deleted!');
+        return redirect('list')->with('flash_message', 'Work Activity deleted!');
     }
 }

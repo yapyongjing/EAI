@@ -31,7 +31,7 @@
                             @enderror
                         </div>
                         <br>
-                        <button type="submit" class="float-right btn btn-dark btn-primary">Submit</button>
+                        <button type="submit" class="float-right btn btn-dark btn-primary">Save</button>
                         <a href="{{ route('opr.index') }}" class="btn float-right"> Back</a>
                     </form>
                 </div>

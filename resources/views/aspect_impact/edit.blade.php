@@ -6,8 +6,8 @@
     <div class="row">
         
         <div class="text-left col-4 mt-4 p-5 rounded" style="margin-bottom:0">
-            <h1>New Work Activity</h1> 
-            <p>Key in new work activity</p> 
+            <h1>Work Activity</h1> 
+            <p>Edit work activity</p> 
         </div>
 
         <div class="col-8">
@@ -28,7 +28,7 @@
                                 
                                 @foreach($works as $work)
                                     <option value="{{$work->id}}" {{  $work->id== $aspects->work_id ? ' selected="selected"' : '' }}>
-                                        {{$work->Work}}</option>
+                                        {{$work->work_name}}</option>
                                 @endforeach
 
                             </select>
@@ -38,7 +38,7 @@
                         <div class="form-group">
                           <label for="aspect">Aspect</label>
                           <input type="text" class="form-control" id="aspect" placeholder="Enter aspect" name="aspect" 
-                          value="{{ $aspects->Aspect }}" required>
+                          value="{{ $aspects->aspect_name }}" required>
                           @error('aspect')
                             <div class="form-error">
                                 {{$message}}
@@ -94,8 +94,22 @@
                             </div>
                         </div>
                         <br>
-                        <button type="submit" class="float-right btn btn-dark btn-primary">Submit</button>
-                        <a href="{{ route('list.create') }}" class="btn float-right"> Back</a>
+
+                         {{-- requirement textfield --}}
+                        <div class="form-group">
+                        <label for="rqm">Applicable Env. Legal/Reg/COP or other requirement</label>
+                        <input type="text" class="form-control" id="rqm" placeholder="Enter requirement" name="rqm" 
+                        value="{{ $aspects->requirement_name }}" required>
+                        @error('aspect')
+                            <div class="form-error">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <br>
+
+                        <button type="submit" class="float-right btn btn-dark btn-primary">Save</button>
+                        <a href="{{ route('list.edit',$aspects->work_id ) }}" class="btn float-right"> Back</a>
                     </form>
                 </div>
                 <div class="card-footer">

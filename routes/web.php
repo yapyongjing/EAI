@@ -5,6 +5,7 @@ use App\Http\Controllers\EaiListController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\OprUnitController;
 use App\Http\Controllers\AspectImpactController;
+use App\Http\Controllers\MainWorkController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,13 +22,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('list',EaiListController::class);
+Route::get('/formpage2', function () {
+    return view('formpage2');
+});
+
+Route::resource('opr',OprUnitController::class);//operating unit
+
+Route::resource('location',MainWorkController::class);//main work/location
+
+Route::resource('list',EaiListController::class);//work
+
+Route::resource('aspect_impact',AspectImpactController::class);//aspect impact
 
 Route::resource('form',FormController::class);
-
-Route::resource('opr',OprUnitController::class);
-
-Route::resource('aspect_impact',AspectImpactController::class);
 
 Auth::routes();
 

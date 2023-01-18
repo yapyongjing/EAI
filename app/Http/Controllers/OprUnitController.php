@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\OprRequest;
-use App\Models\Operating_Unit;
+use App\Models\OperatingUnit;
 
 //operating unit
 class OprUnitController extends Controller
@@ -18,7 +18,7 @@ class OprUnitController extends Controller
     {
         //
         return view('opr.index', [
-            'oprs' => Operating_Unit::all()
+            'oprs' => OperatingUnit::all()
             
         ]);
     }
@@ -46,7 +46,7 @@ class OprUnitController extends Controller
         $data = $request-> validated();
 
         //
-        $info = new Operating_Unit();
+        $info = new OperatingUnit();
 
 
         $info->opr_unit_name = $data['opr_name'];//get input from create.php
@@ -73,7 +73,7 @@ class OprUnitController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Operating_Unit $opr)
+    public function edit(OperatingUnit $opr)
     {
         return view('opr.edit', compact('opr'));
     }
@@ -87,7 +87,7 @@ class OprUnitController extends Controller
      */
     public function update(OprRequest $request, $id)
     {
-        $opr = Operating_Unit::find($id);
+        $opr = OperatingUnit::find($id);
         $input = $request->validated();
 
         $opr->opr_unit_name = $input['opr_name'];
@@ -104,7 +104,7 @@ class OprUnitController extends Controller
      */
     public function destroy($id)
     {
-        Operating_Unit::destroy($id);
+        OperatingUnit::destroy($id);
 
         return redirect('opr')->with('flash_message', 'Operating Unit deleted!');
     }

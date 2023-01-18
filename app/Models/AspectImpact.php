@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Aspect_Impact extends Model
+class AspectImpact extends Model
 {
     use HasFactory;
-    protected $fillable = ['aspect','impact','fkey'];
+    protected $fillable = ['aspect','impact','rqm','fkey'];
 
     public function workAspect()
     {

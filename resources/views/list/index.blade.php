@@ -11,7 +11,7 @@
 @endif
 
 <div class="container">
-    <h2>Guidance List</h2>
+    <h2>Work Activity List</h2>
     <div class="table-responsive">
       <table class="table">
         <thead class="thead-dark">
@@ -20,6 +20,7 @@
             <th>Condition</th>
             <th>Aspect</th>
             <th>Impact</th>
+            <th>Requirement</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -30,16 +31,17 @@
                   @foreach ($lists as $list)
                       
                       <tr>
-                          <td>{{$list->workAspect->Work}}</td>
-                          <td>{{$list->workAspect->Con}}</td>
-                          <td>{{$list->Aspect}}</td>
-                          <td>{{$list->Impact}}</td>
+                          <td>{{$list->workAspect->work_name}}</td>
+                          <td>{{$list->workAspect->condition}}</td>
+                          <td>{{$list->aspect_name}}</td>
+                          <td>{{$list->impact_name}}</td>
+                          <td>{{$list->requirement_name}}</td>
                           <td>
                             <a href="{{ route('list.edit', $list->id) }}" class="btn btn-primary btn-sm">Edit</a>
                             <form method="post" action="{{ route('list.destroy', $list->id) }}" style="display:inline">
                               @csrf
                               @method('DELETE')
-                              <input type="submit" class="btn btn-danger btn-sm" value="Delete" />
+                              <input type="submit" class="btn btn-danger btn-sm" value="Delete" onclick="return confirm(&quot;Confirm delete?&quot;)">
                             </form>
                           </td>
                       </tr>
@@ -52,7 +54,7 @@
 
         </tbody>
       </table>
-      <i class="fas fa-plus"></i>
+      
       <a href="{{ route('list.create') }}" class="btn btn-primary"> Add</a>
     </div>
 </div>

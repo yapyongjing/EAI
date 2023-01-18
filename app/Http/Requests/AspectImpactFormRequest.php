@@ -26,7 +26,8 @@ class AspectImpactFormRequest extends FormRequest
         return [
             'aspect' => 'required',
             'impact' => 'required',
-            'fkey' => 'required'
+            'fkey' => 'required',
+            'rqm' => 'required'
         ];
     }
 
@@ -35,8 +36,8 @@ class AspectImpactFormRequest extends FormRequest
         $this->merge(
             [
                 'aspect' => strip_tags($this['aspect']),
-                'fkey'=> strip_tags($this['fkey'])
-                
+                'fkey'=> strip_tags($this['fkey']),
+                'rqm'=> strip_tags($this['rqm'])
                 
             ]);
     }
