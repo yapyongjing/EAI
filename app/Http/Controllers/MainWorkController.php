@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\LocationFormRequest;
-use App\Models\MainWork;
-use App\Models\OperatingUnit;
+use App\Models\Main_Work;
+use App\Models\Operating_Unit;
 
 //also known as location
 class MainWorkController extends Controller
@@ -17,7 +17,7 @@ class MainWorkController extends Controller
      */
     public function index()
     {
-        $locations = MainWork::with('opr')->orderBy('opr_id','asc')->get();
+        $locations = Main_Work::with('opr')->orderBy('opr_id','asc')->get();
 
         return view('location.index', compact(var_name: 'locations'));
     }
@@ -29,7 +29,7 @@ class MainWorkController extends Controller
      */
     public function create()
     {
-        $oprs = OperatingUnit::all();
+        $oprs = Operating_Unit::all();
         
         return view('location.create',compact(var_name: 'oprs'));
     }
@@ -46,9 +46,9 @@ class MainWorkController extends Controller
         $data = $request-> validated();
 
         //
-        $info = new MainWork();
+        $info = new Main_Work();
 
-        // return $this->hasMany('App\Models\MainWork', 'foreign_key');
+        // return $this->hasMany('App\Models\Main_Work', 'foreign_key');
 
 
         $info->location_name =  $data['location'];//get input from create.php
@@ -65,7 +65,7 @@ class MainWorkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(MainWork $data)
+    public function show(Main_Work $data)
     {
         //
         return view('location.show',[
@@ -81,8 +81,8 @@ class MainWorkController extends Controller
      */
     public function edit($id)
     {
-        $location= MainWork::find($id);
-        $oprs = OperatingUnit::all();
+        $location= Main_Work::find($id);
+        $oprs = Operating_Unit::all();
         
         return view('location.edit',compact('location', 'oprs'));
     }
@@ -96,10 +96,10 @@ class MainWorkController extends Controller
      */
     public function update(LocationFormRequest $request,$id)
     {
-        $info = MainWork::find($id);
+        $info = Main_Work::find($id);
         $data = $request-> validated();
 
-        $info->opr_unit_name = $data['name'];
+        $info->opr_id = $data['name'];
         $info->location_name =  $data['location'];
 
         $info->update();
@@ -115,7 +115,7 @@ class MainWorkController extends Controller
      */
     public function destroy($id)
     {
-        MainWork::destroy($id);
+        Main_Work::destroy($id);
 
         return redirect('location')->with('flash_message', 'Location deleted!');
     }

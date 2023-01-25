@@ -16,12 +16,6 @@
                 </div>
                 <div class="card-body">
 
-                    {{-- <div class="hidden sm:block">
-                        <div class="py-8">
-                            <div class="border-t border-gray-200"></div>
-                        </div>
-                    </div> --}}
-
                     <form method="POST" action="{{route('form.store')}}">
                         
                         @csrf
@@ -63,7 +57,7 @@
                         </div>
                         <br>
 
-                        <hr>
+                        {{-- <hr>
 
                         <div class="form-group">
                             <label for="fkey">Work Activity Name</label>
@@ -156,9 +150,9 @@
                               </div>
                               @enderror
                         </div>
-                        <br>
+                        <br> --}}
 
-                        <button type="submit" class="float-right btn btn-dark btn-primary">Next</button>
+                        <button type="submit" class="float-right btn btn-dark btn-primary">Submit</button>
                         <a href="{{ route('form.index') }}" class="btn float-right"> Back</a>
                     </form>
                 </div>

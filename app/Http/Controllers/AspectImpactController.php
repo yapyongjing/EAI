@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\AspectImpactFormRequest;
 use App\Models\Work;
-use App\Models\AspectImpact;
+use App\Models\Aspect_Impact;
 
 //aspect impact
 class AspectImpactController extends Controller
@@ -43,7 +43,7 @@ class AspectImpactController extends Controller
         $data = $request-> validated();
 
         //
-        $info = new AspectImpact();
+        $info = new Aspect_Impact();
 
         $impact = implode(',', $data['impact']);
 
@@ -77,7 +77,7 @@ class AspectImpactController extends Controller
      */
     public function edit($id)
     {
-        $aspects = AspectImpact::find($id);
+        $aspects = Aspect_Impact::find($id);
         $works = Work::all();
         
         return view('aspect_impact.edit',[
@@ -97,7 +97,7 @@ class AspectImpactController extends Controller
      */
     public function update(AspectImpactFormRequest $request, $id)
     {
-        $aspect = AspectImpact::find($id);
+        $aspect = Aspect_Impact::find($id);
         $input = $request->validated();
 
         $impact = implode(',', $input['impact']);

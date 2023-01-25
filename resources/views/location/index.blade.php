@@ -12,6 +12,7 @@
 
 <div class="container">
     <h2>EAI Location List</h2>
+    <a href="{{ route('location.create') }}" class="btn btn-primary"> Add</a>
     <div class="table-responsive">
     <table class="table">
       <thead class="thead-dark">
@@ -48,8 +49,8 @@
 
       </tbody>
     </table>
-    <i class="fas fa-plus"></i>
-      <a href="{{ route('location.create') }}" class="btn btn-primary"> Add</a>
+    
+      
     </div>
 </div>
 @endsection

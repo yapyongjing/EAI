@@ -11,8 +11,10 @@
 @endif
 
 <div class="container">
-    <h2>EAI Form List</h2>
+    <h2>EAI Form List</h2><br>
     <div class="table-responsive">
+    <a href="{{ route('form.create') }}" class="btn btn-primary"> Add Operating Unit</a>
+
     <table class="table">
       <thead class="thead-dark">
         <tr>
@@ -40,6 +42,7 @@
                           @method('DELETE')
                           <input type="submit" class="btn btn-danger btn-sm" value="Delete" onclick="return confirm(&quot;Confirm delete?&quot;)">
                         </form>
+                        <a href="{{ route('form.works.index',$form->id) }}" class="btn btn-primary btn-sm">Work Activity</a>
                       </td>
                     </tr>
                 @endforeach
@@ -51,8 +54,7 @@
 
       </tbody>
     </table>
-    <i class="fas fa-plus"></i>
-      <a href="{{ route('form.create') }}" class="btn btn-primary"> Add</a>
+    
     </div>
 </div>
 @endsection

@@ -55,7 +55,7 @@
 
                         <div class="form-group">
                             <label for="date">Date:</label>
-                            <input type="date" class="form-control" id="date" name="date" required>
+                            <input type="date" class="form-control" id="date" name="date" value="{{$forms->date}}" required>
                             @error('date')
                             <div class="form-error">
                                 {{$message}}
@@ -64,7 +64,7 @@
                         </div>
                         <br>
 
-                        <hr>
+                        {{-- <hr>
 
                         <div class="form-group">
                             <label for="fkey">Work Activity Name</label>
@@ -170,7 +170,7 @@
                               </div>
                               @enderror
                         </div>
-                        <br>
+                        <br> --}}
 
                         <button type="submit" class="float-right btn btn-dark btn-primary">Save</button>
                         <a href="{{ route('form.index') }}" class="btn float-right"> Back</a>

@@ -1,11 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\EaiListController;
-use App\Http\Controllers\FormController;
 use App\Http\Controllers\OprUnitController;
-use App\Http\Controllers\AspectImpactController;
 use App\Http\Controllers\MainWorkController;
+use App\Http\Controllers\WorkController;
+use App\Http\Controllers\AspectImpactController;
+use App\Http\Controllers\OprFormController;
+use App\Http\Controllers\WorkFormController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,11 +31,13 @@ Route::resource('opr',OprUnitController::class);//operating unit
 
 Route::resource('location',MainWorkController::class);//main work/location
 
-Route::resource('list',EaiListController::class);//work
+Route::resource('list',WorkController::class);//work
 
 Route::resource('aspect_impact',AspectImpactController::class);//aspect impact
 
-Route::resource('form',FormController::class);
+Route::resource('form',OprFormController::class);//operating unit form
+
+Route::resource('form.works',WorkFormController::class);//work activity form
 
 Auth::routes();
 

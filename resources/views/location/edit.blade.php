@@ -16,9 +16,10 @@
                 </div>
                 <div class="card-body">
 
-                    <form method="POST" action="{{{ url('list/' .$location->id) }}}">
+                    <form method="POST" action="{{{ url('location/' .$location->id) }}}">
                         
                         @csrf
+                        @method('PUT')
 
                         <div class="form-group">
                             <label for="name">Operating Unit Name</label>

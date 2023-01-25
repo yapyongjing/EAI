@@ -12,6 +12,7 @@
 
 <div class="container">
     <h2>Work Activity List</h2>
+    <a href="{{ route('list.create') }}" class="btn btn-primary"> Add</a>
     <div class="table-responsive">
       <table class="table">
         <thead class="thead-dark">
@@ -54,8 +55,6 @@
 
         </tbody>
       </table>
-      
-      <a href="{{ route('list.create') }}" class="btn btn-primary"> Add</a>
     </div>
 </div>
 @endsection

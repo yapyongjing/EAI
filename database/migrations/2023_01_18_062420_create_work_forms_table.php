@@ -13,16 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('forms', function (Blueprint $table) {
+        Schema::create('work_forms', function (Blueprint $table) {
             $table->id();
-            $table->string('operating_name');
-            $table->string('location_name');
-            $table->date('date');
             $table->string('work_name');
             $table->string('condition');
-            $table->string('aspect_name');
-            $table->string('impact_name');
-            $table->string('requirement_name');
+            $table->foreignId('opr_form_id')
+            ->constrained('opr_forms')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -34,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('forms');
+        Schema::dropIfExists('work_forms');
     }
 };

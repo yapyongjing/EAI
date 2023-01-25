@@ -4,14 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\ListFormRequest;
-use App\Models\OperatingUnit;
-use App\Models\MainWork;
-use App\Models\Work;
-use App\Models\AspectImpact;
-use App\Models\Form;
+use App\Models\Main_Work;
+use App\Models\Operating_Unit;
+use App\Models\OprForm;
 
 //main work/location
-class FormController extends Controller
+class OprFormController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,7 +18,7 @@ class FormController extends Controller
      */
     public function index()
     {
-        $forms = Form::all();
+        $forms = OprForm::all();
 
         return view('form.index', compact(var_name: 'forms'));
     }
@@ -32,12 +30,10 @@ class FormController extends Controller
      */
     public function create()
     {
-        $oprs = OperatingUnit::all();
-        $locations = MainWork::all();
-        $works = Work::all();
-        $aspects = AspectImpact::all();
+        $oprs = Operating_Unit::all();
+        $locations = Main_Work::all();
         
-        return view('form.create',compact('oprs','locations','works','aspects'));
+        return view('form.create',compact('oprs','locations'));
     }
 
 
@@ -52,17 +48,17 @@ class FormController extends Controller
         $data = $request-> validated();
 
         //
-        $info = new Form();
+        $info = new OprForm();
 
         // return $this->hasMany('App\Models\MainWork', 'foreign_key');
         $info->operating_name =  $data['opr_name'];
-        $info->location_name =  $data['location_name'];//get input from create.php
+        $info->location_name =  $data['location_name'];
         $info->date =  $data['date'];
-        $info->work_name = $data['work_name'];
-        $info->condition =  $data['con'];
-        $info->aspect_name =  $data['aspect'];
-        $info->impact_name =  implode(',', $data['impact']);
-        $info->requirement_name =  $data['rqm'];
+        // $info->work_name = $data['work_name'];
+        // $info->condition =  $data['con'];
+        // $info->aspect_name =  $data['aspect'];
+        // $info->impact_name =  implode(',', $data['impact']);
+        // $info->requirement_name =  $data['rqm'];
 
         $info->save();
 
@@ -75,7 +71,7 @@ class FormController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Form $data)
+    public function show(OprForm $data)
     {
         //
         return view('form.show',[
@@ -91,18 +87,18 @@ class FormController extends Controller
      */
     public function edit($id)
     {
-        $forms = Form::find($id);
-        $oprs = OperatingUnit::all();
-        $locations = MainWork::all();
-        $works = Work::all();
-        $aspects = AspectImpact::all();
+        $forms = OprForm::find($id);
+        $oprs = Operating_Unit::all();
+        $locations = Main_Work::all();
+        // $works = Work::all();
+        // $aspects = AspectImpact::all();
         return view('form.edit',[
             'forms' => $forms,
             'oprs' => $oprs,
             'locations' => $locations,
-            'works'=> $works,
-            'aspects' => $aspects,
-            'impacts' => explode(',',$forms->impact_name)
+            // 'works'=> $works,
+            // 'aspects' => $aspects,
+            // 'impacts' => explode(',',$forms->impact_name)
         ])->with('flash_message', 'Successfully Updated!');
     }
 
@@ -115,7 +111,7 @@ class FormController extends Controller
      */
     public function update(ListFormRequest $request,$id)
     {
-        $info = Form::find($id);
+        $info = OprForm::find($id);
         $data = $request-> validated();
 
         //
@@ -123,11 +119,11 @@ class FormController extends Controller
         $info->operating_name =  $data['opr_name'];
         $info->location_name =  $data['location_name'];//get input from create.php
         $info->date =  $data['date'];
-        $info->work_name = $data['work_name'];
-        $info->condition =  $data['con'];
-        $info->aspect_name =  $data['aspect'];
-        $info->impact_name =  implode(',', $data['impact']);
-        $info->requirement_name =  $data['rqm'];
+        // $info->work_name = $data['work_name'];
+        // $info->condition =  $data['con'];
+        // $info->aspect_name =  $data['aspect'];
+        // $info->impact_name =  implode(',', $data['impact']);
+        // $info->requirement_name =  $data['rqm'];
         $info->update();
 
         return redirect()->route('form.index')->with('flash_message', 'Form Edited!');
@@ -141,7 +137,7 @@ class FormController extends Controller
      */
     public function destroy($id)
     {
-        Form::destroy($id);
+        OprForm::destroy($id);
 
         return redirect('form')->with('flash_message', 'Form deleted!');
     }

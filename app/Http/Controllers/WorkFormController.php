@@ -3,24 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\WorkFormRequest;
-use App\Models\Work;
+use App\Models\OprForm;
+use App\Models\WorkForm;
 use App\Models\Main_Work;
-use App\Models\Aspect_Impact;
+use App\Models\Work;
+use App\Http\Requests\EaiWorkFormRequest;
 
-//known as work 
-class WorkController extends Controller
+class WorkFormController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        $lists = Aspect_Impact::with('workAspect')->orderBy('id','asc')->get();
-
-        return view('list.index', compact(var_name: 'lists'));
+        $opr = OprForm::find($id);
+        $works = $opr->works();
+       
+        return view('form.works.index', compact('works','opr'));
     }
 
     /**
@@ -28,11 +29,13 @@ class WorkController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
+        $opr = OprForm::find($id);
         $options = Main_Work::all();
+        $works = Work::all();
 
-        return view('list.create',compact(var_name:'options'));
+        return view('form.works.create', compact('id','options','works','opr'));
     }
 
     /**
@@ -41,21 +44,21 @@ class WorkController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(WorkFormRequest $request)
+    public function store(EaiWorkFormRequest $request,$id)
     {
+        
         $data = $request-> validated();
 
         //
-        $info = new Work();
+        $info = new WorkForm();
 
         $info->work_name = $data['work_name'];//get input from create.php
         $info->condition = $data['con'];
-        $info->mainWork_id = $data['fkey'];
+        $info->opr_form_id = $data['fkey'];
     
         $info->save();
 
-        return redirect()->route('aspect_impact.create');//go to aspect_impact create page
-        
+        return redirect()->route('form.works.index',$id)-> with('flash_message','Work Activity Added');
     }
 
     /**
@@ -64,11 +67,9 @@ class WorkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Work $work)
+    public function show($id)
     {
-        return view('list.show',[
-            'list' => $work
-        ]);
+        //
     }
 
     /**
@@ -79,9 +80,12 @@ class WorkController extends Controller
      */
     public function edit($id)
     {
-        $work = Work::find($id);
         $options = Main_Work::all();
-        return view('list.edit',compact('work','options'));
+        $works = Work::all();
+        $opr = OprForm::with('works')->get()->find($id);
+        $workforms = WorkForm::find($id);
+
+        return view('form.works.edit',compact('id','options','works','opr','workforms'));
     }
 
     /**
@@ -91,18 +95,20 @@ class WorkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(WorkFormRequest $request, $id)
+    public function update(EaiWorkFormRequest $request,$id)
     {
+        $data = $request-> validated();
 
-        $work = Work::find($id);
-        $input = $request->validated();
+        //
+        $info = WorkForm::find($id);
 
-        $work->work_name = $input['work_name'];
-        $work->condition = $input['con'];
-        $work->mainWork_id = $input['fkey'];
-        $work->update();
+        $info->work_name = $data['work_name'];//get input from create.php
+        $info->condition = $data['con'];
+        $info->opr_form_id = $data['fkey'];
+    
+        $info->update();
 
-        return redirect()->route('aspect_impact.edit',$id);//go to aspect_impact edit page
+        return redirect()->route('form.works.index',$id)-> with('flash_message','Work Activity Edit');
     }
 
     /**
@@ -113,8 +119,6 @@ class WorkController extends Controller
      */
     public function destroy($id)
     {
-        Work::destroy($id);
-
-        return redirect('list')->with('flash_message', 'Work Activity deleted!');
+        //
     }
 }

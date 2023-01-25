@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AspectImpact extends Model
+class Aspect_Impact extends Model
 {
     use HasFactory;
     protected $fillable = ['aspect','impact','rqm','fkey'];
