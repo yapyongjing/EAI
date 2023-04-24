@@ -6,8 +6,8 @@
     <div class="row">
         
         <div class="text-left col-4 mt-4 p-5 rounded" style="margin-bottom:0">
-            <h1>Assessment Form</h1> 
-            <p>New assessment form</p> 
+            <h1>New Work Activity</h1> 
+            <p>Key in new work activity</p> 
         </div>
 
         <div class="col-8">
@@ -16,56 +16,35 @@
                 </div>
                 <div class="card-body">
 
-                    <form method="POST" action="{{route('oprForm.store')}}">
+                    <form method="POST" action="{{ route('oprForm.work.aspectImpact.store', [$work->opr_form_id,$work->id] ) }}">
                         
                         @csrf
 
-                        <h4>1. Identification of Aspects and Impacts</h4>
-                        <br>
-                        <div class="form-group">
-                            <label for="name">Operating Unit Name</label>
-                            <select class="form-control" name="opr_name">
-                                <option value="0"> Select Operating Unit</option>
-                                
-                                @foreach($oprs as $opr)
-                                    <option value="{{ $opr->opr_unit_name}}">{{ $opr->opr_unit_name }}</option>
-                                @endforeach
-
-                            </select>
-                        </div><br>
-                        
-                        <div class="form-group">
-                          <label for="location">Location</label>
-                          <select class="form-control" name="location_name">
-                            <option value="0"> Select Location</option>
-                            
-                            @foreach($locations as $location)
-                                <option value="{{ $location->location_name}}">{{ $location->location_name }}</option>
-                            @endforeach
-
-                        </select>
-                        </div><br>
-
-                        <div class="form-group">
-                            <label for="date">Date:</label>
-                            <input type="date" class="form-control" id="date" name="date" required>
-                            @error('date')
-                            <div class="form-error">
-                                {{$message}}
-                            </div>
-                            @enderror
-                        </div>
-                        <br>
-
-                        {{-- <hr>
-
                         <div class="form-group">
                             <label for="fkey">Work Activity Name</label>
-                            <select class="form-control" id="work_name" name="work_name">
+                            <select class="form-control" id="fkey" name="fkey">
                                 <option value="0"> Select Work Activity</option>
                                 
-                                @foreach($works as $work)
-                                    <option value="{{$work->work_name}}">{{$work->work_name}}</option>
+                                //option = work, work = work in form
+                                @foreach($options as $option)
+                                    <option value="{{$work->id}}"
+                                        {{$option->work_name == $work ->work_name ? 'selected="selected"' : 'disabled'}}>
+                                        {{$option->work_name}}
+                                    </option>
+                                @endforeach
+
+                            </select>
+                        </div><br>
+
+                        <div class="form-group">
+                          <label for="aspect">Aspect</label>
+                          <select class="form-control" id="aspect" name="aspect">
+                            <option value="0"> Select Aspect</option>
+                            
+                                @foreach($aspects as $aspect)
+                                    <option value="{{$aspect->aspect_name}}">
+                                        {{$aspect->aspect_name}}
+                                    </option>
                                 @endforeach
 
                             </select>
@@ -73,35 +52,6 @@
                         <br>
 
                         <div class="form-group">
-                            <label for="con">Condition</label><br>
-                            <div class="form-check-inline">
-                                <input type="radio" class="form-check-input" name="con" value="Normal Condition">Normal Condition 
-                                <label class="form-check-label" for="Air_Pollution"></label>
-                            </div>
-                            <div class="form-check-inline">
-                                <input type="radio" class="form-check-input" name="con" value="Abnormal Condition">Abnormal Condition 
-                                <label class="form-check-label" for="Water_Pollution"></label>
-                            </div>
-                            <div class="form-check-inline">
-                                <input type="radio" class="form-check-input" name="con" value="Emergency">Emergency 
-                                <label class="form-check-label" for="Soil/Land pollution"></label>
-                            </div>
-                        </div>
-                        <br>
-
-                        <hr>
-                        <div class="form-group">
-                            <label for="aspect">Aspect</label>
-                              <select class="form-control" id="aspect" name="aspect">
-                                <option value="0"> Select Aspect</option>
-                                @foreach($aspects as $aspect)
-                                    <option value="{{$aspect->aspect_name}}">{{$aspect->aspect_name}}</option>
-                                @endforeach
-                                </select>
-                          </div>
-                          <br>
-
-                          <div class="form-group">
                             <label for="impact">Impact</label><br>
                             <div class="form-check-inline">
                                 <label class="form-check-label" for="Air_Pollution">
@@ -143,17 +93,27 @@
 
                         <div class="form-group">
                             <label for="rqm">Applicable Env. Legal/Reg/COP or other requirement</label>
-                            <input type="text" class="form-control" id="rqm" placeholder="Enter Requirement" name="rqm" required>
+                            {{-- <input type="text" class="form-control" id="rqm" placeholder="Enter requirement" name="rqm" required>
                             @error('rqm')
                               <div class="form-error">
                                   {{$message}}
                               </div>
-                              @enderror
+                              @enderror --}}
+                            <select class="form-control" id="rqm" name="rqm">
+                                <option value="0"> Select requirement</option>
+                                
+                                @foreach($rqms as $rqm)
+                                    <option value="{{$rqm->requirement_name}}">
+                                        {{$rqm->requirement_name}}
+                                    </option>
+                                @endforeach
+
+                            </select>
                         </div>
-                        <br> --}}
+                        <br>
 
                         <button type="submit" class="float-right btn btn-dark btn-primary">Submit</button>
-                        <a href="{{ route('oprForm.index') }}" class="btn float-right"> Back</a>
+                        <a href="{{ route('oprForm.work.aspectImpact.index', [$work->opr_form_id,$work->id]) }}" class="btn float-right"> Back</a>
                     </form>
                 </div>
                 <div class="card-footer">

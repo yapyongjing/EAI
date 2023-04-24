@@ -38,7 +38,7 @@
                           <td>{{$list->impact_name}}</td>
                           <td>{{$list->requirement_name}}</td>
                           <td>
-                            <a href="{{ route('list.edit', $list->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                            <a href="{{ route('list.edit', ['list' => $list->id]) }}" class="btn btn-primary btn-sm">Edit</a>
                             <form method="post" action="{{ route('list.destroy', $list->id) }}" style="display:inline">
                               @csrf
                               @method('DELETE')

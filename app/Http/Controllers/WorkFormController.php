@@ -8,20 +8,22 @@ use App\Models\WorkForm;
 use App\Models\Main_Work;
 use App\Models\Work;
 use App\Http\Requests\EaiWorkFormRequest;
+//view = refer to the file name
+//redirect = refer to the name we difines in web.php
 
 class WorkFormController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     *  
      * @return \Illuminate\Http\Response
      */
     public function index($id)
     {
         $opr = OprForm::find($id);
-        $works = $opr->works();
+        $works = $opr->works;
        
-        return view('form.works.index', compact('works','opr'));
+        return view('form.works.index', compact('opr','works'));
     }
 
     /**
@@ -42,9 +44,10 @@ class WorkFormController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  int                       $id Opr Id.
      * @return \Illuminate\Http\Response
      */
-    public function store(EaiWorkFormRequest $request,$id)
+    public function store(EaiWorkFormRequest $request, $id)
     {
         
         $data = $request-> validated();
@@ -58,7 +61,7 @@ class WorkFormController extends Controller
     
         $info->save();
 
-        return redirect()->route('form.works.index',$id)-> with('flash_message','Work Activity Added');
+        return redirect()->route('oprForm.work.index', $id)-> with('flash_message','Work Activity Added');
     }
 
     /**
@@ -76,16 +79,23 @@ class WorkFormController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
+     * @param  int  $work_id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, $work_id)
     {
         $options = Main_Work::all();
         $works = Work::all();
-        $opr = OprForm::with('works')->get()->find($id);
-        $workforms = WorkForm::find($id);
+        $opr = OprForm::with('works')->findOrFail($id);
+        $workform = WorkForm::find($work_id);
 
-        return view('form.works.edit',compact('id','options','works','opr','workforms'));
+        return view('form.works.edit', [
+            'options' => $options,
+            'works' => $works,
+            'opr' => $opr,
+            'workform' => $workform,
+        ]);
+        // compact('id','options','works','opr','workform'));
     }
 
     /**
@@ -95,20 +105,20 @@ class WorkFormController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(EaiWorkFormRequest $request,$id)
+    public function update(EaiWorkFormRequest $request,$id,$work_id)
     {
         $data = $request-> validated();
+        
+        $info = WorkForm::where('opr_form_id', $id)->findOrFail($work_id);
+        
 
-        //
-        $info = WorkForm::find($id);
-
-        $info->work_name = $data['work_name'];//get input from create.php
+        $info->work_name = $data['work_name'];
         $info->condition = $data['con'];
         $info->opr_form_id = $data['fkey'];
     
         $info->update();
 
-        return redirect()->route('form.works.index',$id)-> with('flash_message','Work Activity Edit');
+        return redirect()->route('oprForm.work.index',$id)-> with('flash_message','Work Activity Edited!');
     }
 
     /**
@@ -117,8 +127,10 @@ class WorkFormController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(OprForm $id,WorkForm $work_id)
     {
-        //
+        $work_id->delete();
+
+        return redirect()->route('oprForm.work.index',$id)->with('flash_message', 'Work Activity deleted!');
     }
 }

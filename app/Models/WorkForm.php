@@ -16,8 +16,8 @@ class WorkForm extends Model
         return $this->belongsTo(OprForm::class,'opr_form_id');
     }
 
-    // public function aspects()
-    // {
-    //     return $this->hasMany(AspectImpact::class);
-    // }
+    public function aspects()
+    {
+        return $this->hasMany(AspectImpactForm::class);
+    }
 }

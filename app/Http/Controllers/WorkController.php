@@ -20,7 +20,7 @@ class WorkController extends Controller
     {
         $lists = Aspect_Impact::with('workAspect')->orderBy('id','asc')->get();
 
-        return view('list.index', compact(var_name: 'lists'));
+        return view('list.index', compact('lists'));
     }
 
     /**
@@ -32,7 +32,7 @@ class WorkController extends Controller
     {
         $options = Main_Work::all();
 
-        return view('list.create',compact(var_name:'options'));
+        return view('list.create',compact('options'));
     }
 
     /**
@@ -77,11 +77,10 @@ class WorkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Work $list)
     {
-        $work = Work::find($id);
         $options = Main_Work::all();
-        return view('list.edit',compact('work','options'));
+        return view('list.edit',compact('list','options'));
     }
 
     /**
@@ -91,18 +90,17 @@ class WorkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(WorkFormRequest $request, $id)
+    public function update(WorkFormRequest $request, Work $list)
     {
 
-        $work = Work::find($id);
         $input = $request->validated();
 
-        $work->work_name = $input['work_name'];
-        $work->condition = $input['con'];
-        $work->mainWork_id = $input['fkey'];
-        $work->update();
+        $list->work_name = $input['work_name'];
+        $list->condition = $input['con'];
+        $list->mainWork_id = $input['fkey'];
+        $list->update();
 
-        return redirect()->route('aspect_impact.edit',$id);//go to aspect_impact edit page
+        return redirect()->route('aspect_impact.edit',$list->id);//go to aspect_impact edit page
     }
 
     /**

@@ -26,7 +26,9 @@
                                 <option value="0"> Select Work Activity</option>
                                 
                                 @foreach($works as $work)
-                                    <option value="{{$work->id}}">{{$work->work_name}}</option>
+                                    <option value="{{$work->id}}">
+                                        {{$work->work_name}}
+                                    </option>
                                 @endforeach
 
                             </select>

@@ -33,7 +33,7 @@ class OprFormController extends Controller
         $oprs = Operating_Unit::all();
         $locations = Main_Work::all();
         
-        return view('form.create',compact('oprs','locations'));
+        return view('form.create', compact('oprs','locations'));
     }
 
 
@@ -62,7 +62,7 @@ class OprFormController extends Controller
 
         $info->save();
 
-        return redirect()->route('form.index')->with('flash_message', 'Form Added!');
+        return redirect()->route('oprForm.index')->with('flash_message', 'Form Added!');
     }
 
     /**
@@ -87,19 +87,19 @@ class OprFormController extends Controller
      */
     public function edit($id)
     {
-        $forms = OprForm::find($id);
         $oprs = Operating_Unit::all();
         $locations = Main_Work::all();
+        $form = OprForm::find($id);
         // $works = Work::all();
         // $aspects = AspectImpact::all();
         return view('form.edit',[
-            'forms' => $forms,
+            'form' => $form,
             'oprs' => $oprs,
             'locations' => $locations,
             // 'works'=> $works,
             // 'aspects' => $aspects,
             // 'impacts' => explode(',',$forms->impact_name)
-        ])->with('flash_message', 'Successfully Updated!');
+        ]);
     }
 
     /**
@@ -111,10 +111,9 @@ class OprFormController extends Controller
      */
     public function update(ListFormRequest $request,$id)
     {
-        $info = OprForm::find($id);
         $data = $request-> validated();
-
-        //
+        
+        $info = OprForm::find($id);
         
         $info->operating_name =  $data['opr_name'];
         $info->location_name =  $data['location_name'];//get input from create.php
@@ -126,7 +125,7 @@ class OprFormController extends Controller
         // $info->requirement_name =  $data['rqm'];
         $info->update();
 
-        return redirect()->route('form.index')->with('flash_message', 'Form Edited!');
+        return redirect()->route('oprForm.index')->with('flash_message', 'Form Edited!');
     }
 
     /**
@@ -139,6 +138,6 @@ class OprFormController extends Controller
     {
         OprForm::destroy($id);
 
-        return redirect('form')->with('flash_message', 'Form deleted!');
+        return redirect()->route('oprForm.index')->with('flash_message', 'Form deleted!');
     }
 }

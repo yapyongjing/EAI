@@ -13,7 +13,7 @@
 <div class="container">
     <h2>EAI Form List</h2><br>
     <div class="table-responsive">
-    <a href="{{ route('form.create') }}" class="btn btn-primary"> Add Operating Unit</a>
+    <a href="{{ route('oprForm.create') }}" class="btn btn-primary"> Add Operating Unit</a>
 
     <table class="table">
       <thead class="thead-dark">
@@ -36,13 +36,13 @@
                       <td>{{$form->date}}</td>
                       <td>
                         {{-- <a href="{{ route('form.show', $form->id) }}" class="btn btn-primary btn-sm">View</a> --}}
-                        <a href="{{ route('form.edit', $form->id) }}" class="btn btn-primary btn-sm">View</a>
-                        <form method="post" action="{{ route('form.destroy', $form->id) }}" style="display:inline">
+                        <a href="{{ route('oprForm.edit', $form->id) }}" class="btn btn-primary btn-sm">View</a>
+                        <form method="POST" action="{{ route('oprForm.destroy', ['id' => $form->id]) }}" style="display:inline">
                           @csrf
                           @method('DELETE')
                           <input type="submit" class="btn btn-danger btn-sm" value="Delete" onclick="return confirm(&quot;Confirm delete?&quot;)">
                         </form>
-                        <a href="{{ route('form.works.index',$form->id) }}" class="btn btn-primary btn-sm">Work Activity</a>
+                        <a href="{{ route('oprForm.work.index',['id' => $form->id]) }}" class="btn btn-secondary btn-sm">Work Activity</a>
                       </td>
                     </tr>
                 @endforeach

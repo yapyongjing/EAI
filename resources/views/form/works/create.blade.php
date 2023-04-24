@@ -16,7 +16,7 @@
                 </div>
                 <div class="card-body">
 
-                    <form method="POST" action="{{route('form.works.store',$opr->id)}}">
+                    <form method="POST" action="{{ route('oprForm.work.store', [ 'id' => $opr->id ] ) }}">
                         
                         @csrf
 
@@ -24,10 +24,13 @@
                             <label for="fkey">Location Name</label>
                             <select class="form-control" id="fkey" name="fkey">
                                 <option value="0"> Select Location</option>
-                                
                                 @foreach($options as $option)
-                                <option value="{{$opr->id}}" {{  $option->location_name== $opr->location_name ? ' selected="selected"' : '' }} >
-                                    {{$option->location_name}}</option>
+                                
+                                //option = Main work/location
+                                <option value="{{$opr->id}}" 
+                                    {{ $option->location_name == $opr->location_name ? 'selected="selected"' : 'disabled' }}>
+                                    {{$option->location_name}}
+                                </option>
                                 @endforeach
 
                             </select>
@@ -38,9 +41,9 @@
                           <select class="form-control" id="work_name" name="work_name">
                                 <option value="0"> Select Work Activity</option>
                                 
-                                @foreach($works as $work)
-                                    <option value="{{$work->work_name}}">{{$work->work_name}}</option>
-                                @endforeach
+                                    @foreach($works as $work)
+                                        <option value="{{$work->work_name}}">{{$work->work_name}}</option>
+                                    @endforeach
 
                             </select>
                         </div>
@@ -64,7 +67,7 @@
                         <br>
 
                         <button type="submit" class="float-right btn btn-dark btn-primary">Next</button>
-                        <a href="{{ route('form.works.index',$opr->id) }}" class="btn float-right"> Back</a>
+                        <a href="{{ route('oprForm.work.index',$opr->id) }}" class="btn float-right"> Back</a>
                     </form>
                 </div>
                 <div class="card-footer">

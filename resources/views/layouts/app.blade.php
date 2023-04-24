@@ -61,8 +61,8 @@
                                 </a>
                     
                                 <div class="dropdown-menu dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('form.index') }}">List</a>
-                                    <a class="dropdown-item" href="{{ route('form.create') }}">New Form</a>
+                                    <a class="dropdown-item" href="{{ route('oprForm.index') }}">List</a>
+                                    <a class="dropdown-item" href="{{ route('oprForm.create') }}">New Form</a>
                                 </div>
                             </li>
                         @endguest

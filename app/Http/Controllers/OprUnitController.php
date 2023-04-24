@@ -85,13 +85,14 @@ class OprUnitController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(OprRequest $request, $id)
+    public function update(OprRequest $request,$id)
     {
-        $opr = Operating_Unit::find($id);
         $input = $request->validated();
 
-        $opr->opr_unit_name = $input['opr_name'];
-        $opr->update();
+        $info = Operating_Unit::findOrFail($id);
+        
+        $info->opr_unit_name = $input['opr_name'];
+        $info->update();
 
         return redirect()->route('opr.index')-> with('flash_message','Operating Unit edited');
     }

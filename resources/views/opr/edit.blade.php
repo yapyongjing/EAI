@@ -15,7 +15,7 @@
                 </div>
                 <div class="card-body">
 
-                    <form method="POST" action="{{ url('opr/' .$opr->id) }}">
+                    <form method="POST" action="{{ route('opr.update',['opr'=>$opr->id])}}">
                         
                         @csrf
                         @method('PUT')

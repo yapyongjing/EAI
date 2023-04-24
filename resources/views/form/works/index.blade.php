@@ -15,9 +15,9 @@
     <br>
     
     <div class="bg-light d-flex justify-content-between">
-      <a href="{{ route('form.works.create',$opr->id)}}" class="btn btn-primary"> Add Work Activity</a>
+      <a href="{{ route('oprForm.work.create',$opr->id)}}" class="btn btn-primary"> Add Work Activity</a>
     
-      <a href="{{ route('form.index')}}" class="btn btn-dark clearfix pull-right"> Back</a>
+      <a href="{{ route('oprForm.index')}}" class="btn btn-dark clearfix pull-right"> Back</a>
     </div>
   
     <div class="table-responsive">
@@ -30,25 +30,23 @@
           </tr>
         </thead>
         <tbody>
-    
-              
 
-                  @foreach ($works as $work)
-                      
-                      <tr>
-                          <td>{{$work->work_name}}</td>
-                          <td>{{$work->condition}}</td>
-                          <td>
-                            <a href="{{ route('form.works.edit',[$opr->id, $work->id]) }}" class="btn btn-primary btn-sm">Edit</a>
-                            <form method="post" action="{{ route('form.destroy', $work->id) }}" style="display:inline">
-                              @csrf
-                              @method('DELETE')
-                              <input type="submit" class="btn btn-danger btn-sm" value="Delete" onclick="return confirm(&quot;Confirm delete?&quot;)">
-                            </form>
-                            <a href="" class="btn btn-primary btn-sm">Aspect Impact</a>
-                          </td>
-                      </tr>
-                  @endforeach
+              @foreach ($works as $work)
+                  
+                  <tr>
+                      <td>{{$work->work_name}}</td>
+                      <td>{{$work->condition}}</td>
+                      <td>
+                        <a href="{{ route('oprForm.work.edit',[$opr->id, $work->id]) }}" class="btn btn-primary btn-sm">Edit</a>
+                        <form method="post" action="{{ route('oprForm.work.destroy',[$opr->id, $work->id]) }}" style="display:inline">
+                          @csrf
+                          @method('DELETE')
+                          <input type="submit" class="btn btn-danger btn-sm" value="Delete" onclick="return confirm(&quot;Confirm delete?&quot;)">
+                        </form>
+                        <a href="{{ route('oprForm.work.aspectImpact.index',[$opr->id, $work->id]) }}" class="btn btn-secondary btn-sm">Aspect Impact</a>
+                      </td>
+                  </tr>
+              @endforeach
              
 
         </tbody>

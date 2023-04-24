@@ -6,7 +6,7 @@
     <div class="row">
         
         <div class="text-left col-4 mt-4 p-5 rounded" style="margin-bottom:0">
-            <h1>Assessment Form</h1> 
+            <h1>Importance</h1> 
             <p>Key in the Ratings</p> 
         </div>
 
@@ -18,7 +18,11 @@
 
                     <h4>2. Importance/Kepentingan</h4>
                     <br>
-                    <form name="form1" method="POST" action="">
+                    <form name="form1" method="POST" action="{{ route('oprForm.work.aspectImpact.importantRating.store', 
+                    ['id' => $workform->opr_form_id,'work_id' => $workform->id, 'ai_id' => $aspectform->id] ) }}">
+                        
+                        @csrf
+                        
                         <div class="table-responsive">
                             <table class="table">
                                 <thead class="thread-dark">
@@ -35,25 +39,26 @@
                                             <div class="form-group">
                                                 <div class="form-check-inline">
                                                     
-                                                    <input type="checkbox" class="form-check-input" name="ckb" value="1" onclick="chkcontrol(1)";> 
+                                                    <input type="radio" class="option1" name="option1" value="1" onchange="calculateTotal()" required> 
                                                     1
                                                 </div>
                                                 <div class="form-check-inline">
-                                                    <input type="checkbox" class="form-check-input" name="ckb" value="2" onclick="chkcontrol(2)";>
+                                                    <input type="radio" class="option1" name="option1" value="2" onchange="calculateTotal()" required>
                                                     2
                                                 </div>
                                                 <div class="form-check-inline">
-                                                    <input type="checkbox" class="form-check-input" name="ckb" value="3" onclick="chkcontrol(3)";> 
+                                                    <input type="radio" class="option1" name="option1" value="3" onchange="calculateTotal()" required> 
                                                     3
                                                 </div>
                                                 <div class="form-check-inline">
-                                                    <input type="checkbox" class="form-check-input" name="ckb" value="4" onclick="chkcontrol(4)";> 
+                                                    <input type="radio" class="option1" name="option1" value="4" onchange="calculateTotal()" required> 
                                                     4
                                                 </div>
                                                 <div class="form-check-inline">
-                                                    <input type="checkbox" class="form-check-input" name="ckb" value="5" onclick="chkcontrol(5)";> 
+                                                    <input type="radio" class="option1" name="option1" value="5" onchange="calculateTotal()" required> 
                                                     5
                                                 </div>
+                                            </div>
                                         </td>
                                         
                                     </tr>
@@ -63,25 +68,26 @@
                                             <div class="form-group">
                                                 <div class="form-check-inline">
                                                     
-                                                    <input type="checkbox" class="form-check-input" name="ckb" value="1" onclick="chkcontrol(1)";> 
+                                                    <input type="radio" class="option2" name="option2" value="1" onchange="calculateTotal()" required> 
                                                     1
                                                 </div>
                                                 <div class="form-check-inline">
-                                                    <input type="checkbox" class="form-check-input" name="ckb" value="2" onclick="chkcontrol(2)";>
+                                                    <input type="radio" class="option2" name="option2" value="2" onchange="calculateTotal()" required>
                                                     2
                                                 </div>
                                                 <div class="form-check-inline">
-                                                    <input type="checkbox" class="form-check-input" name="ckb" value="3" onclick="chkcontrol(3)";> 
+                                                    <input type="radio" class="option2" name="option2" value="3" onchange="calculateTotal()" required> 
                                                     3
                                                 </div>
                                                 <div class="form-check-inline">
-                                                    <input type="checkbox" class="form-check-input" name="ckb" value="4" onclick="chkcontrol(4)";> 
+                                                    <input type="radio" class="option2" name="option2" value="4" onchange="calculateTotal()" required> 
                                                     4
                                                 </div>
                                                 <div class="form-check-inline">
-                                                    <input type="checkbox" class="form-check-input" name="ckb" value="5" onclick="chkcontrol(5)";> 
+                                                    <input type="radio" class="option2" name="option2" value="5" onchange="calculateTotal()" required> 
                                                     5
                                                 </div>
+                                            </div>
                                         </td>
                                         
                                     </tr>
@@ -90,25 +96,26 @@
                                         <td>
                                             <div class="form-group">
                                                 <div class="form-check-inline">
-                                                    <input type="checkbox" class="form-check-input" name="ckb" value="1" onclick="chkcontrol(1)";> 
+                                                    <input type="radio" class="option3" name="option3" value="1" onchange="calculateTotal()" required> 
                                                     1
                                                 </div>
                                                 <div class="form-check-inline">
-                                                    <input type="checkbox" class="form-check-input" name="ckb" value="2" onclick="chkcontrol(2)";>
+                                                    <input type="radio" class="option3" name="option3" value="2" onchange="calculateTotal()" required>
                                                     2
                                                 </div>
                                                 <div class="form-check-inline">
-                                                    <input type="checkbox" class="form-check-input" name="ckb" value="3" onclick="chkcontrol(3)";> 
+                                                    <input type="radio" class="option3" name="option3" value="3" onchange="calculateTotal()" required> 
                                                     3
                                                 </div>
                                                 <div class="form-check-inline">
-                                                    <input type="checkbox" class="form-check-input" name="ckb" value="4" onclick="chkcontrol(4)";> 
+                                                    <input type="radio" class="option3" name="option3" value="4" onchange="calculateTotal()" required> 
                                                     4
                                                 </div>
                                                 <div class="form-check-inline">
-                                                    <input type="checkbox" class="form-check-input" name="ckb" value="5" onclick="chkcontrol(5)";> 
+                                                    <input type="radio" class="option3" name="option3" value="5" onchange="calculateTotal()" required> 
                                                     5
                                                 </div>
+                                            </div>
                                         </td>
                                         
                                     </tr>
@@ -118,25 +125,26 @@
                                             <div class="form-group">
                                                 <div class="form-check-inline">
                                                     
-                                                    <input type="checkbox" class="form-check-input" name="ckb" value="1" onclick="chkcontrol(1)";> 
+                                                    <input type="radio" class="option4" name="option4" value="1" onchange="calculateTotal()" required> 
                                                     1
                                                 </div>
                                                 <div class="form-check-inline">
-                                                    <input type="checkbox" class="form-check-input" name="ckb" value="2" onclick="chkcontrol(2)";>
+                                                    <input type="radio" class="option4" name="option4" value="2" onchange="calculateTotal()" required>
                                                     2
                                                 </div>
                                                 <div class="form-check-inline">
-                                                    <input type="checkbox" class="form-check-input" name="ckb" value="3" onclick="chkcontrol(3)";> 
+                                                    <input type="radio" class="option4" name="option4" value="3" onchange="calculateTotal()" required> 
                                                     3
                                                 </div>
                                                 <div class="form-check-inline">
-                                                    <input type="checkbox" class="form-check-input" name="ckb" value="4" onclick="chkcontrol(4)";> 
+                                                    <input type="radio" class="option4" name="option4" value="4" onchange="calculateTotal()" required> 
                                                     4
                                                 </div>
                                                 <div class="form-check-inline">
-                                                    <input type="checkbox" class="form-check-input" name="ckb" value="5" onclick="chkcontrol(5)";> 
+                                                    <input type="radio" class="option4" name="option4" value="5" onchange="calculateTotal()" required> 
                                                     5
                                                 </div>
+                                            </div>
                                         </td>
                                         
                                     </tr>
@@ -146,45 +154,51 @@
                                             <div class="form-group">
                                                 <div class="form-check-inline">
                                                     
-                                                    <input type="checkbox" class="form-check-input" name="ckb" value="1" onclick="chkcontrol(1)";> 
+                                                    <input type="radio" class="option5" name="option5" value="1" onchange="calculateTotal()" required> 
                                                     1
                                                 </div>
                                                 <div class="form-check-inline">
-                                                    <input type="checkbox" class="form-check-input" name="ckb" value="2" onclick="chkcontrol(2)";>
+                                                    <input type="radio" class="option5" name="option5" value="2" onchange="calculateTotal()" required>
                                                     2
                                                 </div>
                                                 <div class="form-check-inline">
-                                                    <input type="checkbox" class="form-check-input" name="ckb" value="3" onclick="chkcontrol(3)";> 
+                                                    <input type="radio" class="option5" name="option5" value="3" onchange="calculateTotal()" required> 
                                                     3
                                                 </div>
                                                 <div class="form-check-inline">
-                                                    <input type="checkbox" class="form-check-input" name="ckb" value="4" onclick="chkcontrol(4)";> 
+                                                    <input type="radio" class="option5" name="option5" value="4" onchange="calculateTotal()" required> 
                                                     4
                                                 </div>
                                                 <div class="form-check-inline">
-                                                    <input type="checkbox" class="form-check-input" name="ckb" value="5" onclick="chkcontrol(5)";> 
+                                                    <input type="radio" class="option5" name="option5" value="5" onchange="calculateTotal()" required> 
                                                     5
                                                 </div>
+                                            </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p>Accumalated Ratings (AR)</p>
-                                            <p style="font-size:0.7vw; color:Tomato;">*AR &lt;11, Not significant</p>
-                                            <p style="font-size:0.7vw; color:Tomato;">*AR =&gt;11, Significant</p>
-                                            <p style="font-size:0.7vw; color:Tomato;">*AR &lt;11 and R&gt;1, Significant</p>
+                                            <p class="form-check-inline" style="font-size:0.7vw; color:Tomato;">*AR &lt;11, Not significant</p>
+                                            <p class="form-check-inline" style="font-size:0.7vw; color:Tomato;">*AR =&gt;11, Significant</p>
+                                            <p class="form-check-inline" style="font-size:0.7vw; color:Tomato;">*AR &lt;11 and R&gt;1, Significant</p>
                                         </td>
+                                    </tr>
+                                    <tr>
                                         <td>
-                                            <div id=msg></div>
+                                            <p class="form-check-inline" >Accumalated Ratings (AR): </p>
+                                            <div class="form-check-inline" id=msg></div>
+                                            <div name = "msg2" id = "msg2"></div>
+                                            <input type="hidden" name="result" id="result">
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
+                            <button type="submit" class="float-right btn btn-dark btn-primary">Save & Submit</button>
+                            <a href="{{ route('oprForm.work.aspectImpact.index', [$workform->opr_form_id,$workform->id]) }}" class="btn"> Back</a>
                         </div> 
                     </form>
                 </div>
                 <div class="card-footer">
-                    <div id = msg2></div>
                 </div>
             </div>
         </div>
@@ -194,25 +208,46 @@
 
 @section('scripts')
 <script> 
-    function chkcontrol(j) {
-        var sum=0;
-        for(var i=0; i < document.form1.ckb.length; i++){
-        
-            if(document.form1.ckb[i].checked){
-                sum = sum + parseInt(document.form1.ckb[i].value);
+   function calculateTotal(){
 
-                if(sum == 0){
-                    document.getElementById("msg").innerHTML="0";
-                }else if(sum >10){
-                    document.getElementById("msg").innerHTML=" "+ sum;
-                    document.getElementById("msg2").innerHTML= "Significant Risk";
-                }else{
-                    document.getElementById("msg").innerHTML= " "+sum;
-                    document.getElementById("msg2").innerHTML= "Not Significant Risk";
+       // check if page is reloaded or submitted
+       if (performance.navigation.type === 1 || performance.navigation.type === 0) { 
+        localStorage.removeItem("total");
+        total = 0;
+        }
+
+        var total = parseInt(localStorage.getItem("total")) || 0;
+        var optionClasses = ["option1", "option2", "option3", "option4", "option5"];
+        var option3Selected = false;
+
+        for (var i = 0; i < optionClasses.length; i++) {
+            var options = document.querySelectorAll("." + optionClasses[i]);
+            
+            for (var j = 0; j < options.length; j++) {
+            if (options[j].checked) {
+                total += parseInt(options[j].value);
+                
+                // check if Regulatory is selected
+                if (optionClasses[i] === "option3") {
+                option3Selected = true;
                 }
             }
-            
+            }
         }
+
+        localStorage.setItem("total", total);
+        
+        document.getElementById("msg").innerHTML = total;
+        
+        // check if total is greater than or equal to 11 and either Regulatory is selected
+            if (total >= 11 || (option3Selected && document.querySelectorAll("input[type='radio']:checked").length > 0)) {
+                document.getElementById("msg2").innerHTML = "Significant Risk";
+                document.getElementById("result").value = document.getElementById("msg2").innerHTML;
+            } else {
+                document.getElementById("msg2").innerHTML = "Not Significant Risk";
+                document.getElementById("result").value = document.getElementById("msg2").innerHTML;
+            }
     }
-    </script>
+
+</script>
 @endsection
