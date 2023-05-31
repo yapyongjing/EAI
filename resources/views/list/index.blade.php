@@ -12,7 +12,8 @@
 
 <div class="container">
     <h2>Work Activity List</h2>
-    <a href="{{ route('list.create') }}" class="btn btn-primary"> Add</a>
+    <a href="{{ route('list.create') }}" class="btn btn-primary"> Add Work Activity</a>
+    <a href="{{ route('aspect_impact.create') }}" class="btn btn-primary"> Add Aspect Impact</a>
     <div class="table-responsive">
       <table class="table">
         <thead class="thead-dark">
@@ -56,6 +57,7 @@
         </tbody>
       </table>
     </div>
+    {{ $lists->links() }}
 </div>
 @endsection
 

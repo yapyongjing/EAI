@@ -14,8 +14,13 @@ class AspectImpactForm extends Model
         return $this->belongsTo(WorkForm::class,'work_form_id');
     }
 
-    public function rating()
+    public function ratings()
     {
         return $this->hasMany(Rating::class);
+    }
+
+    public function risks()
+    {
+        return $this->hasMany(RiskControl::class);
     }
 }

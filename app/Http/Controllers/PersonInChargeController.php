@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\OprRequest;
-use App\Models\Operating_Unit;
+use App\Models\PersonInCharge;
 
-//operating unit
-class OprUnitController extends Controller
+class PersonInChargeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +14,8 @@ class OprUnitController extends Controller
      */
     public function index()
     {
-    
-        return view('opr.index', [
-            'oprs' => Operating_Unit::all()
+        return view('pic.index', [
+            'pics' => PersonInCharge::cursorPaginate(10)
             
         ]);
     }
@@ -30,8 +27,7 @@ class OprUnitController extends Controller
      */
     public function create()
     {
-        //
-        return view('opr.create');
+        return view('pic.create');
     }
 
     /**
@@ -40,18 +36,20 @@ class OprUnitController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(OprRequest $request)
+    public function store(Request $request)
     {
-        $data = $request-> validated();
+        $data = $request-> validate([
+            'pic_name' => 'required',
+        ]);
 
-        $info = new Operating_Unit();
+        $info = new PersonInCharge();
 
 
-        $info->opr_unit_name = $data['opr_name'];//get input from create.php
+        $info->person_in_charge_name = $data['pic_name'];//get input from create.php
 
         $info->save();
 
-        return redirect()->route('opr.index')-> with('flash_message','Operating Unit Added');
+        return redirect()->route('pic.index')-> with('flash_message','User Added');
     }
 
     /**
@@ -71,9 +69,9 @@ class OprUnitController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Operating_Unit $opr)
+    public function edit(PersonInCharge $pic)
     {
-        return view('opr.edit', compact('opr'));
+        return view('pic.edit', compact('pic'));
     }
 
     /**
@@ -83,16 +81,19 @@ class OprUnitController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(OprRequest $request,$id)
+    public function update(Request $request, $pic)
     {
-        $input = $request->validated();
+        $data = $request-> validate([
+            'pic_name' => 'required',
+        ]);
 
-        $info = Operating_Unit::findOrFail($id);
+        $info = PersonInCharge::findOrFail($pic);
         
-        $info->opr_unit_name = $input['opr_name'];
+        $info->person_in_charge_name = $data['pic_name'];
+
         $info->update();
 
-        return redirect()->route('opr.index')-> with('flash_message','Operating Unit edited');
+        return redirect()->route('pic.index')-> with('flash_message','User edited');
     }
 
     /**
@@ -101,10 +102,10 @@ class OprUnitController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($pic)
     {
-        Operating_Unit::destroy($id);
+        PersonInCharge::destroy($pic);
 
-        return redirect('opr')->with('flash_message', 'Operating Unit deleted!');
+        return redirect()->route('pic.index')->with('flash_message', 'Unit deleted!');
     }
 }

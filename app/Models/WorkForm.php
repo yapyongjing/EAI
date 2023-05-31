@@ -20,4 +20,14 @@ class WorkForm extends Model
     {
         return $this->hasMany(AspectImpactForm::class);
     }
+
+    public function ratings()
+    {
+        return $this->hasManyThrough(Rating::class,AspectImpactForm::class);
+    }
+
+    public function risks()
+    {
+        return $this->hasManyThrough(RiskControl::class,AspectImpactForm::class);
+    }
 }

@@ -7,7 +7,7 @@
         
         <div class="text-left col-4 mt-4 p-5 rounded" style="margin-bottom:0">
             <h1>Importance</h1> 
-            <p>Key in the Ratings</p> 
+            <p>Edit Ratings</p> 
         </div>
 
         <div class="col-8">
@@ -18,8 +18,8 @@
 
                     <h4>2. Importance/Kepentingan</h4>
                     <br>
-                    <form name="form1" method="POST" action="{{ route('oprForm.work.aspectImpact.importantRating.update', 
-                    ['id' => $workform->opr_form_id,'work_id' => $workform->id, 'ai_id' => $aspectform->id] ) }}">
+                    <form name="form1" method="POST" action="{{ route('oprForm.work.aspectImpact.importantRate.update', 
+                    ['id' => $id,'work_id' => $work_id, 'ai_id' => $ai_id,'rating_id' => $rating_id] ) }}">
                         
                         @csrf
                         @method('PUT')
@@ -34,6 +34,7 @@
                                 </thead>
 
                                 <tbody>
+                                    @foreach ($ratings as $rating)
                                     <tr>
                                         <td>Frequency (F)</td>
                                         <td>
@@ -192,10 +193,11 @@
                                             <input type="hidden" name="result" id="result">
                                         </td>
                                     </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                             <button type="submit" class="float-right btn btn-dark btn-primary">Save & Submit</button>
-                            <a href="{{ route('oprForm.work.aspectImpact.index', [$workform->opr_form_id,$workform->id]) }}" class="btn"> Back</a>
+                            <a href="{{ route('oprForm.work.aspectImpact.index', [$id,$work_id]) }}" class="btn"> Back</a>
                         </div> 
                     </form>
                 </div>

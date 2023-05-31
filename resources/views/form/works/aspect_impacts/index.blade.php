@@ -11,7 +11,7 @@
 @endif
 
 <div class="container">
-    <h2>Work Activity on {{$work->work_name}}</h2>
+    <h2>Aspect Impact on {{$work->work_name}}</h2>
     <br>
     
     <div class="bg-light d-flex justify-content-between">
@@ -33,28 +33,46 @@
         <tbody>
 
               @foreach ($aspects as $aspect)
-                  
                   <tr>
-                      <td>{{$aspect->aspect_name}}</td>
-                      <td>{{$aspect->impact_name}}</td>
-                      <td>{{$aspect->requirement_name}}</td>
+                      <td>{{ $aspect->aspect_name }}</td>
+                      <td>{{ $aspect->impact_name }}</td>
+                      <td>{{ $aspect->requirement_name }}</td>
                       <td>
-                        <a href="{{ route('oprForm.work.aspectImpact.edit',[$opr->id, $work->id, $aspect->id]) }}" class="btn btn-primary btn-sm">Edit</a>
-                        <form method="post" action="{{ route('oprForm.work.aspectImpact.destroy',[$opr->id, $work->id,$aspect->id]) }}" style="display:inline">
-                          @csrf
-                          @method('DELETE')
-                          <input type="submit" class="btn btn-danger btn-sm" value="Delete" onclick="return confirm(&quot;Confirm delete?&quot;)">
-                        </form>
-                        {{-- @if ($ratingExists) 
-                          <a href="{{ route('oprForm.work.aspectImpact.importantRating.edit',[$opr->id, $work->id, $aspect->id]) }}" class="btn btn-secondary btn-sm">Importance1</a>
-                        @else --}}
-                        <a href="{{ route('oprForm.work.aspectImpact.importantRating.index',[$opr->id, $work->id, $aspect->id]) }}" class="btn btn-secondary btn-sm">Importance</a>
-                        {{-- @endif --}}
+                          <a href="{{ route('oprForm.work.aspectImpact.edit',[$id, $work->id, $aspect->id]) }}" class="btn btn-primary btn-sm">Edit</a>
+                          {{-- delete button --}}
+                          <form method="post" action="{{ route('oprForm.work.aspectImpact.destroy',[$id, $work->id,$aspect->id]) }}" style="display:inline">
+                              @csrf
+                              @method('DELETE')
+                              <input type="submit" class="btn btn-danger btn-sm" value="Delete" onclick="return confirm(&quot;Confirm delete?&quot;)">
+                          </form>
+
+                          {{-- Importance button --}}
+                          @foreach ($ratings as $rating)
+                              @if ($rating->aspect_impact_form_id == $aspect->id) 
+                                  <a href="{{ route('oprForm.work.aspectImpact.importantRate.edit',[$id, $work->id, $aspect->id,$rating->id]) }}" class="btn btn-secondary btn-sm">Edit Importance</a>
+                              @endif
+                          @endforeach
+
+                          @if ($aspect->ratings->isEmpty())
+                              <a href="{{ route('oprForm.work.aspectImpact.importantRate.index',[$id, $work->id, $aspect->id]) }}" class="btn btn-secondary btn-sm">New Importance</a>
+                          @endif
+
+                          {{--Risk Control button--}}
+                          @foreach ($risks as $risk)
+                              @if ($risk->aspect_impact_form_id == $aspect->id) 
+                                <a href="{{ route('oprForm.work.aspectImpact.riskControl.edit',[$id, $work->id, $aspect->id,$risk->id])}}" class="btn btn-secondary btn-sm">Edit Risk Control</a>
+                              @endif
+                          @endforeach
+
+                          @if ($aspect->risks->isEmpty())
+                            <a href="{{ route('oprForm.work.aspectImpact.riskControl.index',[$id, $work->id, $aspect->id])}}" class="btn btn-secondary btn-sm">New Risk Control</a>
+                          @endif
+
+                          <a href="{{ route('oprForm.work.aspectImpact.print-pdf', [$id, $work->id, $aspect->id]) }}" target="_blank" class="btn btn-info btn-sm">Print</a>
+
                       </td>
                   </tr>
               @endforeach
-             
-
         </tbody>
       </table>
     </div>

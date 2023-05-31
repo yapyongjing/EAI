@@ -18,7 +18,13 @@ class WorkController extends Controller
      */
     public function index()
     {
-        $lists = Aspect_Impact::with('workAspect')->orderBy('id','asc')->get();
+        $lists = Aspect_Impact::with('workAspect')
+        ->orderBy('work_id', 'asc')
+        ->simplepaginate(8); 
+
+        // ->join('works', 'aspect__impacts.work_id', '=', 'works.id')
+        // ->orderBy('works.work_name', 'asc')
+        // ->cursorPaginate(8);
 
         return view('list.index', compact('lists'));
     }
@@ -54,7 +60,7 @@ class WorkController extends Controller
     
         $info->save();
 
-        return redirect()->route('aspect_impact.create');//go to aspect_impact create page
+        return redirect()->route('list.index')->with('flash_message', 'Work Activity Added!');
         
     }
 
@@ -100,7 +106,7 @@ class WorkController extends Controller
         $list->mainWork_id = $input['fkey'];
         $list->update();
 
-        return redirect()->route('aspect_impact.edit',$list->id);//go to aspect_impact edit page
+        return redirect()->route('list.index')->with('flash_message', 'Work Activity Successfully Updated!');
     }
 
     /**
@@ -109,10 +115,10 @@ class WorkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Work $id)
     {
         Work::destroy($id);
 
-        return redirect('list')->with('flash_message', 'Work Activity deleted!');
+        return redirect()->route('list.index')->with('flash_message', 'Work Activity deleted!');
     }
 }

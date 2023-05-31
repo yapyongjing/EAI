@@ -43,6 +43,7 @@
                           <input type="submit" class="btn btn-danger btn-sm" value="Delete" onclick="return confirm(&quot;Confirm delete?&quot;)">
                         </form>
                         <a href="{{ route('oprForm.work.index',['id' => $form->id]) }}" class="btn btn-secondary btn-sm">Work Activity</a>
+                        {{-- <a href="{{ route('oprForm.print-pdf', ['id' => $form->id]) }}" target="_blank" class="btn btn-info btn-sm">Print</a> --}}
                       </td>
                     </tr>
                 @endforeach
@@ -54,11 +55,11 @@
 
       </tbody>
     </table>
-    
+
     </div>
 </div>
 @endsection
 
 @section('scripts')
-    
+
 @endsection

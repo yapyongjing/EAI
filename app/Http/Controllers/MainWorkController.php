@@ -17,7 +17,9 @@ class MainWorkController extends Controller
      */
     public function index()
     {
-        $locations = Main_Work::with('opr')->orderBy('opr_id','asc')->get();
+        $locations = Main_Work::with('opr')
+        ->orderBy('opr_id','asc')
+        ->simplepaginate(10);
 
         return view('location.index', compact(var_name: 'locations'));
     }

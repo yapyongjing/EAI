@@ -1,14 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
+use App\Http\Controllers\PersonInChargeController;
 use App\Http\Controllers\OprUnitController;
 use App\Http\Controllers\MainWorkController;
 use App\Http\Controllers\WorkController;
 use App\Http\Controllers\AspectImpactController;
+
 use App\Http\Controllers\OprFormController;
 use App\Http\Controllers\WorkFormController;
 use App\Http\Controllers\AspectImpactFormController;
 use App\Http\Controllers\ImportanceRatingController;
+use App\Http\Controllers\RiskControlController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +31,17 @@ Route::get('/', function () {
 });
 
 
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::controller(PersonInChargeController::class)->group(function() {
+    Route::get('/person-in-charge', 'index')->name('pic.index');
+    Route::get('/person-in-charge-create', 'create')->name('pic.create');
+    Route::post('/person-in-charge-store', 'store')->name('pic.store');
+    Route::get('/person-in-charge/{pic}', 'edit')->name('pic.edit');
+    Route::put('/person-in-charge/{pic}', 'update')->name('pic.update');
+    Route::delete('/person-in-charge/{pic}/destroy', 'destroy')->name('pic.destroy');
+});
 //operating unit
 // Route::resource('opr',OprUnitController::class);
 Route::controller(OprUnitController::class)->group(function() {
@@ -54,7 +70,8 @@ Route::controller(WorkController::class)->group(function() {
 //aspect impact
 Route::resource('aspect_impact',AspectImpactController::class);
 
-//form controller
+//form section
+//operating unit form controller
 // Route::resource('form',OprFormController::class);//operating unit form
 Route::controller(OprFormController::class)->group(function() {
     Route::get('/opr-forms', 'index')->name('oprForm.index');
@@ -63,6 +80,7 @@ Route::controller(OprFormController::class)->group(function() {
     Route::get('/opr-forms/{id}', 'edit')->name('oprForm.edit');
     Route::put('/opr-forms/{id}', 'update')->name('oprForm.update');
     Route::delete('/opr-forms/{id}/destroy', 'destroy')->name('oprForm.destroy');
+    // Route::get('/opr-forms/{id}/print-pdf', 'printPdf')->name('oprForm.print-pdf');
 });
 
 //work activity form
@@ -84,17 +102,30 @@ Route::controller(AspectImpactFormController::class)->group(function() {
     Route::get('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}', 'edit')->name('oprForm.work.aspectImpact.edit');
     Route::put('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}', 'update')->name('oprForm.work.aspectImpact.update');
     Route::delete('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}/destroy', 'destroy')->name('oprForm.work.aspectImpact.destroy');
+    Route::get('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}/print-pdf', 'printPdf')->name('oprForm.work.aspectImpact.print-pdf');
+
 });
 
+//rating aka "importance"
 Route::controller(ImportanceRatingController::class)->group(function() {
-    Route::get('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}/importance-rating', 'index')->name('oprForm.work.aspectImpact.importantRating.index');
-    Route::get('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}/importance-rating-create', 'create')->name('oprForm.work.aspectImpact.importantRating.create');
-    Route::post('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}/importance-rating-store', 'store')->name('oprForm.work.aspectImpact.importantRating.store');
-    Route::get('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}/importance-rating-edit', 'edit')->name('oprForm.work.aspectImpact.importantRating.edit');
-    Route::put('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}/importance-rating-update', 'update')->name('oprForm.work.aspectImpact.importantRating.update');
+    Route::get('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}/importance-rating', 'index')->name('oprForm.work.aspectImpact.importantRate.index');
+    Route::get('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}/importance-rating-create', 'create')->name('oprForm.work.aspectImpact.importantRate.create');
+    Route::post('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}/importance-rating-store', 'store')->name('oprForm.work.aspectImpact.importantRate.store');
+    Route::get('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}/importance-rating/{rating_id}', 'edit')->name('oprForm.work.aspectImpact.importantRate.edit');
+    Route::put('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}/importance-rating/{rating_id}', 'update')->name('oprForm.work.aspectImpact.importantRate.update');
+    Route::delete('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}/importance-rating/{rating_id}/destroy', 'destroy')->name('oprForm.work.aspectImpact.importantRate.destroy');
+});
 
+//Risk Control/Mitigation Measures
+Route::controller(RiskControlController::class)->group(function() {
+    Route::get('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}/risk-control', 'index')->name('oprForm.work.aspectImpact.riskControl.index');
+    Route::get('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}/risk-control-create', 'create')->name('oprForm.work.aspectImpact.riskControl.create');
+    Route::post('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}/risk-control-store', 'store')->name('oprForm.work.aspectImpact.riskControl.store');
+    Route::get('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}/risk-control/{risk_id}', 'edit')->name('oprForm.work.aspectImpact.riskControl.edit');
+    Route::put('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}/risk-control/{risk_id}', 'update')->name('oprForm.work.aspectImpact.riskControl.update');
+    Route::delete('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}/risk-control/{risk_id}/destroy', 'destroy')->name('oprForm.work.aspectImpact.riskControl.destroy');
 });
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+

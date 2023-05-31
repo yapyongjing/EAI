@@ -49,9 +49,8 @@
 
       </tbody>
     </table>
-    
-      
     </div>
+    {{$locations->links()}}
 </div>
 @endsection
 

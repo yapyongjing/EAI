@@ -9,6 +9,8 @@ use App\Models\AspectImpactForm;
 use App\Http\Requests\AspectImpactFormRequest;
 use App\Models\Work;
 use App\Models\Aspect_Impact;
+use App\Models\Rating;
+use Barryvdh\DomPDF\Facade\Pdf as Pdf;
 
 class AspectImpactFormController extends Controller
 {
@@ -19,12 +21,12 @@ class AspectImpactFormController extends Controller
      */
     public function index($id,$work_id)
     {
-        $opr = OprForm::find($id);
         $work = WorkForm::find($work_id);
         $aspects = $work->aspects;
-        $ratingExists = $work->aspects()->first();
+        $ratings = $work->ratings;
+        $risks = $work->risks;
 
-        return view('form.works.aspect_impacts.index', compact('opr','work','aspects','ratingExists'));
+        return view('form.works.aspect_impacts.index', compact('id','work','aspects','ratings','risks'));
     }
 
     /**
@@ -84,14 +86,14 @@ class AspectImpactFormController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id,$work_id,$ai_id)
+    public function edit($id,$work_id,$ai_id,)
     {
         $options = Work::all();
         $aspects = Aspect_Impact::all();
         $rqms = $aspects->unique('requirement_name');
         $opr = OprForm::with('works')->findOrFail($id);
         $workform = WorkForm::with('aspects')->findOrFail($work_id);
-        $aiform = AspectImpactForm::find($ai_id);
+        $aiform = AspectImpactForm::findOrFail($ai_id);
 
         return view('form.works.aspect_impacts.edit',[
             'options' => $options,
@@ -141,5 +143,27 @@ class AspectImpactFormController extends Controller
         $ai_id->delete();
 
         return redirect()->route('oprForm.work.aspectImpact.index',[$id,$work_id])-> with('flash_message','Work Activity deleted!');
+    }
+
+    public function printPdf($id,$work_id,$ai_id)
+    {
+        //OprForm
+            //MainWorkForm
+                //WorkForm
+                    //AspectImpactForm
+                        //ImportanceRating
+                        //RiskControl
+        $form = AspectImpactForm::with([
+            'workForm.oprForm',
+            'ratings',
+            'risks'
+        ])
+            ->find($ai_id);
+
+        $logoUrl = public_path('logo.png');
+        
+        $pdf = PDF::loadView('form.pdf',['form' => $form, 'logoUrl' => $logoUrl]);
+        
+        return $pdf->stream('form.pdf');
     }
 }

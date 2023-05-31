@@ -13,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('main__works', function (Blueprint $table) {
+        Schema::create('person_in_charges', function (Blueprint $table) {
             $table->id();
-            $table->string('location_name');
-            $table->foreignId('opr_id')// name of foreign key column
-            ->constrained('operating__units')//table name
-            ->onUpdate('cascade')
-            ->onDelete('cascade');
+            $table->string('person_in_charge_name');
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('main__works');
+        Schema::dropIfExists('person_in_charges');
     }
 };

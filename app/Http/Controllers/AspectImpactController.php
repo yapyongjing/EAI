@@ -55,7 +55,7 @@ class AspectImpactController extends Controller
 
         $info->save();
 
-        return redirect()->route('list.index')->with('flash_message', 'Work Activity Added!'); //then return back to list view
+        return redirect()->route('list.index')->with('flash_message', 'Aspect Impact Added!');
     }
 
     /**
@@ -108,7 +108,7 @@ class AspectImpactController extends Controller
         $aspect->work_id = $input['fkey'];
         $aspect->update();
 
-        return redirect()->route('list.index')->with('flash_message', 'Successfully Updated!');
+        return redirect()->route('list.index')->with('flash_message', 'Aspect Impact Successfully Updated!');
 
     }
 

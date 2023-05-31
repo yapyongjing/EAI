@@ -18,8 +18,8 @@
 
                     <h4>2. Importance/Kepentingan</h4>
                     <br>
-                    <form name="form1" method="POST" action="{{ route('oprForm.work.aspectImpact.importantRating.store', 
-                    ['id' => $workform->opr_form_id,'work_id' => $workform->id, 'ai_id' => $aspectform->id] ) }}">
+                    <form name="form1" method="POST" action="{{ route('oprForm.work.aspectImpact.importantRate.store', 
+                    ['id' => $id,'work_id' => $work_id, 'ai_id' => $ai_id] ) }}">
                         
                         @csrf
                         
@@ -194,7 +194,7 @@
                                 </tbody>
                             </table>
                             <button type="submit" class="float-right btn btn-dark btn-primary">Save & Submit</button>
-                            <a href="{{ route('oprForm.work.aspectImpact.index', [$workform->opr_form_id,$workform->id]) }}" class="btn"> Back</a>
+                            <a href="{{ route('oprForm.work.aspectImpact.index', [$id,$work_id]) }}" class="btn"> Back</a>
                         </div> 
                     </form>
                 </div>

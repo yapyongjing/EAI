@@ -7,6 +7,8 @@ use App\Http\Requests\ListFormRequest;
 use App\Models\Main_Work;
 use App\Models\Operating_Unit;
 use App\Models\OprForm;
+use Barryvdh\DomPDF\Facade\Pdf as Pdf;
+
 
 //main work/location
 class OprFormController extends Controller
@@ -20,6 +22,10 @@ class OprFormController extends Controller
     {
         $forms = OprForm::all();
 
+        // $pdf = Pdf::loadView('pdf.invoice', $data);
+        // return $pdf->download('invoice.pdf');
+
+        
         return view('form.index', compact(var_name: 'forms'));
     }
 
@@ -50,7 +56,7 @@ class OprFormController extends Controller
         //
         $info = new OprForm();
 
-        // return $this->hasMany('App\Models\MainWork', 'foreign_key');
+        
         $info->operating_name =  $data['opr_name'];
         $info->location_name =  $data['location_name'];
         $info->date =  $data['date'];
@@ -90,15 +96,11 @@ class OprFormController extends Controller
         $oprs = Operating_Unit::all();
         $locations = Main_Work::all();
         $form = OprForm::find($id);
-        // $works = Work::all();
-        // $aspects = AspectImpact::all();
+        
         return view('form.edit',[
             'form' => $form,
             'oprs' => $oprs,
             'locations' => $locations,
-            // 'works'=> $works,
-            // 'aspects' => $aspects,
-            // 'impacts' => explode(',',$forms->impact_name)
         ]);
     }
 
@@ -116,13 +118,9 @@ class OprFormController extends Controller
         $info = OprForm::find($id);
         
         $info->operating_name =  $data['opr_name'];
-        $info->location_name =  $data['location_name'];//get input from create.php
+        $info->location_name =  $data['location_name'];
         $info->date =  $data['date'];
-        // $info->work_name = $data['work_name'];
-        // $info->condition =  $data['con'];
-        // $info->aspect_name =  $data['aspect'];
-        // $info->impact_name =  implode(',', $data['impact']);
-        // $info->requirement_name =  $data['rqm'];
+
         $info->update();
 
         return redirect()->route('oprForm.index')->with('flash_message', 'Form Edited!');
@@ -140,4 +138,29 @@ class OprFormController extends Controller
 
         return redirect()->route('oprForm.index')->with('flash_message', 'Form deleted!');
     }
+
+    // public function printPdf($id)
+    // {
+    //     //OprForm
+    //         //MainWorkForm
+    //             //WorkForm
+    //                 //AspectImpactForm
+    //                     //ImportanceRating
+    //                     //RiskControl
+    //     $form = OprForm::with([
+    //         'works' => [
+    //             'aspects' => [
+    //                 'ratings',
+    //                 'risks'
+    //             ]
+    //         ]
+    //     ])
+    //         ->find($id);
+
+    //     $logoUrl = public_path('logo.png');
+        
+    //     $pdf = PDF::loadView('form.pdf',['form' => $form, 'logoUrl' => $logoUrl]);
+        
+    //     return $pdf->stream('form.pdf');
+    // }
 }

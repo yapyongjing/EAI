@@ -97,7 +97,7 @@
                         <br>
 
                         <button type="submit" class="float-right btn btn-dark btn-primary">Submit</button>
-                        <a href="{{ route('list.create') }}" class="btn float-right"> Back</a>
+                        <a href="{{ route('list.index') }}" class="btn float-right"> Back</a>
                     </form>
                 </div>
                 <div class="card-footer">

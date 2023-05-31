@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\OprForm;
 use App\Models\WorkForm;
 use App\Models\AspectImpactForm;
 use App\Models\Rating;
@@ -16,10 +17,13 @@ class ImportanceRatingController extends Controller
      */
     public function index($id,$work_id,$ai_id)
     {
-        $workform = WorkForm::with('aspects')->findOrFail($work_id);
-        $aspectform = AspectImpactForm::findOrFail($ai_id);
+        // $workform = WorkForm::with('aspects')->findOrFail($work_id);
 
-        return view('form.works.aspect_impacts.ratings.index',compact('workform','aspectform'));
+        return view('form.works.aspect_impacts.ratings.index',[
+            'id' => $id,
+            'work_id' => $work_id,
+            'ai_id' => $ai_id,
+            ]);
     }
 
     /**
@@ -27,9 +31,15 @@ class ImportanceRatingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($work_id,$ai_id)
     {
-        //
+        // $workform = WorkForm::with('aspects')->findOrFail($work_id);
+        // // $aspectform = AspectImpactForm::findOrFail($ai_id);
+
+        // return view('form.works.aspect_impacts.ratings.create',[
+        //     'workform' => $workform,
+        //     'ai_id' => $ai_id,
+        //     ]);
     }
 
     /**
@@ -40,8 +50,8 @@ class ImportanceRatingController extends Controller
      */
     public function store(Request $request, $id, $work_id,$ai_id)
     {
-        $aspectform = AspectImpactForm::findOrFail($ai_id);
-        $info = new Rating;
+        // $aspectform = AspectImpactForm::findOrFail($ai_id);
+        $info = new Rating();
 
         $info->option1 = $request->input('option1');
         $info->option2 = $request->input('option2');
@@ -49,7 +59,7 @@ class ImportanceRatingController extends Controller
         $info->option4 = $request->input('option4');
         $info->option5 = $request->input('option5');
         $info->risk = $request->input('result');
-        $info->aspect_impact_form_id = $aspectform->id;
+        $info->aspect_impact_form_id = $ai_id;
 
         $info->save();
 
@@ -73,17 +83,20 @@ class ImportanceRatingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id,$work_id,$ai_id)
+    public function edit($id,$work_id,$ai_id,$rating_id)
     {
 
-        $workform = WorkForm::with('aspects')->findOrFail($work_id);
-        $aspectform = AspectImpactForm::findOrFail($ai_id);
-        $rating = $aspectform->rating;
-
+        // $workform = WorkForm::findOrFail($work_id);
+        $aspectform = AspectImpactForm::with(['ratings'])->findOrFail($ai_id);
+        $ratings = $aspectform->ratings;
+    
         return view('form.works.aspect_impacts.ratings.edit',[
-            'workform' => $workform,
+            'id' => $id,
+            'work_id' => $work_id,
+            'ai_id' => $ai_id,
+            'rating_id' => $rating_id,
             'aspectform' => $aspectform,
-            'rating' => $rating,
+            'ratings' => $ratings,
         ]);
     }
 
@@ -94,9 +107,23 @@ class ImportanceRatingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, $work_id,$ai_id,$rating_id)
     {
-        //
+        // $aspectform = AspectImpactForm::findOrFail($ai_id);
+        $info = Rating::where('aspect_impact_form_id', $ai_id)->findOrFail($rating_id);
+
+        $info->option1 = $request->input('option1');
+        $info->option2 = $request->input('option2');
+        $info->option3 = $request->input('option3');
+        $info->option4 = $request->input('option4');
+        $info->option5 = $request->input('option5');
+        $info->risk = $request->input('result');
+        $info->aspect_impact_form_id = $ai_id;
+
+        $info->update();
+
+        return redirect()->route('oprForm.work.aspectImpact.index', [$id,$work_id])-> with('flash_message','Rating Edited');
+
     }
 
     /**
@@ -105,8 +132,10 @@ class ImportanceRatingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(OprForm $id,WorkForm $work_id, Rating $rating_id)
     {
-        //
+        // $rating_id->delete();
+
+        // return redirect()->route('oprForm.work.aspectImpact.index',[$id,$work_id])-> with('flash_message','Work Activity deleted!');
     }
 }
