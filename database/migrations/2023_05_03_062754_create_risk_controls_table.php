@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('risk_controls', function (Blueprint $table) {
             $table->id();
-            $table->string('exisitng_control_measures');
+            $table->string('existing_control_measures');
             $table->string('action_plan');
             $table->string('person_in_charge');
             $table->string('time_frame');

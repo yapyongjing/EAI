@@ -50,19 +50,21 @@
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('list.index') }}">Work Activity</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="{{ route('pic.index') }}">User</a>
-                                    
+                                    {{-- <a class="dropdown-item" href="{{ route('pic.index') }}">Person In Charge</a>
+                                    <div class="dropdown-divider"></div> --}}
+                                    <a class="dropdown-item" href="{{ route('users.index') }}">User</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{{ route('roles.index') }}">Roles</a>
                                 </div>
                             </li>
                         {{-- form --}}
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                Form
+                                Aspect Impact
                                 </a>
                     
                                 <div class="dropdown-menu dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('oprForm.index') }}">List</a>
-                                    <a class="dropdown-item" href="{{ route('oprForm.create') }}">New Form</a>
+                                    <a class="dropdown-item" href="{{ route('oprForm.index') }}">Aspect Impact List</a>
                                 </div>
                             </li>
                         @endguest

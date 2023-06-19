@@ -26,9 +26,9 @@
                         @method('PUT')
 
                         <div class="form-group">
-                            <label for="ECM">Exisitng Control Measures</label>
+                            <label for="ECM">Existing Control Measures</label>
                             <input type="text" class="form-control" id="ECM" placeholder="Enter Exisitng Control Measures" name="ECM" 
-                            value="{{ $risk->exisitng_control_measures }}" required>
+                            value="{{ $risk->existing_control_measures }}" required>
                             @error('ECM')
                             <div class="form-error">
                                 {{$message}}
@@ -54,10 +54,10 @@
                             <select class="form-control" name="pic">
                                 <option value="0"> Select Person In Charge</option>
                                 
-                                @foreach($pics as $pic)
-                                <option value="{{$pic->person_in_charge_name}}"
-                                    {{$pic->person_in_charge_name == $risk->person_in_charge ? ' selected="selected"' : '' }}>
-                                    {{$pic->person_in_charge_name}}
+                                @foreach($users as $user)
+                                <option value="{{$user->name}}"
+                                    {{$user->name == $risk->person_in_charge ? ' selected="selected"' : '' }}>
+                                    {{$user->name}}
                                 </option>
                                 @endforeach
 

@@ -70,7 +70,7 @@
                         </div>
                         <br>
 
-                        <button type="submit" class="float-right btn btn-dark btn-primary">Next</button>
+                        <button type="submit" class="float-right btn btn-dark btn-primary">Save</button>
                         <a href="{{ route('list.index') }}" class="btn float-right"> Back</a>
                     </form>
                 </div>

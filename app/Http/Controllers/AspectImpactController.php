@@ -108,7 +108,7 @@ class AspectImpactController extends Controller
         $aspect->work_id = $input['fkey'];
         $aspect->update();
 
-        return redirect()->route('list.index')->with('flash_message', 'Aspect Impact Successfully Updated!');
+        return redirect()->route('list.index')->with('flash_message', 'Work Activity Successfully Updated!');
 
     }
 

@@ -13,6 +13,16 @@
 <div class="container">
     <h2>EAI Location List</h2>
     <a href="{{ route('location.create') }}" class="btn btn-primary"> Add</a>
+
+    <div class="d-flex justify-content-end mb-3">
+      <form action="{{ route('location.index') }}" method="GET" class="form-inline" id="searchForm">
+        <div class="form-group mr-2">
+          <input type="text" name="search" class="form-control" placeholder="Search..." id="searchInput" value="{{ request('search') }}" autofocus>
+        </div>
+      </form>
+    </div>
+    
+
     <div class="table-responsive">
     <table class="table">
       <thead class="thead-dark">
@@ -22,11 +32,8 @@
           <th>Action</th>
         </tr>
       </thead>
-      <tbody>
-        
+      <tbody> 
             @if (count($locations)>0)
-
-            {{-- show all information --}}
                 @foreach ($locations as $location)
                     <tr>
                       <td>{{$location->opr->opr_unit_name}}</td>
@@ -46,7 +53,6 @@
                     <h1>No Data Available</h1> 
                 </div>
             @endif
-
       </tbody>
     </table>
     </div>
@@ -55,5 +61,12 @@
 @endsection
 
 @section('scripts')
-    
+<script>
+  document.getElementById('searchInput').addEventListener('input', function() {
+      if (this.value.trim() === '') {
+          this.form.submit();
+      }
+  });
+
+</script>
 @endsection

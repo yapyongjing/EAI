@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
     <style>
+        .border-bottom{
+            border-bottom:1px solid #ccc!important
+        }
         .logo-container {
            position: relative;
            display: flex;
@@ -12,7 +15,7 @@
         }
 
         .logo {
-           width: 10%;
+           width: 3%;
            height: auto;
         }
 
@@ -21,11 +24,17 @@
            font-size: 30px; 
            font-weight: bold; 
         }
-        .border-bottom{
-            border-bottom:1px solid #ccc!important
+        .small-column {
+            width: 10%;
         }
-        
-        
+        th.title {
+            font-size: 20px; 
+            font-weight: bold; 
+        } 
+        table, th, tr,td {
+            border: 1px solid;
+            outline: thin solid;
+        }   
      </style>
     
     <!-- Scripts -->
@@ -45,134 +54,108 @@
         <main class="py-4">
             <div class="container-fluid">
                 {{-- OperatingForm and MainWorkForm --}}
-                    <div class="container">
-                        <div class="table-responsive">
-                            <table class="table">
-                            
-                            <tr>
-                                <td>Operating unit:</td>
-                                <td>{{$form->workForm->oprForm->operating_name}}</td>
-                            </tr>
-                            <tr>
-                                <td>Location:</td>
-                                <td>{{$form->workForm->oprForm->location_name}}</td>
-                            </tr>
-                            <tr>
-                                <td>Date:</td>
-                                <td>{{$form->workForm->oprForm->date}}</td>
-                            </tr>
-                            
-                            </table>
-                        </div>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                        
+                        <tr>
+                            <td class="small-column">Operating unit:</td>
+                            <td>{{$form->operating_name}}</td>
+                            <td class="small-column">Prepared By:</td>
+                            <td>{{$form->prepared_by}}</td>
+                        </tr>
+                        <tr>
+                            <td>Location:</td>
+                            <td>{{$form->location_name}}</td>
+                            <td>Checked By:</td>
+                            <td>{{$form->checked_by}}</td>
+                        </tr>
+                        <tr>
+                            <td>Date:</td>
+                            <td>{{$form->date}}</td>
+                            <td>Approved By:</td>
+                            <td>{{$form->approved_by}}</td>
+                        </tr>
+                        
+                        </table>
                     </div>
+                    
 
                     <div class="border-bottom"></div>
                     <br>
 
                     {{-- WorkForm and aspect impact --}}
-                    <p>1. Identification of Aspects and Impacts </p>
-                    <div class="container">
-                        <div class="table-responsive">
-                            <table class="table">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th colspan="6" class="title">1. Identification of Aspects and Impacts</th>
+                                <th colspan="7" class="title">2. Importance</th>
+                                <th colspan="5" class="title">3. Risk Control/ Mitigation Measures</th>
+                            </tr>
+                            <tr>
+                                <th>No</th>
+                                <th>Work Name</th>
+                                <th>Condition</th>
+                                <th>Aspect</th>
+                                <th>Impact</th>
+                                <th>Requirement</th>
+                                <th colspan="7">Risk Assessment</th>
+                                <th>Existing Control Measures</th>
+                                <th>Action Plan</th>
+                                <th>Person In Charge</th>
+                                <th>Time Frame</th>
+                                <th>Status</th>
+                            </tr>
+                            <tr>
+                                <th colspan="6"></th>
+                                <th>F</th>
+                                <th>S</th>
+                                <th>R</th>
+                                <th>C</th>
+                                <th>L</th>
+                                <th>AR</th>
+                                <th>Result</th>
+                                <th colspan="5"></th>
+                            </tr>
+                            @foreach ($form->works as $index => $work)
                                 <tr>
-                                   <td>Work Name:</td>
-                                   <td>{{ $form->workForm->work_name }}</td>
+                                    {{--work activity--}}
+                                    <td rowspan="{{ count($work->aspects) }}">{{ $index + 1 }}</td>
+                                    <td rowspan="{{ count($work->aspects) }}">{{ $work->work_name }}</td>
+                                    <td rowspan="{{ count($work->aspects) }}">{{ $work->condition }}</td>
+                                    {{-- aspect impact --}}
+                                    @foreach ($work->aspects as $aspectIndex => $aspect)
+                                        @if ($aspectIndex > 0)
+                                            </tr><tr>
+                                        @endif
+                                        <td>{{ $aspect->aspect_name }}</td>
+                                        <td>{{ $aspect->impact_name }}</td>
+                                        <td>{{ $aspect->requirement_name }}</td>
+                                        {{--rating and risk control --}}
+                                         @foreach ($aspect->ratings as $ratings)
+                                         @php
+                                            $total = $ratings->option1 + $ratings->option2 + $ratings->option3 + $ratings->option4 + $ratings->option5;
+                                        @endphp
+                                                <td>{{ $ratings->option1}}</td>
+                                                <td>{{ $ratings->option2}}</td>
+                                                <td>{{ $ratings->option3}}</td>
+                                                <td>{{ $ratings->option4}}</td>
+                                                <td>{{ $ratings->option5}}</td>
+                                                <td>{{ $total}}</td>
+                                                <td>{{ $ratings->risk}}</td>
+                                        @endforeach
+                                        @foreach ($aspect->risks as $risk)
+                                                <td>{{ $risk->existing_control_measures}}</td>
+                                                <td>{{ $risk->action_plan}}</td>
+                                                <td>{{ $risk->person_in_charge}}</td>
+                                                <td>{{ $risk->time_frame}}</td>
+                                                <td>{{ $risk->status}}</td>
+                                        @endforeach
+                                    @endforeach
                                 </tr>
-                                <tr>
-                                    <td>Condition:</td>
-                                    <td>{{ $form->workForm->condition }}</td>
-                                 </tr>
-                                 <tr>
-                                    <td>Aspect:</td>
-                                    <td>{{ $form->aspect_name }}</td>
-                                 </tr>
-                                 <tr>
-                                    <td>Impact:</td>
-                                    <td>{{ $form->impact_name }}</td>
-                                 </tr>
-                                 <tr>
-                                    <td>Requirement:</td>
-                                    <td>{{ $form->requirement_name }}</td>
-                                 </tr>
-                            </table>
-                        </div>
+                            @endforeach
+                        </table>
                     </div>
-
-                    <div class="border-bottom"></div>
-                    <br>
-
-                    {{-- Importancce/Rating --}}
-                    <p>2. Importance </p>
-                    @foreach ($form->ratings as $rating)
-                    <div class="container">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <tr>
-                                   <td>Frequency(F):</td>
-                                   <td>{{ $rating->option1 }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Severity(S):</td>
-                                    <td>{{ $rating->option2 }}</td>
-                                 </tr>
-                                 <tr>
-                                    <td>Regulatory(R):</td>
-                                    <td>{{ $rating->option3 }}</td>
-                                 </tr>
-                                 <tr>
-                                    <td>Controllability(C):</td>
-                                    <td>{{ $rating->option4 }}</td>
-                                 </tr>
-                                 <tr>
-                                    <td>Likelihood(L):</td>
-                                    <td>{{ $rating->option5 }}</td>
-                                 </tr>
-                                 <tr>
-                                    <td>Accumulated Ratings (AR):</td>
-                                    <td>{{ $rating->risk }}</td>
-                                 </tr>
-                            </table>
-                        </div>
-                    </div>
-                    @endforeach
-
-                    <div class="border-bottom"></div>
-                    <br>
-
-                    {{-- Risk Control/Mitigation Measures  --}}
-                    <p>3. Risk Control/Mitigation Measures  </p>
-                    @foreach ($form->risks as $risk)
-                    <div class="container">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <tr>
-                                   <td>Existing Control Measures:</td>
-                                   <td>{{ $risk->exisitng_control_measures }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Action Plan:</td>
-                                    <td>{{ $risk->action_plan }}</td>
-                                 </tr>
-                                 <tr>
-                                    <td>Person In Charge:</td>
-                                    <td>{{ $risk->person_in_charge }}</td>
-                                 </tr>
-                                 <tr>
-                                    <td>Time Frame:</td>
-                                    <td>{{ $risk->time_frame }}</td>
-                                 </tr>
-                                 <tr>
-                                    <td>Status:</td>
-                                    <td>{{ $risk->status }}</td>
-                                 </tr>
-                            </table>
-                        </div>
-                    </div>
-                    @endforeach
-
-                    <div class="border-bottom"></div>
-                    <br>
-
                 </div>
             </div>
         </main>

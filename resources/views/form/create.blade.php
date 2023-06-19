@@ -24,8 +24,8 @@
                         <br>
                         <div class="form-group">
                             <label for="name">Operating Unit Name</label>
-                            <select class="form-control" name="opr_name">
-                                <option value="0"> Select Operating Unit</option>
+                            <select class="form-control" name="opr_name" required>
+                                <option value="" disabled selected> Select Operating Unit</option>
                                 
                                 @foreach($oprs as $opr)
                                     <option value="{{ $opr->opr_unit_name}}">{{ $opr->opr_unit_name }}</option>
@@ -36,8 +36,8 @@
                         
                         <div class="form-group">
                           <label for="location">Location</label>
-                          <select class="form-control" name="location_name">
-                            <option value="0"> Select Location</option>
+                          <select class="form-control" name="location_name" required>
+                            <option value="" disabled selected> Select Location</option>
                             
                             @foreach($locations as $location)
                                 <option value="{{ $location->location_name}}">{{ $location->location_name }}</option>
@@ -57,100 +57,41 @@
                         </div>
                         <br>
 
-                        {{-- <hr>
-
                         <div class="form-group">
-                            <label for="fkey">Work Activity Name</label>
-                            <select class="form-control" id="work_name" name="work_name">
-                                <option value="0"> Select Work Activity</option>
-                                
-                                @foreach($works as $work)
-                                    <option value="{{$work->work_name}}">{{$work->work_name}}</option>
+                            <label for="prepared_by">Prepared By</label>
+                            <select class="form-control" name="prepared_by" required>
+                              <option value="" disabled selected> Select User</option>
+                              
+                              @foreach($users as $user)
+                                    <option value="{{ $user->name}}">{{ $user->name }}</option>
                                 @endforeach
-
-                            </select>
-                        </div>
-                        <br>
+  
+                          </select>
+                          </div><br>
 
                         <div class="form-group">
-                            <label for="con">Condition</label><br>
-                            <div class="form-check-inline">
-                                <input type="radio" class="form-check-input" name="con" value="Normal Condition">Normal Condition 
-                                <label class="form-check-label" for="Air_Pollution"></label>
-                            </div>
-                            <div class="form-check-inline">
-                                <input type="radio" class="form-check-input" name="con" value="Abnormal Condition">Abnormal Condition 
-                                <label class="form-check-label" for="Water_Pollution"></label>
-                            </div>
-                            <div class="form-check-inline">
-                                <input type="radio" class="form-check-input" name="con" value="Emergency">Emergency 
-                                <label class="form-check-label" for="Soil/Land pollution"></label>
-                            </div>
-                        </div>
-                        <br>
-
-                        <hr>
-                        <div class="form-group">
-                            <label for="aspect">Aspect</label>
-                              <select class="form-control" id="aspect" name="aspect">
-                                <option value="0"> Select Aspect</option>
-                                @foreach($aspects as $aspect)
-                                    <option value="{{$aspect->aspect_name}}">{{$aspect->aspect_name}}</option>
+                            <label for="checked_by">Checked By</label>
+                            <select class="form-control" name="checked_by" required>
+                              <option value="" disabled selected> Select User</option>
+                              
+                              @foreach($users as $user)
+                                    <option value="{{ $user->name}}">{{ $user->name }}</option>
                                 @endforeach
-                                </select>
-                          </div>
-                          <br>
-
+  
+                          </select>
+                          </div><br>
+                        
                           <div class="form-group">
-                            <label for="impact">Impact</label><br>
-                            <div class="form-check-inline">
-                                <label class="form-check-label" for="Air_Pollution">
-                                <input type="checkbox" class="form-check-input" name="impact[]" value="Air Pollution"> Air Pollution
-                                </label>
-                            </div>
-                            <div class="form-check-inline">
-                                <label class="form-check-label" for="Water_Pollution">
-                                <input type="checkbox" class="form-check-input" name="impact[]" value="Water Pollution"> Water Pollution
-                                </label>
-                            </div>
-                            <div class="form-check-inline">
-                                <label class="form-check-label" for="Soil/Land pollution">
-                                <input type="checkbox" class="form-check-input" name="impact[]" value="Soil / Land pollution"> Soil / Land pollution
-                                </label>
-                            </div>
-                            <div class="form-check-inline">
-                                <label class="form-check-label" for="Depletion_of_natural_resources">
-                                <input type="checkbox" class="form-check-input" name="impact[]" value="Depletion of natural resources"> Depletion of natural resources
-                                </label>
-                            </div>
-                            <div class="form-check-inline">
-                                <label class="form-check-label" for="Shortage_of_landfill">
-                                <input type="checkbox" class="form-check-input" name="impact[]" value="Shortage of landfill"> Shortage of landfill
-                                </label>
-                            </div>
-                            <div class="form-check-inline">
-                                <label class="form-check-label" for="Nuisance">
-                                <input type="checkbox" class="form-check-input" name="impact[]" value="Nuisance"> Nuisance
-                                </label>
-                            </div>
-                            <div class="form-check-inline">
-                                <label class="form-check-label" for="Beneficial">
-                                <input type="checkbox" class="form-check-input" name="impact[]" value="Beneficial"> Beneficial
-                                </label>
-                            </div>
-                        </div>
-                        <br>
-
-                        <div class="form-group">
-                            <label for="rqm">Applicable Env. Legal/Reg/COP or other requirement</label>
-                            <input type="text" class="form-control" id="rqm" placeholder="Enter Requirement" name="rqm" required>
-                            @error('rqm')
-                              <div class="form-error">
-                                  {{$message}}
-                              </div>
-                              @enderror
-                        </div>
-                        <br> --}}
+                            <label for="approved_by">Approved By</label>
+                            <select class="form-control" name="approved_by" required>
+                              <option value="" disabled selected> Select User</option>
+                              
+                              @foreach($users as $user)
+                                    <option value="{{ $user->name}}">{{ $user->name }}</option>
+                                @endforeach
+  
+                          </select>
+                          </div><br>
 
                         <button type="submit" class="float-right btn btn-dark btn-primary">Submit</button>
                         <a href="{{ route('oprForm.index') }}" class="btn float-right"> Back</a>

@@ -19,6 +19,15 @@
     
       <a href="{{ route('oprForm.work.index',$work->opr_form_id)}}" class="btn btn-dark clearfix pull-right"> Back</a>
     </div>
+    <br>
+
+    <div class="d-flex justify-content-end mb-3">
+      <form action="{{ route('oprForm.work.aspectImpact.index',[$id, $work->id]) }}" method="GET" class="form-inline" id="searchForm">
+        <div class="form-group mr-2">
+          <input type="text" name="search" class="form-control" placeholder="Search..." id="searchInput" value="{{ request('search') }}" autofocus>
+        </div>
+      </form>
+    </div>
   
     <div class="table-responsive">
       <table class="table">
@@ -45,6 +54,7 @@
                               @method('DELETE')
                               <input type="submit" class="btn btn-danger btn-sm" value="Delete" onclick="return confirm(&quot;Confirm delete?&quot;)">
                           </form>
+                          <br><br>
 
                           {{-- Importance button --}}
                           @foreach ($ratings as $rating)
@@ -57,6 +67,7 @@
                               <a href="{{ route('oprForm.work.aspectImpact.importantRate.index',[$id, $work->id, $aspect->id]) }}" class="btn btn-secondary btn-sm">New Importance</a>
                           @endif
 
+                          <br><br>
                           {{--Risk Control button--}}
                           @foreach ($risks as $risk)
                               @if ($risk->aspect_impact_form_id == $aspect->id) 
@@ -68,7 +79,7 @@
                             <a href="{{ route('oprForm.work.aspectImpact.riskControl.index',[$id, $work->id, $aspect->id])}}" class="btn btn-secondary btn-sm">New Risk Control</a>
                           @endif
 
-                          <a href="{{ route('oprForm.work.aspectImpact.print-pdf', [$id, $work->id, $aspect->id]) }}" target="_blank" class="btn btn-info btn-sm">Print</a>
+                          {{-- <a href="{{ route('oprForm.work.aspectImpact.print-pdf', [$id, $work->id, $aspect->id]) }}" target="_blank" class="btn btn-info btn-sm">Print</a> --}}
 
                       </td>
                   </tr>
@@ -80,5 +91,11 @@
 @endsection
 
 @section('scripts')
-    
+<script>
+  document.getElementById('searchInput').addEventListener('input', function() {
+      if (this.value.trim() === '') {
+          this.form.submit();
+      }
+  });
+</script>
 @endsection

@@ -14,11 +14,22 @@ class OprUnitController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
     
+        $query = $request->input('search');
+
+        if (empty($query)) {
+            $oprs = Operating_Unit::all();
+        } else {
+            // Filter forms based on the search query
+            $oprs = Operating_Unit::where('opr_unit_name', 'LIKE', '%' . $query . '%')
+                ->get();
+        }
+
+
         return view('opr.index', [
-            'oprs' => Operating_Unit::all()
+            'oprs' => $oprs,
             
         ]);
     }

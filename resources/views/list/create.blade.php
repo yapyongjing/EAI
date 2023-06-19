@@ -23,7 +23,7 @@
                         <div class="form-group">
                             <label for="fkey">Location Name</label>
                             <select class="form-control" id="fkey" name="fkey">
-                                <option value="0"> Select Location</option>
+                                <option value="" disabled selected> Select Location</option>
                                 
                                 @foreach($options as $option)
                                     <option value="{{$option->id}}">{{$option->location_name}}</option>

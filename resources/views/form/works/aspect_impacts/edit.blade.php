@@ -6,8 +6,8 @@
     <div class="row">
         
         <div class="text-left col-4 mt-4 p-5 rounded" style="margin-bottom:0">
-            <h1>New Work Activity</h1> 
-            <p>Edit work activity</p> 
+            <h1>Aspect Impact</h1> 
+            <p>Edit aspect impact</p> 
         </div>
 
         <div class="col-8">

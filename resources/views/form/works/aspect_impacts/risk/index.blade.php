@@ -24,7 +24,7 @@
                         @csrf
 
                         <div class="form-group">
-                            <label for="ECM">Exisitng Control Measures</label>
+                            <label for="ECM">Existing Control Measures</label>
                             <input type="text" class="form-control" id="ECM" placeholder="Enter Exisitng Control Measures" name="ECM" required>
                             @error('ECM')
                             <div class="form-error">
@@ -48,11 +48,14 @@
                         <div class="form-group">
                             <label for="pic">Person In Charge</label>
                             <select class="form-control" name="pic">
-                                <option value="0"> Select Person In Charge</option>
-                                
-                                @foreach($pics as $pic)
-                                    <option value="{{ $pic->person_in_charge_name}}">{{ $pic->person_in_charge_name }}</option>
+                                <option value="" disabled selected> Select Person In Charge</option>
+
+                                @foreach($users as $user)
+                                    <option value="{{ $user->name}}">{{ $user->name }}</option>
                                 @endforeach
+                                {{-- @foreach($pics as $pic)
+                                    <option value="{{ $pic->person_in_charge_name}}">{{ $pic->person_in_charge_name }}</option>
+                                @endforeach --}}
 
                             </select>
                         </div>

@@ -14,6 +14,13 @@
     <h2>Work Activity List</h2>
     <a href="{{ route('list.create') }}" class="btn btn-primary"> Add Work Activity</a>
     <a href="{{ route('aspect_impact.create') }}" class="btn btn-primary"> Add Aspect Impact</a>
+    <div class="d-flex justify-content-end mb-3">
+      <form action="{{ route('list.index') }}" method="GET" class="form-inline" id="searchForm">
+        <div class="form-group mr-2">
+          <input type="text" name="search" class="form-control" placeholder="Search..." id="searchInput" value="{{ request('search') }}" autofocus>
+        </div>
+      </form>
+    </div>
     <div class="table-responsive">
       <table class="table">
         <thead class="thead-dark">
@@ -62,5 +69,11 @@
 @endsection
 
 @section('scripts')
-    
+<script>
+  document.getElementById('searchInput').addEventListener('input', function() {
+      if (this.value.trim() === '') {
+          this.form.submit();
+      }
+  });
+</script>
 @endsection

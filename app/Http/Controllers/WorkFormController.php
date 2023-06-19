@@ -18,13 +18,24 @@ class WorkFormController extends Controller
      *  
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index(Request $request, $id)
     {
-        $opr = OprForm::find($id);
+        $query = $request->input('search');
+        
+        if (empty($query)) {
+            $opr = OprForm::with('works')->find($id);
+        } else {
+            // Filter forms based on the search query
+            $opr = OprForm::with(['works' => function ($searchQuery) use ($query) {
+                $searchQuery->where('work_name', 'LIKE', '%' . $query . '%')
+                            ->orWhere('condition', 'LIKE', '%' . $query . '%');
+            }])->find($id);
+        }
         $works = $opr->works;
-       
-        return view('form.works.index', compact('opr','works'));
+
+        return view('form.works.index', compact('opr', 'works'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -95,7 +106,6 @@ class WorkFormController extends Controller
             'opr' => $opr,
             'workform' => $workform,
         ]);
-        // compact('id','options','works','opr','workform'));
     }
 
     /**

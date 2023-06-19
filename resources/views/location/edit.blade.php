@@ -6,8 +6,8 @@
     <div class="row">
         
         <div class="text-left col-4 mt-4 p-5 rounded" style="margin-bottom:0">
-            <h1>Assessment</h1> 
-            <p>Key in the Ratings</p> 
+            <h1>Location</h1> 
+            <p>Edit location information</p> 
         </div>
 
         <div class="col-8">

@@ -22,8 +22,8 @@
 
                         <div class="form-group">
                             <label for="name">Operating Unit Name</label>
-                            <select class="form-control" name="name">
-                                <option value="0"> Select Operating Unit</option>
+                            <select class="form-control" name="name" required>
+                                <option value="" disabled selected> Select Operating Unit</option>
                                 
                                 @foreach($oprs as $opr)
                                     <option value="{{ $opr->id}}">{{ $opr->opr_unit_name }}</option>

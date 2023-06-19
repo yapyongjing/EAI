@@ -27,6 +27,9 @@ class ListFormRequest extends FormRequest
             'opr_name' => 'required',
             'location_name' => 'required',
             'date' => 'required',
+            'prepared_by' => 'required',
+            'checked_by' => 'required',
+            'approved_by' => 'required',
         ];
         
     }
@@ -38,6 +41,9 @@ class ListFormRequest extends FormRequest
                 'opr_name' => strip_tags($this['opr_name']),
                 'location' => strip_tags($this['location']),
                 'date' => strip_tags($this['date']),
+                'prepared_by' => strip_tags($this['prepared_by']),
+                'checked_by' => strip_tags($this['checked_by']),
+                'approved_by' => strip_tags($this['approved_by']),
             ]);
     }
 }

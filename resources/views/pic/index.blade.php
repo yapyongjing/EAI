@@ -11,13 +11,13 @@
 @endif
 
 <div class="container">
-    <h2>User/Person In Charge List</h2>
+    <h2>Person In Charge List</h2>
     <a href="{{ route('pic.create') }}" class="btn btn-primary"> Add</a>
     <div class="table-responsive">
       <table class="table">
         <thead class="thead-dark">
           <tr>
-            <th>User/Person In Charge</th>
+            <th>Person In Charge</th>
             <th>Action</th>
           </tr>
         </thead>

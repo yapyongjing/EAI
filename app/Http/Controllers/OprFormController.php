@@ -7,7 +7,9 @@ use App\Http\Requests\ListFormRequest;
 use App\Models\Main_Work;
 use App\Models\Operating_Unit;
 use App\Models\OprForm;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf as Pdf;
+use Dompdf\Dompdf;
 
 
 //main work/location
@@ -18,16 +20,28 @@ class OprFormController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $forms = OprForm::all();
-
-        // $pdf = Pdf::loadView('pdf.invoice', $data);
-        // return $pdf->download('invoice.pdf');
-
+        $query = $request->input('search');
         
-        return view('form.index', compact(var_name: 'forms'));
+        // Retrieve all forms if no search query is provided
+        if (empty($query)) {
+            $forms = OprForm::orderBy('date', 'ASC')->simplePaginate(10);
+        } else {
+            // Filter forms based on the search query
+            $forms = OprForm::where('operating_name', 'LIKE', '%' . $query . '%')
+                ->orWhere('location_name', 'LIKE', '%' . $query . '%')
+                ->orWhere('date', 'LIKE', '%' . $query . '%')
+                ->orWhere('prepared_by', 'LIKE', '%' . $query . '%')
+                ->orWhere('checked_by', 'LIKE', '%' . $query . '%')
+                ->orWhere('approved_by', 'LIKE', '%' . $query . '%')
+                ->orderBy('date', 'ASC')
+                ->simplePaginate(10);
+        }
+
+        return view('form.index', compact('forms'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -38,8 +52,9 @@ class OprFormController extends Controller
     {
         $oprs = Operating_Unit::all();
         $locations = Main_Work::all();
+        $users = User::all();
         
-        return view('form.create', compact('oprs','locations'));
+        return view('form.create', compact('oprs','locations','users'));
     }
 
 
@@ -56,15 +71,12 @@ class OprFormController extends Controller
         //
         $info = new OprForm();
 
-        
         $info->operating_name =  $data['opr_name'];
         $info->location_name =  $data['location_name'];
         $info->date =  $data['date'];
-        // $info->work_name = $data['work_name'];
-        // $info->condition =  $data['con'];
-        // $info->aspect_name =  $data['aspect'];
-        // $info->impact_name =  implode(',', $data['impact']);
-        // $info->requirement_name =  $data['rqm'];
+        $info->prepared_by = $data['prepared_by'];
+        $info->checked_by = $data['checked_by'];
+        $info->approved_by = $data['approved_by'];
 
         $info->save();
 
@@ -95,15 +107,16 @@ class OprFormController extends Controller
     {
         $oprs = Operating_Unit::all();
         $locations = Main_Work::all();
+        $users = User::all();
         $form = OprForm::find($id);
         
         return view('form.edit',[
             'form' => $form,
             'oprs' => $oprs,
             'locations' => $locations,
+            'users' => $users,
         ]);
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -120,6 +133,9 @@ class OprFormController extends Controller
         $info->operating_name =  $data['opr_name'];
         $info->location_name =  $data['location_name'];
         $info->date =  $data['date'];
+        $info->prepared_by = $data['prepared_by'];
+        $info->checked_by = $data['checked_by'];
+        $info->approved_by = $data['approved_by'];
 
         $info->update();
 
@@ -139,28 +155,32 @@ class OprFormController extends Controller
         return redirect()->route('oprForm.index')->with('flash_message', 'Form deleted!');
     }
 
-    // public function printPdf($id)
-    // {
-    //     //OprForm
-    //         //MainWorkForm
-    //             //WorkForm
-    //                 //AspectImpactForm
-    //                     //ImportanceRating
-    //                     //RiskControl
-    //     $form = OprForm::with([
-    //         'works' => [
-    //             'aspects' => [
-    //                 'ratings',
-    //                 'risks'
-    //             ]
-    //         ]
-    //     ])
-    //         ->find($id);
+    public function printPdf($id)
+    {
+        //OprForm
+            //MainWorkForm
+                //WorkForm
+                    //AspectImpactForm
+                        //ImportanceRating
+                        //RiskControl
+        $form = OprForm::with([
+            'works' => [
+                'aspects' => [
+                    'ratings',
+                    'risks'
+                ]
+            ]
+        ])->find($id);
 
-    //     $logoUrl = public_path('logo.png');
+       $logoUrl = public_path('logo.png');
+
+        $pdf = new Dompdf();
         
-    //     $pdf = PDF::loadView('form.pdf',['form' => $form, 'logoUrl' => $logoUrl]);
+        $pdf = PDF::loadView('form.pdf',['form' => $form, 'logoUrl' => $logoUrl]);
+
+        $pdf->setPaper('custom', 'landscape');
+        $pdf->setPaper([0, 0, 1000, 1500], 'landscape');
         
-    //     return $pdf->stream('form.pdf');
-    // }
+        return $pdf->stream('form.pdf');
+    }
 }

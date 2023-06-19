@@ -16,15 +16,28 @@ class WorkController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $lists = Aspect_Impact::with('workAspect')
-        ->orderBy('work_id', 'asc')
-        ->simplepaginate(8); 
+        $searchQuery = $request->input('search');
 
-        // ->join('works', 'aspect__impacts.work_id', '=', 'works.id')
-        // ->orderBy('works.work_name', 'asc')
-        // ->cursorPaginate(8);
+        if (empty($searchQuery)) {
+            $lists = Aspect_Impact::with('workAspect')
+                ->orderBy('work_id', 'asc')
+                ->simplePaginate(8);
+        } else {
+            // Filter forms based on the search query
+            $lists = Aspect_Impact::with('workAspect')
+                ->whereHas('workAspect', function ($query) use ($searchQuery) {
+                    $query->where('work_name', 'LIKE', '%' . $searchQuery . '%')
+                        ->orWhere('condition', 'LIKE', '%' . $searchQuery . '%');
+                })
+                ->orWhere('aspect_name', 'LIKE', '%' . $searchQuery . '%')
+                ->orWhere('impact_name', 'LIKE', '%' . $searchQuery . '%')
+                ->orWhere('requirement_name', 'LIKE', '%' . $searchQuery . '%')
+                ->orderBy('work_id', 'ASC')
+                ->simplePaginate(8);
+        }
+
 
         return view('list.index', compact('lists'));
     }
@@ -106,7 +119,7 @@ class WorkController extends Controller
         $list->mainWork_id = $input['fkey'];
         $list->update();
 
-        return redirect()->route('list.index')->with('flash_message', 'Work Activity Successfully Updated!');
+        return redirect()->route('aspect_impact.edit',[$list]);//go to aspect_impact edit page
     }
 
     /**

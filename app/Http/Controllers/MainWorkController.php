@@ -15,11 +15,20 @@ class MainWorkController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $locations = Main_Work::with('opr')
-        ->orderBy('opr_id','asc')
-        ->simplepaginate(10);
+        $query = $request->input('search');
+        
+        if (empty($query)) {
+            $locations = Main_Work::with('opr')
+            ->orderBy('opr_id','asc')
+            ->simplepaginate(10);
+        } else {
+            // Filter forms based on the search query
+            $locations = Main_work::Where('location_name', 'LIKE', '%' . $query . '%')
+                ->orderBy('opr_id', 'ASC')
+                ->simplepaginate(10);
+        }
 
         return view('location.index', compact(var_name: 'locations'));
     }
@@ -47,11 +56,7 @@ class MainWorkController extends Controller
     {
         $data = $request-> validated();
 
-        //
         $info = new Main_Work();
-
-        // return $this->hasMany('App\Models\Main_Work', 'foreign_key');
-
 
         $info->location_name =  $data['location'];//get input from create.php
         $info->opr_id = $data['name'];

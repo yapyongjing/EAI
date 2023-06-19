@@ -23,7 +23,7 @@
                         <div class="form-group">
                             <label for="fkey">Work Activity Name</label>
                             <select class="form-control" id="fkey" name="fkey">
-                                <option value="0"> Select Work Activity</option>
+                                <option value="" disabled selected> Select Work Activity</option>
                                 
                                 @foreach($works as $work)
                                     <option value="{{$work->id}}">

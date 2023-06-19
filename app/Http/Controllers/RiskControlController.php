@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\PersonInCharge;
-// use App\Models\WorkForm;
-// use App\Models\AspectImpactForm;
 use App\Models\RiskControl;
+use App\Models\User;
 
 use Illuminate\Http\Request;
 
@@ -20,8 +19,9 @@ class RiskControlController extends Controller
         // $workform = WorkForm::with('aspects')->findOrFail($work_id);
         // $aspectform = AspectImpactForm::findOrFail($ai_id);
         $pics = PersonInCharge::all();
+        $users = User::all();
 
-        return view('form.works.aspect_impacts.risk.index',compact('pics','id','work_id','ai_id'));
+        return view('form.works.aspect_impacts.risk.index',compact('pics','users','id','work_id','ai_id'));
     }
 
     /**
@@ -45,7 +45,7 @@ class RiskControlController extends Controller
         
         $info = new RiskControl;
 
-        $info->exisitng_control_measures = $request->input('ECM');
+        $info->existing_control_measures = $request->input('ECM');
         $info->action_plan = $request->input('risk');
         $info->person_in_charge = $request->input('pic');
         $info->time_frame = $request->input('time');
@@ -76,20 +76,16 @@ class RiskControlController extends Controller
      */
     public function edit($id,$work_id,$ai_id,$risk_id)
     {
-        // $workform = WorkForm::findOrFail($work_id);
-        // $aspectform = AspectImpactForm::with(['risks'])->findOrFail($ai_id);
-        $pics = PersonInCharge::all();
+        $users = User::all();
         $risk = RiskControl::findOrFail($risk_id);
     
         return view('form.works.aspect_impacts.risk.edit',[
-            // 'workform' => $workform,
-            // 'aspectform' => $aspectform,
             'id' => $id,
             'work_id' => $work_id,
             'ai_id' => $ai_id,
             'risk_id' => $risk_id,
             'risk' => $risk,
-            'pics' => $pics,
+            'users' => $users,
         ]);
     }
 
@@ -104,7 +100,7 @@ class RiskControlController extends Controller
     {
         $info = RiskControl::where('aspect_impact_form_id', $ai_id)->findOrFail($risk_id);
 
-        $info->exisitng_control_measures = $request->input('ECM');
+        $info->existing_control_measures = $request->input('ECM');
         $info->action_plan = $request->input('risk');
         $info->person_in_charge = $request->input('pic');
         $info->time_frame = $request->input('time');

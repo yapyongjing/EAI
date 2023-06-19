@@ -85,8 +85,6 @@ class ImportanceRatingController extends Controller
      */
     public function edit($id,$work_id,$ai_id,$rating_id)
     {
-
-        // $workform = WorkForm::findOrFail($work_id);
         $aspectform = AspectImpactForm::with(['ratings'])->findOrFail($ai_id);
         $ratings = $aspectform->ratings;
     
@@ -99,7 +97,6 @@ class ImportanceRatingController extends Controller
             'ratings' => $ratings,
         ]);
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -109,7 +106,6 @@ class ImportanceRatingController extends Controller
      */
     public function update(Request $request, $id, $work_id,$ai_id,$rating_id)
     {
-        // $aspectform = AspectImpactForm::findOrFail($ai_id);
         $info = Rating::where('aspect_impact_form_id', $ai_id)->findOrFail($rating_id);
 
         $info->option1 = $request->input('option1');
@@ -123,7 +119,6 @@ class ImportanceRatingController extends Controller
         $info->update();
 
         return redirect()->route('oprForm.work.aspectImpact.index', [$id,$work_id])-> with('flash_message','Rating Edited');
-
     }
 
     /**

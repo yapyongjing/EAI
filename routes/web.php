@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoleController;
 
 use App\Http\Controllers\PersonInChargeController;
 use App\Http\Controllers\OprUnitController;
@@ -30,9 +32,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Auth::routes();
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['middleware' => ['auth']], function() {
+    Route::resource('roles', RoleController::class);
+    Route::resource('users', UserController::class);
+});
 
 Route::controller(PersonInChargeController::class)->group(function() {
     Route::get('/person-in-charge', 'index')->name('pic.index');
@@ -41,7 +49,8 @@ Route::controller(PersonInChargeController::class)->group(function() {
     Route::get('/person-in-charge/{pic}', 'edit')->name('pic.edit');
     Route::put('/person-in-charge/{pic}', 'update')->name('pic.update');
     Route::delete('/person-in-charge/{pic}/destroy', 'destroy')->name('pic.destroy');
-});
+});//->middleware('auth');
+
 //operating unit
 // Route::resource('opr',OprUnitController::class);
 Route::controller(OprUnitController::class)->group(function() {
@@ -80,7 +89,7 @@ Route::controller(OprFormController::class)->group(function() {
     Route::get('/opr-forms/{id}', 'edit')->name('oprForm.edit');
     Route::put('/opr-forms/{id}', 'update')->name('oprForm.update');
     Route::delete('/opr-forms/{id}/destroy', 'destroy')->name('oprForm.destroy');
-    // Route::get('/opr-forms/{id}/print-pdf', 'printPdf')->name('oprForm.print-pdf');
+    Route::get('/opr-forms/{id}/print-pdf', 'printPdf')->name('oprForm.print-pdf');
 });
 
 //work activity form
@@ -102,7 +111,7 @@ Route::controller(AspectImpactFormController::class)->group(function() {
     Route::get('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}', 'edit')->name('oprForm.work.aspectImpact.edit');
     Route::put('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}', 'update')->name('oprForm.work.aspectImpact.update');
     Route::delete('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}/destroy', 'destroy')->name('oprForm.work.aspectImpact.destroy');
-    Route::get('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}/print-pdf', 'printPdf')->name('oprForm.work.aspectImpact.print-pdf');
+    // Route::get('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}/print-pdf', 'printPdf')->name('oprForm.work.aspectImpact.print-pdf');
 
 });
 
@@ -125,7 +134,5 @@ Route::controller(RiskControlController::class)->group(function() {
     Route::put('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}/risk-control/{risk_id}', 'update')->name('oprForm.work.aspectImpact.riskControl.update');
     Route::delete('/opr-forms/{id}/works/{work_id}/aspect-impacts/{ai_id}/risk-control/{risk_id}/destroy', 'destroy')->name('oprForm.work.aspectImpact.riskControl.destroy');
 });
-
-Auth::routes();
 
 

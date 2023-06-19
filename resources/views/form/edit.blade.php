@@ -7,7 +7,7 @@
         
         <div class="text-left col-4 mt-4 p-5 rounded" style="margin-bottom:0">
             <h1>Assessment Form</h1> 
-            <p>Edit Ratings</p> 
+            <p>Edit Assessment Form</p> 
         </div>
 
         <div class="col-8">
@@ -48,7 +48,8 @@
                             <option value="0"> Select Location</option>
                             
                             @foreach($locations as $location)
-                                <option value="{{ $location->location_name}}" {{ $location->location_name == $form->location_name ? ' selected="selected"' : '' }}>
+                                <option value="{{ $location->location_name}}" 
+                                    {{ $location->location_name == $form->location_name ? ' selected="selected"' : '' }}>
                                 {{$location->location_name}}</option>
                             @endforeach
 
@@ -66,7 +67,50 @@
                         </div>
                         <br>
 
+                        <div class="form-group">
+                            <label for="prepared_by">Prepared By</label>
+                            <select class="form-control" name="prepared_by" required>
+                              <option value="" disabled selected> Select User</option>
+                              
+                              @foreach($users as $user)
+                              <option value="{{$user->name}}"
+                                  {{$user->name == $form->prepared_by ? ' selected="selected"' : '' }}>
+                                  {{$user->name}}
+                              </option>
+                              @endforeach
+  
+                          </select>
+                          </div><br>
+
+                        <div class="form-group">
+                            <label for="checked_by">Checked By</label>
+                            <select class="form-control" name="checked_by" required>
+                              <option value="" disabled selected> Select User</option>
+                              
+                              @foreach($users as $user)
+                              <option value="{{$user->name}}"
+                                  {{$user->name == $form->checked_by ? ' selected="selected"' : '' }}>
+                                  {{$user->name}}
+                              </option>
+                              @endforeach
+  
+                          </select>
+                          </div><br>
                         
+                          <div class="form-group">
+                            <label for="approved_by">Approved By</label>
+                            <select class="form-control" name="approved_by" required>
+                              <option value="" disabled selected> Select User</option>
+                              
+                              @foreach($users as $user)
+                              <option value="{{$user->name}}"
+                                  {{$user->name == $form->approved_by ? ' selected="selected"' : '' }}>
+                                  {{$user->name}}
+                              </option>
+                              @endforeach
+  
+                          </select>
+                          </div><br>
 
                         <button type="submit" class="float-right btn btn-dark btn-primary">Save</button>
                         <a href="{{ route('oprForm.index') }}" class="btn float-right"> Back</a>

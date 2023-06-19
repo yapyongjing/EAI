@@ -18,6 +18,9 @@ return new class extends Migration
             $table->string('operating_name');
             $table->string('location_name');
             $table->date('date');
+            $table->string('prepared_by');
+            $table->string('checked_by');
+            $table->string('approved_by');
             $table->timestamps();
         });
     }

@@ -11,9 +11,20 @@
 @endif
 
 <div class="container">
-    <h2>EAI Form List</h2><br>
+    <h2>Environment Aspect Impact Form List</h2><br>
     <div class="table-responsive">
-    <a href="{{ route('oprForm.create') }}" class="btn btn-primary"> Add Operating Unit</a>
+      @can('form-create')
+    <a href="{{ route('oprForm.create') }}" class="btn btn-primary"> Add Aspect Impact</a>
+    @endcan
+
+    <div class="d-flex justify-content-end mb-3">
+      <form action="{{ route('oprForm.index') }}" method="GET" class="form-inline" id="searchForm">
+        <div class="form-group mr-2">
+          <input type="text" name="search" class="form-control" placeholder="Search..." id="searchInput" value="{{ request('search') }}">
+        </div>
+      </form>
+    </div>
+  
 
     <table class="table">
       <thead class="thead-dark">
@@ -21,6 +32,9 @@
           <th>Operating unit</th>
           <th>Location</th>
           <th>Date</th>
+          <th>Prepared By</th>
+          <th>Checked By</th>
+          <th>Approved By</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -34,16 +48,23 @@
                       <td>{{$form->operating_name}}</td>
                       <td>{{$form->location_name}}</td>
                       <td>{{$form->date}}</td>
+                      <td>{{$form->prepared_by}}</td>
+                      <td>{{$form->checked_by}}</td>
+                      <td>{{$form->approved_by}}</td>
                       <td>
                         {{-- <a href="{{ route('form.show', $form->id) }}" class="btn btn-primary btn-sm">View</a> --}}
-                        <a href="{{ route('oprForm.edit', $form->id) }}" class="btn btn-primary btn-sm">View</a>
+                        @can('form-list')
+                        <a href="{{ route('oprForm.edit', $form->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                        @can('form-delete')
                         <form method="POST" action="{{ route('oprForm.destroy', ['id' => $form->id]) }}" style="display:inline">
                           @csrf
                           @method('DELETE')
                           <input type="submit" class="btn btn-danger btn-sm" value="Delete" onclick="return confirm(&quot;Confirm delete?&quot;)">
                         </form>
+                        @endcan
                         <a href="{{ route('oprForm.work.index',['id' => $form->id]) }}" class="btn btn-secondary btn-sm">Work Activity</a>
-                        {{-- <a href="{{ route('oprForm.print-pdf', ['id' => $form->id]) }}" target="_blank" class="btn btn-info btn-sm">Print</a> --}}
+                        @endcan
+                        <a href="{{ route('oprForm.print-pdf', ['id' => $form->id]) }}" target="_blank" class="btn btn-info btn-sm">Print</a>
                       </td>
                     </tr>
                 @endforeach
@@ -55,11 +76,17 @@
 
       </tbody>
     </table>
-
     </div>
+    {{$forms->links()}}
 </div>
 @endsection
 
 @section('scripts')
-
+<script>
+  document.getElementById('searchInput').addEventListener('input', function() {
+      if (this.value.trim() === '') {
+          this.form.submit();
+      }
+  });
+</script>
 @endsection

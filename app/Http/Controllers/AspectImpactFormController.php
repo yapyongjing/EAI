@@ -9,8 +9,7 @@ use App\Models\AspectImpactForm;
 use App\Http\Requests\AspectImpactFormRequest;
 use App\Models\Work;
 use App\Models\Aspect_Impact;
-use App\Models\Rating;
-use Barryvdh\DomPDF\Facade\Pdf as Pdf;
+
 
 class AspectImpactFormController extends Controller
 {
@@ -19,9 +18,22 @@ class AspectImpactFormController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id,$work_id)
+    public function index(Request $request,$id,$work_id)
     {
-        $work = WorkForm::find($work_id);
+        $query = $request->input('search');
+        
+        if (empty($query)) {
+            $work = WorkForm::find($work_id);
+        } else {
+            // Filter forms based on the search query
+            $work = workForm::with(['aspects' => function ($searchQuery) use ($query) {
+                $searchQuery->where('aspect_name', 'LIKE', '%' . $query . '%')
+                            ->orWhere('impact_name', 'LIKE', '%' . $query . '%')
+                            ->orWhere('requirement_name', 'LIKE', '%' . $query . '%');
+            }])->find($work_id);
+        }
+
+
         $aspects = $work->aspects;
         $ratings = $work->ratings;
         $risks = $work->risks;
@@ -145,25 +157,29 @@ class AspectImpactFormController extends Controller
         return redirect()->route('oprForm.work.aspectImpact.index',[$id,$work_id])-> with('flash_message','Work Activity deleted!');
     }
 
-    public function printPdf($id,$work_id,$ai_id)
-    {
-        //OprForm
-            //MainWorkForm
-                //WorkForm
-                    //AspectImpactForm
-                        //ImportanceRating
-                        //RiskControl
-        $form = AspectImpactForm::with([
-            'workForm.oprForm',
-            'ratings',
-            'risks'
-        ])
-            ->find($ai_id);
+    // public function printPdf($id,$work_id,$ai_id)
+    // {
+    //     //OprForm
+    //         //MainWorkForm
+    //             //WorkForm
+    //                 //AspectImpactForm
+    //                     //ImportanceRating
+    //                     //RiskControl
+    //     $form = AspectImpactForm::with([
+    //         'workForm.oprForm',
+    //         'ratings',
+    //         'risks'
+    //     ])
+    //         ->find($ai_id);
 
-        $logoUrl = public_path('logo.png');
+    //     $logoUrl = public_path('logo.png');
+
+    //     $pdf = new Dompdf();
         
-        $pdf = PDF::loadView('form.pdf',['form' => $form, 'logoUrl' => $logoUrl]);
+    //     $pdf = PDF::loadView('form.pdf',['form' => $form, 'logoUrl' => $logoUrl]);
+
+    //     $pdf->setPaper('letter', 'landscape');
         
-        return $pdf->stream('form.pdf');
-    }
+    //     return $pdf->stream('form.pdf');
+    // }
 }
