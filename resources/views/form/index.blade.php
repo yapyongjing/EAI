@@ -64,7 +64,7 @@
                         @endcan
                         <a href="{{ route('oprForm.work.index',['id' => $form->id]) }}" class="btn btn-secondary btn-sm">Work Activity</a>
                         @endcan
-                        <a href="{{ route('oprForm.print-pdf', ['id' => $form->id]) }}" target="_blank" class="btn btn-info btn-sm">Print</a>
+                        <a href="{{ route('oprForm.print-pdf', ['id' => $form->id]) }}" target="_blank" class="btn btn-info btn-sm">PDF</a>
                       </td>
                     </tr>
                 @endforeach
