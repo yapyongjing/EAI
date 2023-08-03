@@ -93,21 +93,20 @@
                                 <th colspan="5" class="title">3. Risk Control/ Mitigation Measures</th>
                             </tr>
                             <tr>
-                                <th>No</th>
-                                <th>Work Name</th>
-                                <th>Condition</th>
-                                <th>Aspect</th>
-                                <th>Impact</th>
-                                <th>Requirement</th>
+                                <th rowspan="2">No</th>
+                                <th rowspan="2">Work Name</th>
+                                <th rowspan="2">Condition</th>
+                                <th rowspan="2">Aspect</th>
+                                <th rowspan="2">Impact</th>
+                                <th rowspan="2">Requirement</th>
                                 <th colspan="7">Risk Assessment</th>
-                                <th>Existing Control Measures</th>
-                                <th>Action Plan</th>
-                                <th>Person In Charge</th>
-                                <th>Time Frame</th>
-                                <th>Status</th>
+                                <th rowspan="2">Existing Control Measures</th>
+                                <th rowspan="2">Action Plan</th>
+                                <th rowspan="2">Person In Charge</th>
+                                <th rowspan="2">Time Frame</th>
+                                <th rowspan="2">Status</th>
                             </tr>
                             <tr>
-                                <th colspan="6"></th>
                                 <th>F</th>
                                 <th>S</th>
                                 <th>R</th>
@@ -115,7 +114,6 @@
                                 <th>L</th>
                                 <th>AR</th>
                                 <th>Result</th>
-                                <th colspan="5"></th>
                             </tr>
                             @foreach ($form->works as $index => $work)
                                 <tr>

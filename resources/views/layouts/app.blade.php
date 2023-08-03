@@ -20,7 +20,10 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="nav-link" href="{{ route('home') }}">EAI</a>
+                <a class="navbar-brand" href="{{ route('home') }}">
+                    <img src="{{ asset('logoEAI.JPG') }}" alt="Logo" style="width: 50px; height: auto;">
+                </a>
+                {{-- <a class="nav-link" href="{{ route('home') }}">EAI</a> --}}
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -112,6 +115,12 @@
         <main class="py-4">
             <div class="container-fluid">
                     <div class="col py-3">
+                        @if ($message = Session::get('notification'))
+                            <div class="container alert alert-danger">
+                                {!! $message !!}
+                            </div>
+                        @endif
+
                         @yield('content')
                     </div>
                 </div>

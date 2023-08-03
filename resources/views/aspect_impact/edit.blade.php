@@ -16,7 +16,7 @@
                 </div>
                 <div class="card-body">
 
-                    <form method="POST" action="{{ url('aspect_impact/' .$aspects->id) }}">
+                    <form method="POST" action="{{ route('aspect_impact.update', ['work_id' => $work_id,'ai_id' => $ai_id]) }}">
                         
                         @csrf
                         @method('PUT')
@@ -109,7 +109,7 @@
                         <br>
 
                         <button type="submit" class="float-right btn btn-dark btn-primary">Save</button>
-                        <a href="{{ route('list.edit',$aspects->work_id ) }}" class="btn float-right"> Back</a>
+                        <a href="{{ route('list.edit',['work_id' => $work_id, 'ai_id' =>$ai_id] ) }}" class="btn float-right"> Back</a>
                     </form>
                 </div>
                 <div class="card-footer">

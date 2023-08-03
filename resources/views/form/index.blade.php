@@ -14,7 +14,7 @@
     <h2>Environment Aspect Impact Form List</h2><br>
     <div class="table-responsive">
       @can('form-create')
-    <a href="{{ route('oprForm.create') }}" class="btn btn-primary"> Add Aspect Impact</a>
+    <a href="{{ route('oprForm.create') }}" class="btn btn-primary"> Add New Form</a>
     @endcan
 
     <div class="d-flex justify-content-end mb-3">

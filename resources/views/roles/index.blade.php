@@ -13,6 +13,7 @@
             </div>
         </div>
     </div>
+    <br>
     @if ($message = Session::get('success'))
         <div class="alert alert-success">
             <p>{{ $message }}</p>
@@ -20,7 +21,7 @@
     @endif
     <table class="table table-bordered">
         <tr>
-            <th>No</th>
+            <th width="20px">No</th>
             <th>Name</th>
             <th width="280px">Action</th>
         </tr>

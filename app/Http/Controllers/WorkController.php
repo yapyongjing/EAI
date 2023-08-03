@@ -34,12 +34,13 @@ class WorkController extends Controller
                 ->orWhere('aspect_name', 'LIKE', '%' . $searchQuery . '%')
                 ->orWhere('impact_name', 'LIKE', '%' . $searchQuery . '%')
                 ->orWhere('requirement_name', 'LIKE', '%' . $searchQuery . '%')
-                ->orderBy('work_id', 'ASC')
+                ->orderBy('work_id', 'asc')
                 ->simplePaginate(8);
         }
 
-
-        return view('list.index', compact('lists'));
+        return view('list.index', [
+            'lists' => $lists,
+        ]);
     }
 
     /**
@@ -51,7 +52,9 @@ class WorkController extends Controller
     {
         $options = Main_Work::all();
 
-        return view('list.create',compact('options'));
+        return view('list.create',[
+            'options' => $options,
+        ]);
     }
 
     /**
@@ -83,11 +86,9 @@ class WorkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Work $work)
+    public function show()
     {
-        return view('list.show',[
-            'list' => $work
-        ]);
+        //
     }
 
     /**
@@ -96,11 +97,24 @@ class WorkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Work $list)
+    // import the aspect impact id from index function so that while editing aspect impact ,the system can know which id
+    // ai_id: index-> index.blade -> edit -> edit.blade -> update -> update.blade -> 
+    //-> aspect impact controller -> edit -> edit.blade -> update -> update.blade -> index -> end
+    public function edit($work_id,$ai_id)
     {
-        $options = Main_Work::all();
-        return view('list.edit',compact('list','options'));
+        
+        $work = Work::where('id', $work_id)->firstOrFail();
+        
+        $options = Main_Work::all(); 
+
+        return view('list.edit', [
+            'work_id' => $work_id,
+            'ai_id' => $ai_id,
+            'work'=>$work, 
+            'options' => $options
+        ]);
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -109,18 +123,24 @@ class WorkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(WorkFormRequest $request, Work $list)
+    public function update(WorkFormRequest $request, Work $work_id,$ai_id)
     {
-
         $input = $request->validated();
 
-        $list->work_name = $input['work_name'];
-        $list->condition = $input['con'];
-        $list->mainWork_id = $input['fkey'];
-        $list->update();
+        $work_id->work_name = $input['work_name'];
+        $work_id->condition = $input['con'];
+        $work_id->mainWork_id = $input['fkey'];
+        $work_id->update();
 
-        return redirect()->route('aspect_impact.edit',[$list]);//go to aspect_impact edit page
+        $aspectImpact = $work_id->aspects->where('id', $ai_id)->first();
+
+        if ($aspectImpact) {
+            return redirect()->route('aspect_impact.edit', ['work_id' => $work_id,'ai_id' => $aspectImpact]);
+        }
     }
+    
+    
+    
 
     /**
      * Remove the specified resource from storage.
@@ -128,10 +148,10 @@ class WorkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Work $id)
+    public function destroy(Work $list)
     {
-        Work::destroy($id);
+        // Work::destroy($list);
 
-        return redirect()->route('list.index')->with('flash_message', 'Work Activity deleted!');
+        // return redirect()->route('list.index')->with('flash_message', 'Work Activity deleted!');
     }
 }

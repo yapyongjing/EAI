@@ -18,6 +18,6 @@ class Work extends Model
 
     public function aspects()
     {
-        return $this->hasMany(Aspect_Impact::class);
+        return $this->hasMany(Aspect_Impact::class,'work_id');
     }
 }

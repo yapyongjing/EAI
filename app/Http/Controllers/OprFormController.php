@@ -179,7 +179,7 @@ class OprFormController extends Controller
         $pdf = PDF::loadView('form.pdf',['form' => $form, 'logoUrl' => $logoUrl]);
 
         $pdf->setPaper('custom', 'landscape');
-        $pdf->setPaper([0, 0, 1000, 1500], 'landscape');
+        $pdf->setPaper([0, 0, 1000, 2000], 'landscape');
         
         return $pdf->stream('form.pdf');
     }

@@ -18,11 +18,36 @@
             body {
                 font-family: 'Nunito', sans-serif;
             }
+            .logo-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .logo-container img {
+                max-width: 200px;
+                height: auto;
+            }
+            .button-container {
+                display: flex;
+            }
+            .button {
+                display: inline-block;
+                padding: 10px 20px;
+                background-color: #ddd;
+                border-radius: 5px;
+                margin: 5px;
+            }
+            .button a {
+                text-decoration: none;
+                color: #333;
+                font-weight: bold;
+            }
         </style>
     </head>
     <body class="antialiased">
         <div class="relative flex items-top justify-center min-h-screen bg-gray-100 sm:items-center py-4 sm:pt-0">
-            @if (Route::has('login'))
+            {{-- @if (Route::has('login'))
                 <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                     @auth
                         <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
@@ -34,9 +59,33 @@
                         @endif
                     @endauth
                 </div>
-            @endif
+            @endif --}}
 
-            <h2>EAI: Environment Aspect Impact System</h2>
+            <div class="container">
+                <div class="logo-container">
+                    <img src="{{ asset('logoEAI.JPG') }}" alt="Logo">
+                </div>
+                
+                <div class="button-container">
+                    @if (Route::has('login'))
+                        @auth
+                        <div class="button">
+                            <a href="{{ url('/home') }}">Home</a>
+                        </div>
+                        @else
+                        <div class="button">
+                            <a href="{{ route('login') }}">Log in</a>
+                        </div>
+                            @if (Route::has('register'))
+                                <div class="button">
+                                    <a href="{{ route('register') }}">Register</a>
+                                </div>
+                            @endif
+                        @endauth
+                    @endif
+                </div>
+            </div>
+
         </div>
     </body>
 </html>

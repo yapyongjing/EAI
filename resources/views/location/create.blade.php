@@ -42,7 +42,7 @@
                             @enderror
                         </div>
                         <br>
-                        <button type="submit" class="float-right btn btn-dark btn-primary">Next</button>
+                        <button type="submit" class="float-right btn btn-dark btn-primary">Save</button>
                         <a href="{{ route('location.index') }}" class="btn float-right"> Back</a>
                     </form>
                 </div>

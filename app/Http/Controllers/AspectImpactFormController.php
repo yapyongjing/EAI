@@ -9,7 +9,7 @@ use App\Models\AspectImpactForm;
 use App\Http\Requests\AspectImpactFormRequest;
 use App\Models\Work;
 use App\Models\Aspect_Impact;
-
+use Laracasts\Flash\Flash;
 
 class AspectImpactFormController extends Controller
 {
@@ -33,10 +33,36 @@ class AspectImpactFormController extends Controller
             }])->find($work_id);
         }
 
-
         $aspects = $work->aspects;
         $ratings = $work->ratings;
         $risks = $work->risks;
+
+        // Check if importance and risk control are missing
+        $missingImportance = $aspects->filter(function ($aspect) {
+            return $aspect->ratings->isEmpty();
+        });
+
+        $missingRiskControl = $aspects->filter(function ($aspect) {
+            return $aspect->risks->isEmpty();
+        });
+
+        if (!$missingImportance->isEmpty() || !$missingRiskControl->isEmpty()) {
+            $message = '';
+
+            if (!$missingImportance->isEmpty()) {
+                $message .= 'Importance section need to insert data: ';
+                $missingImportanceNames = $missingImportance->pluck('aspect_name')->implode(', ');
+                $message .= $missingImportanceNames . '. <br>';
+            }
+
+            if (!$missingRiskControl->isEmpty()) {
+                $message .= 'Risk control section need to insert data: ';
+                $missingRiskControlNames = $missingRiskControl->pluck('aspect_name')->implode(', ');
+                $message .= $missingRiskControlNames . '. ';
+            }
+
+            session()->flash('notification', $message);
+        }
 
         return view('form.works.aspect_impacts.index', compact('id','work','aspects','ratings','risks'));
     }
@@ -50,7 +76,7 @@ class AspectImpactFormController extends Controller
     {
         $work = WorkForm::find($work_id);
         $options = Work::all();
-        $aspects = Aspect_Impact::all();
+        $aspects = Aspect_Impact::all()->unique('aspect_name');
         $rqms = $aspects->unique('requirement_name');
 
         return view('form.works.aspect_impacts.create', compact('work','options','aspects','rqms'));
@@ -98,10 +124,10 @@ class AspectImpactFormController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id,$work_id,$ai_id,)
+    public function edit($id,$work_id,$ai_id)
     {
         $options = Work::all();
-        $aspects = Aspect_Impact::all();
+        $aspects = Aspect_Impact::all()->unique('aspect_name');
         $rqms = $aspects->unique('requirement_name');
         $opr = OprForm::with('works')->findOrFail($id);
         $workform = WorkForm::with('aspects')->findOrFail($work_id);
@@ -157,29 +183,4 @@ class AspectImpactFormController extends Controller
         return redirect()->route('oprForm.work.aspectImpact.index',[$id,$work_id])-> with('flash_message','Work Activity deleted!');
     }
 
-    // public function printPdf($id,$work_id,$ai_id)
-    // {
-    //     //OprForm
-    //         //MainWorkForm
-    //             //WorkForm
-    //                 //AspectImpactForm
-    //                     //ImportanceRating
-    //                     //RiskControl
-    //     $form = AspectImpactForm::with([
-    //         'workForm.oprForm',
-    //         'ratings',
-    //         'risks'
-    //     ])
-    //         ->find($ai_id);
-
-    //     $logoUrl = public_path('logo.png');
-
-    //     $pdf = new Dompdf();
-        
-    //     $pdf = PDF::loadView('form.pdf',['form' => $form, 'logoUrl' => $logoUrl]);
-
-    //     $pdf->setPaper('letter', 'landscape');
-        
-    //     return $pdf->stream('form.pdf');
-    // }
 }

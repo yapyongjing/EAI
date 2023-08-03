@@ -33,9 +33,9 @@
       <table class="table">
         <thead class="thead-dark">
           <tr>
-            <th>Aspect</th>
+            <th width="500px">Aspect</th>
             <th>Impact</th>
-            <th>Requirement</th>
+            <th width="150px">Requirement</th>
             <th>Action</th>
           </tr>
         </thead>

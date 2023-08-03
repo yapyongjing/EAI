@@ -27,9 +27,8 @@ class AspectImpactController extends Controller
      */
     public function create()
     {
-        //
         $works = Work::all();
-        return view('aspect_impact.create',compact(var_name: 'works'));
+        return view('aspect_impact.create',compact('works'));
     }
 
     /**
@@ -75,12 +74,14 @@ class AspectImpactController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($work_id, $ai_id)
     {
-        $aspects = Aspect_Impact::find($id);
+        $aspects = Aspect_Impact::find($ai_id);
         $works = Work::all();
         
         return view('aspect_impact.edit',[
+            'work_id' => $work_id,
+            'ai_id' => $ai_id,
             'works' => $works,
             'aspects' => $aspects,
             'impacts' => explode(',',$aspects->impact_name)
@@ -95,9 +96,9 @@ class AspectImpactController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(AspectImpactFormRequest $request, $id)
+    public function update(AspectImpactFormRequest $request, $work_id, $ai_id)
     {
-        $aspect = Aspect_Impact::find($id);
+        $aspect = Aspect_Impact::find($ai_id);
         $input = $request->validated();
 
         $impact = implode(',', $input['impact']);
@@ -118,8 +119,10 @@ class AspectImpactController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($ai_id)
     {
-        //
+        Aspect_Impact::destroy($ai_id);
+
+        return redirect()->route('list.index')->with('flash_message', 'Work Activity deleted!');
     }
 }

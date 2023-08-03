@@ -71,17 +71,24 @@ Route::controller(WorkController::class)->group(function() {
     Route::get('/list', 'index')->name('list.index');
     Route::get('/list-create', 'create')->name('list.create');
     Route::post('/list-store', 'store')->name('list.store');
-    Route::get('/list/{list}', 'edit')->name('list.edit');
-    Route::put('/list/{list}', 'update')->name('list.update');
+    Route::get('/list/{work_id}/edit/{ai_id}', 'edit')->name('list.edit');
+    Route::put('/list/{work_id}/update/{ai_id}', 'update')->name('list.update');
     Route::delete('/list/{list}/destroy', 'destroy')->name('list.destroy');
 });
 
 //aspect impact
-Route::resource('aspect_impact',AspectImpactController::class);
+// Route::resource('aspect_impact',AspectImpactController::class);
+Route::controller(AspectImpactController::class)->group(function(){
+    Route::get('/aspect_impact/create', 'create')->name('aspect_impact.create');
+    Route::post('/aspect_impact/store', 'store')->name('aspect_impact.store');
+    Route::get('/list/{work_id}/aspect_impact/{ai_id}', 'edit')->name('aspect_impact.edit');
+    Route::put('/list/{work_id}/aspect_impact/{ai_id}', 'update')->name('aspect_impact.update');
+    Route::delete('/aspect_impact/{ai_id}/destroy', 'destroy')->name('aspect_impact.destroy');
+});
 
 //form section
 //operating unit form controller
-// Route::resource('form',OprFormController::class);//operating unit form
+// Route::resource('form',OprFormController::class);
 Route::controller(OprFormController::class)->group(function() {
     Route::get('/opr-forms', 'index')->name('oprForm.index');
     Route::get('/opr-form-create', 'create')->name('oprForm.create');
@@ -89,7 +96,7 @@ Route::controller(OprFormController::class)->group(function() {
     Route::get('/opr-forms/{id}', 'edit')->name('oprForm.edit');
     Route::put('/opr-forms/{id}', 'update')->name('oprForm.update');
     Route::delete('/opr-forms/{id}/destroy', 'destroy')->name('oprForm.destroy');
-    Route::get('/opr-forms/{id}/print-pdf', 'printPdf')->name('oprForm.print-pdf');
+    Route::get('/opr-forms/{id}/pdf', 'printPdf')->name('oprForm.print-pdf');
 });
 
 //work activity form

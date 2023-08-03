@@ -1,3 +1,5 @@
+<!-- edit.blade.php -->
+
 @extends('layouts.app')
 
 @section('content')
@@ -16,7 +18,7 @@
                 </div>
                 <div class="card-body">
 
-                    <form method="POST" action="{{ route('list.update',['list' => $list->id] )}}">
+                    <form method="POST" action="{{ route('list.update', ['work_id' => $work_id,'ai_id' => $ai_id]) }}">
                         
                         @csrf
                         @method('PUT')
@@ -27,9 +29,9 @@
                             <select class="form-control" id="fkey" name="fkey">
                                 
                                 @foreach($options as $option)
-                                    <option value="{{$option->id}}" 
-                                        {{  $option->id== $list->mainWork_id ? ' selected="selected"' : '' }}>
-                                        {{$option->location_name}}
+                                    <option value="{{ $option->id }}" 
+                                        {{ $option->id == $work->mainWork_id ? 'selected' : '' }}>
+                                        {{ $option->location_name }}
                                     </option>
                                 @endforeach
 
@@ -39,13 +41,13 @@
                         {{-- work name textfield --}}
                         <div class="form-group">
                           <label for="work_name">Name of work activity</label>
-                          <input type="text" class="form-control " id="work_name" placeholder="Enter work name" name="work_name" 
-                          value="{{ $list->work_name }}" required>
+                          <input type="text" class="form-control" id="work_name" placeholder="Enter work name" name="work_name" 
+                          value="{{ $work->work_name }}" required>
                           @error('work_name')
                             <div class="form-error">
-                                {{$message}}
+                                {{ $message }}
                             </div>
-                            @enderror
+                          @enderror
                         </div>
                         <br>
                         
@@ -53,29 +55,25 @@
                         <div class="form-group">
                             <label for="con">Condition</label><br>
                             <div class="form-check-inline">
-                                <input type="radio" class="form-check-input" name="con" value="Normal Condition"  {{ $list->condition == 'Normal Condition' ? 'checked' : '' }}>
+                                <input type="radio" class="form-check-input" name="con" value="Normal Condition" {{ $work->condition == 'Normal Condition' ? 'checked' : '' }}>
                                 Normal Condition 
-                                <label class="form-check-label" for="Air_Pollution"></label>
                             </div>
                             <div class="form-check-inline">
-                                <input type="radio" class="form-check-input" name="con" value="Abnormal Condition" {{ $list->condition == 'Abnormal Condition' ? 'checked' : '' }}>
+                                <input type="radio" class="form-check-input" name="con" value="Abnormal Condition" {{ $work->condition == 'Abnormal Condition' ? 'checked' : '' }}>
                                 Abnormal Condition 
-                                <label class="form-check-label" for="Water_Pollution"></label>
                             </div>
                             <div class="form-check-inline">
-                                <input type="radio" class="form-check-input" name="con" value="Emergency" {{ $list->condition == 'Emergency' ? 'checked' : '' }}>
+                                <input type="radio" class="form-check-input" name="con" value="Emergency" {{ $work->condition == 'Emergency' ? 'checked' : '' }}>
                                 Emergency 
-                                <label class="form-check-label" for="Soil/Land pollution"></label>
                             </div>
                         </div>
                         <br>
 
                         <button type="submit" class="float-right btn btn-dark btn-primary">Save</button>
-                        <a href="{{ route('list.index') }}" class="btn float-right"> Back</a>
+                        <a href="{{ route('list.index') }}" class="btn float-right">Back</a>
                     </form>
                 </div>
                 <div class="card-footer">
-                    
                     
                 </div>
             </div>
